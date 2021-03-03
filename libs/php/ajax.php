@@ -13,7 +13,7 @@
                 while($data = $sql->fetch_array()) {
                     
                             $response .= '
-                                <tr class="table-danger">
+                                <tr>
                                     <td>'.$data["id"].'</td>
                                     <td>'.$data["firstName"].'</td>
                                     <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
@@ -101,6 +101,35 @@
             }
             else
                 exit('reachedMax2');
+        }
+
+        if ($_POST['key'] == 'getExistingDataDep') {
+            $sql = $conn->query("SELECT department.id, department.name, department.locationID FROM department ORDER BY department.name ASC");
+            if ($sql->num_rows > 0) {
+                $response = "";
+                
+                while($data = $sql->fetch_array()) {
+                    
+                            $response .= '
+                                <tr>
+                                    <td>'.$data["id"].'</td>
+                                    <td>'.$data["name"].'</td>
+                                    <td>'.$data["locationID"].'</td>
+                                    <td>
+                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
+                                        <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
+                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                    </td>
+                                </tr>
+                            ';
+                    
+                }
+                exit($response);
+            }
+            else
+                
+                exit('reachedMax');
+            
         }
     }
 

@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./libs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="./libs/css/style.css">
 </head>
 <body>
 
@@ -126,12 +127,31 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12 col-md-offset-2">
+            <div id="motherTable" class="col-md-12 col-md-offset-2">
                 <h2>Company Directory</h2>
+                <div class="container-fluid" id="toggleTable">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="btnradio1">Staff</label>
 
-                <input style="float: right" type="button" class="btn btn-success" id="addNewEmployee" value="Create Employee">
-                <br><br>
-                <table class="table table-hover table-bordered">
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btnradio2">Departments</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btnradio3">Locations</label>
+                    </div>
+                </div>
+            
+                <br>
+                <nav class="createButtons">
+                    <input style="float: right" type="button" class="btn btn-success" id="addNewLocation" value="Create Locaton">
+
+                    <input style="float: right" type="button" class="btn btn-success" id="addNewDepartment" value="Create Department">
+
+                    <input style="float: right" type="button" class="btn btn-success" id="addNewEmployee" value="Create Employee">
+                </nav>
+                
+                <table id="tableEmployees" class="table table-hover table-bordered table-stripped">
                     <thead>
                         <tr>
                             <th>id</th>
@@ -145,6 +165,37 @@
                         </tr>
                     </thead>
                     <tbody id="tbodyEmployees">
+
+                    </tbody>
+                </table>
+                
+                <br><br>
+
+                <table id="tableDepartments" class="table table-hover table-bordered table-stripped">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Name</th>
+                            <th>Location ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyDepartments">
+
+                    </tbody>
+                </table>
+
+                <br><br>
+
+                <table id="tableLocations" class="table table-hover table-bordered table-stripped">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Location Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyLocations">
 
                     </tbody>
                 </table>

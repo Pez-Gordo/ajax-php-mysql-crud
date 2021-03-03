@@ -4,6 +4,7 @@ $(document).ready(function() {
         $("#tableManager").modal('show')
     })
     getExistingData()
+    getExistingDataDep()
 })
 
 
@@ -45,7 +46,28 @@ function getExistingData() {
             if(response != "reachedMax") {
                 $('#tbodyEmployees').empty()
                 $('#tbodyEmployees').append(response)
-                $(".table").DataTable()
+                //$(".table").DataTable()
+                
+            }
+            
+        }
+
+    })
+}
+
+function getExistingDataDep() {
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'text',
+        data: {
+            key: 'getExistingDataDep',
+        },
+        success: function(response) {
+            if(response != "reachedMax") {
+                $('#tbodyDepartments').empty()
+                $('#tbodyDepartments').append(response)
+                //$(".table").DataTable()
                 
             }
             
@@ -245,3 +267,38 @@ function deleteData(rowID) {
     })
     
 }
+
+// Radio Buttons controls
+
+$('#tableDepartments').hide()
+$('#tableLocations').hide()
+
+
+document.getElementById("btnradio1").addEventListener("click", function() {
+    $('#tableDepartments').hide()
+    $('#tableLocations').hide()
+    $('#motherTable').removeClass("col-md-3")
+    $('#motherTable').removeClass("col-md-9")
+    $('#motherTable').addClass("col-md-12")
+    $('#tableEmployees').show()
+    
+  });
+
+document.getElementById("btnradio2").addEventListener("click", function() {
+  $('#tableEmployees').hide()
+  $('#tableLocations').hide()
+  $('#motherTable').removeClass("col-md-12")
+  $('#motherTable').removeClass("col-md-3")
+  $('#motherTable').addClass("col-md-9")
+  $('#tableDepartments').show()
+
+});
+
+document.getElementById("btnradio3").addEventListener("click", function() {
+    $('#tableEmployees').hide()
+    $('#tableDepartments').hide()
+    $('#motherTable').removeClass("col-md-12")
+    $('#motherTable').removeClass("col-md-9")
+    $('#motherTable').addClass("col-md-3")
+    $('#tableLocations').show()
+  });
