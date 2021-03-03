@@ -9,10 +9,9 @@
             $sql = $conn->query("SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.name FROM personnel LEFT JOIN department ON personnel.departmentID = department.id ORDER BY lastName ASC");
             if ($sql->num_rows > 0) {
                 $response = "";
-                $cont = 0;
+                
                 while($data = $sql->fetch_array()) {
-                    switch($cont){
-                        case 0:
+                    
                             $response .= '
                                 <tr class="table-danger">
                                     <td>'.$data["id"].'</td>
@@ -28,63 +27,7 @@
                                     </td>
                                 </tr>
                             ';
-                            $cont++;
-                            break;
-                        case 1:
-                            $response .= '
-                                <tr class="table-warning">
-                                    <td>'.$data["id"].'</td>
-                                    <td>'.$data["firstName"].'</td>
-                                    <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
-                                    <td>'.$data["jobTitle"].'</td>
-                                    <td>'.$data["email"].'</td>
-                                    <td>'.$data["name"].'</td>
-                                    <td>
-                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
-                                        <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
-                                    </td>
-                                </tr>
-                            ';
-                            $cont++;
-                            break;
-                        case 2:
-                            $response .= '
-                                <tr class="table-success">
-                                    <td>'.$data["id"].'</td>
-                                    <td>'.$data["firstName"].'</td>
-                                    <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
-                                    <td>'.$data["jobTitle"].'</td>
-                                    <td>'.$data["email"].'</td>
-                                    <td>'.$data["name"].'</td>
-                                    <td>
-                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
-                                        <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
-                                    </td>
-                                </tr>
-                            ';
-                            $cont++;
-                            break;
-                        case 3:
-                            $response .= '
-                                <tr class="table-light">
-                                    <td>'.$data["id"].'</td>
-                                    <td>'.$data["firstName"].'</td>
-                                    <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
-                                    <td>'.$data["jobTitle"].'</td>
-                                    <td>'.$data["email"].'</td>
-                                    <td>'.$data["name"].'</td>
-                                    <td>
-                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
-                                        <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
-                                    </td>
-                                </tr>
-                            ';
-                            $cont = 0;
-                            break;
-                    }
+                    
                 }
                 exit($response);
             }

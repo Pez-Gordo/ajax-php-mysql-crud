@@ -68,6 +68,8 @@ function manageData(key) {
         email = $('#employeeEmail')
         department = $('#departmentSelect')
         editRowID = $("#editRowID")
+        closeModalCreate()
+
     } else if(key == "update") {
         name = $('#employeeNameUpdate')
         surname = $('#employeeSurnameUpdate')
