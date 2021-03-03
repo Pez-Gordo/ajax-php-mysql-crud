@@ -18,7 +18,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title" id="banner">Employee Data</h2>
+                        <h2 class="modal-title" id="banner">Create Employee Data</h2>
                     </div>
                     <div class="modal-body">
                         <input type="text" class="form-control" placeholder="Employee Name..." id="employeeName"><br>
@@ -31,7 +31,7 @@
                         <input type="hidden" id="editRowID" value="0">
                     </div>
                     <div class="modal-footer">
-                        <input type="button" onclick="manageData('addNew')" value="Save" class="btn btn-success">
+                        <input type="button" id="manageBtnCreate" onclick="manageData('addNew')" value="Save" class="btn btn-success">
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title" id="bannerUpdate">Employee Data</h2>
+                        <h2 class="modal-title" id="bannerUpdate">Update Employee Data</h2>
                     </div>
                     <div class="modal-body">
                         <input type="text" class="form-control" placeholder="Employee Name..." id="employeeNameUpdate"><br>
@@ -55,7 +55,7 @@
                         <input type="hidden" id="editRowIDUpdate" value="0">
                     </div>
                     <div class="modal-footer">
-                        <input type="button" onclick="manageData('update')" value="Update" class="btn btn-secondary">
+                        <input type="button" id="manageBtnUpdate" onclick="manageData('update')" value="Update" class="btn btn-secondary">
                     </div>
                 </div>
             </div>

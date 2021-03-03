@@ -4,9 +4,6 @@
 
         $conn = new mysqli('localhost', 'root', 'my*8-9+6POiusql', 'companydirectory');
 
-       
-
-
         if($_POST['key'] == 'getExistingData') {
             
             $sql = $conn->query("SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.name FROM personnel LEFT JOIN department ON personnel.departmentID = department.id ORDER BY lastName ASC");
@@ -131,9 +128,13 @@
             $rowID = $conn->real_escape_string($_POST['rowID']);
 
             //$sql = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
-            $conn->query("UPDATE personnel SET firstName = '$name', lastName = '$surname', jobTitle = '$jobTitle', email = '$email', departmentID = '$department' WHERE id = '$rowId'");
-                exit('Employee has been updated');
+            $conn->query("UPDATE personnel SET personnel.firstName = '$name', personnel.lastName = '$surname', personnel.jobTitle = '$jobTitle', personnel.email = '$email', personnel.departmentID = '$department' WHERE id = '$rowId'");
+                
+                exit('Employee ' .$name. ' has been updated');
             
+                
+            }
+        
 
         if ($_POST['key'] == 'buildDepartmentsSelect') {
             $sql = $conn->query("SELECT id, name FROM department ORDER BY name ASC");
