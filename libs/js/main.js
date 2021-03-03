@@ -4,7 +4,7 @@ $(document).ready(function() {
         $("#tableManager").modal('show')
     })
 
-    getExistingData(0, 10);
+    getExistingData();
 
 })
 
@@ -17,28 +17,26 @@ function buildDepartmentsSelect() {
             key: 'buildDepartmentsSelect',
         },
         success: function(response) {
-            if(response != "reachedMax") {
+            if(response != "reachedMax2") {
                     $('#departmentSelect').append(response)
                 }
         }
     })
 }
 
-function getExistingData(start, limit) {
+function getExistingData() {
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
         dataType: 'text',
         data: {
             key: 'getExistingData',
-            start: start,
-            limit: limit
         },
         success: function(response) {
             if(response != "reachedMax") {
                 $('tbody').append(response)
-                start += limit;
-                getExistingData(start, limit)
+                
+                //getExistingData()
             }
         }
 
