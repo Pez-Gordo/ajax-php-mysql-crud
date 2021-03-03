@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#addNew").on('click', function() {
+    $("#addNewEmployee").on('click', function() {
         buildDepartmentsSelect()
         $("#tableManager").modal('show')
     })
@@ -23,7 +23,7 @@ function edit(rowID) {
             $("#employeeJobTitleUpdate").val(response.employeeJobTitle)
             $("#employeeEmailUpdate").val(response.employeeEmail)
             buildDepartmentsSelect()
-            //$("#departmentSelectUpdate").val(response.departmentSelect)
+            $("#departmentSelectUpdate").val(response.departmentSelect)
             
             $("#tableManagerUpdate").modal('show')
             console.log(response.departmentSelect)
@@ -79,7 +79,7 @@ function manageData(key) {
         editRowID = $("#editRowIDUpdate")
         //console.log(department)
     }
-    if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && isNotEmpty(department)) {
+    if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
         console.log(department.val())
         $.ajax({
             url: './libs/php/ajax.php',
@@ -101,6 +101,9 @@ function manageData(key) {
         })
         //for some reason this function call is not working
         getExistingData()
+
+    } else {
+        alert("You must fill all data")
     }
 }   
 
@@ -134,4 +137,34 @@ function buildDepartmentsSelect() {
 
 function buildLocationsSelect() {
 
+}
+
+function closeModalRead() {
+    $("#tableManagerRead").modal('hide')
+}
+
+function readData(rowID) {
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            key: 'getRowData',
+            rowID: rowID
+        },
+        success: function (response) {
+            //$("#editRowIDUpdate").val(rowID)
+            $("#employeeNameRead").val(response.employeeName)
+            $("#employeeSurnameRead").val(response.employeeSurname)
+            $("#employeeJobTitleRead").val(response.employeeJobTitle)
+            $("#employeeEmailRead").val(response.employeeEmail)
+            
+            $("#departmentSelectRead").val(response.departmentSelect)
+            
+            $("#tableManagerRead").modal('show')
+            //console.log(response.departmentSelect)
+        }
+
+    })
+    
 }

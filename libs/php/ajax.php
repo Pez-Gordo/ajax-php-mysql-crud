@@ -22,7 +22,7 @@
                                     <td>'.$data["email"].'</td>
                                     <td>'.$data["name"].'</td>
                                     <td>
-                                        <input type="button" value="Read" class="btn btn-primary">
+                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
                                         <input type="button" value="Delete" class="btn btn-danger">
                                     </td>
@@ -40,7 +40,7 @@
                                     <td>'.$data["email"].'</td>
                                     <td>'.$data["name"].'</td>
                                     <td>
-                                        <input type="button" value="Read" class="btn btn-primary">
+                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
                                         <input type="button" value="Delete" class="btn btn-danger">
                                     </td>
@@ -58,7 +58,7 @@
                                     <td>'.$data["email"].'</td>
                                     <td>'.$data["name"].'</td>
                                     <td>
-                                        <input type="button" value="Read" class="btn btn-primary">
+                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
                                         <input type="button" value="Delete" class="btn btn-danger">
                                     </td>
@@ -76,7 +76,7 @@
                                     <td>'.$data["email"].'</td>
                                     <td>'.$data["name"].'</td>
                                     <td>
-                                        <input type="button" value="Read" class="btn btn-primary">
+                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
                                         <input type="button" value="Delete" class="btn btn-danger">
                                     </td>
@@ -125,12 +125,12 @@
         }
 
         if ($_POST['key'] == 'update') {
-            $rowID = $conn->real_escape_string($_POST['rowID']);
+            $rowID = intval($conn->real_escape_string($_POST['rowID']));
 
             //$sql = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
-            $conn->query("UPDATE personnel SET personnel.firstName = '$name', personnel.lastName = '$surname', personnel.jobTitle = '$jobTitle', personnel.email = '$email', personnel.departmentID = '$department' WHERE id = '$rowId'");
+            $conn->query("UPDATE personnel SET personnel.firstName = '$name', personnel.lastName = '$surname', personnel.jobTitle = '$jobTitle', personnel.email = '$email', personnel.departmentID = '$department' WHERE personnel.id = '$rowID'");
                 
-                exit('Employee ' .$name. ' has been updated');
+                exit('Employee ' .$name. ' with: id ' .$rowID. ' surname ' .$surname. ' job title ' .$jobTitle. ' email ' .$email. ' department ' .$department. ' has been updated');
             
                 
             }
@@ -139,7 +139,7 @@
         if ($_POST['key'] == 'buildDepartmentsSelect') {
             $sql = $conn->query("SELECT id, name FROM department ORDER BY name ASC");
             if($sql->num_rows > 0) {
-                $response = "";
+                $response = "<option selected value='DEFAULT'>Select Department</option>";
                 while($data = $sql->fetch_array()) {
                     $response .= '<option value='.$data["id"].'>'.$data["name"].'</option>';
                 }

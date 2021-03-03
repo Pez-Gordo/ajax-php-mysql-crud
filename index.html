@@ -37,6 +37,30 @@
             </div>
         </div>
 
+        <!-- Modal Read -->
+        <div id="tableManagerRead" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="bannerUpdate">Employee Data Read Only</h2>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" placeholder="Employee Name..." id="employeeNameRead" disabled><br>
+                        <input type="text" class="form-control" placeholder="Employee Surname..." id="employeeSurnameRead" disabled><br>
+                        <input type="text" class="form-control" placeholder="Employee Job Title..." id="employeeJobTitleRead" disabled><br>
+                        <input type="text" class="form-control" placeholder="Employee Email..." id="employeeEmailRead" disabled><br>
+                        <input type="text" class="form-control" id="departmentSelectRead" disabled>
+
+                        
+                        <!--<input type="hidden" id="editRowIDUpdate" value="0">-->
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="manageBtnRead" onclick="closeModalRead()" value="Close" class="btn btn-primary">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal Update -->
         <div id="tableManagerUpdate" class="modal fade">
             <div class="modal-dialog">
@@ -65,7 +89,7 @@
             <div class="col-md-12 col-md-offset-2">
                 <h2>Company Directory</h2>
 
-                <input style="float: right" type="button" class="btn btn-success" id="addNew" value="Create Employee">
+                <input style="float: right" type="button" class="btn btn-success" id="addNewEmployee" value="Create Employee">
                 <br><br>
                 <table class="table table-hover table-bordered">
                     <thead>
