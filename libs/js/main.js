@@ -43,6 +43,7 @@ function getExistingData() {
         },
         success: function(response) {
             if(response != "reachedMax") {
+                $('tbody').empty()
                 $('tbody').append(response)
                 
                 
@@ -78,6 +79,7 @@ function manageData(key) {
         department = $('#departmentSelectUpdate')
         editRowID = $("#editRowIDUpdate")
         //console.log(department)
+        closeModalUpdate()
     } else if(key == "delete") {
         editRowID = $("#editRowIDDelete")
 
@@ -173,6 +175,11 @@ function closeModalCreate() {
 function closeModalUpdate() {
     $("#tableManagerUpdate").modal('hide')
     getExistingData()
+}
+
+function closeModalOpSucc() {
+    $("#tableManagerOpSucc").modal('hide')
+    
 }
 
 function showModalDelete(rowID) {
