@@ -1,8 +1,49 @@
 $(document).ready(function() {
     $("#addNew").on('click', function() {
+        buildDepartmentsSelect()
         $("#tableManager").modal('show')
     })
+
+    getExistingData(0, 10);
+
 })
+
+function buildDepartmentsSelect() {
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'text',
+        data: {
+            key: 'buildDepartmentsSelect',
+        },
+        success: function(response) {
+            if(response != "reachedMax") {
+                    $('#departmentSelect').append(response)
+                }
+        }
+    })
+}
+
+function getExistingData(start, limit) {
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'text',
+        data: {
+            key: 'getExistingData',
+            start: start,
+            limit: limit
+        },
+        success: function(response) {
+            if(response != "reachedMax") {
+                $('tbody').append(response)
+                start += limit;
+                getExistingData(start, limit)
+            }
+        }
+
+    })
+}
 
 function manageData(key) {
     var name = $('#employeeName')
