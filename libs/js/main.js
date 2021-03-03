@@ -3,26 +3,35 @@ $(document).ready(function() {
         buildDepartmentsSelect()
         $("#tableManager").modal('show')
     })
-
-    getExistingData();
-
+    getExistingData()
 })
 
-function buildDepartmentsSelect() {
+
+function edit(rowID) {
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
-        dataType: 'text',
+        dataType: 'json',
         data: {
-            key: 'buildDepartmentsSelect',
+            key: 'getRowData',
+            rowID: rowID
         },
-        success: function(response) {
-            if(response != "reachedMax2") {
-                    $('#departmentSelect').append(response)
-                }
+        success: function (response) {
+            $("#editRowIDUpdate").val(rowID)
+            $("#employeeNameUpdate").val(response.employeeName)
+            $("#employeeSurnameUpdate").val(response.employeeSurname)
+            $("#employeeJobTitleUpdate").val(response.employeeJobTitle)
+            $("#employeeEmailUpdate").val(response.employeeEmail)
+            buildDepartmentsSelect()
+            //$("#departmentSelectUpdate").val(response.departmentSelect)
+            
+            $("#tableManagerUpdate").modal('show')
+            console.log(response.departmentSelect)
         }
+
     })
 }
+
 
 function getExistingData() {
     $.ajax({
@@ -36,7 +45,11 @@ function getExistingData() {
             if(response != "reachedMax") {
                 $('tbody').append(response)
                 
-                //getExistingData()
+                
+            }
+            else {
+                //for some reason this plugin is included in index.html but not working when it's called
+                $(".table").DataTable()
             }
         }
 
@@ -44,13 +57,30 @@ function getExistingData() {
 }
 
 function manageData(key) {
-    var name = $('#employeeName')
-    var surname = $('#employeeSurname')
-    var jobTitle = $('#employeeJobTitle')
-    var email = $('#employeeEmail')
-    var department = $('#departmentSelect')
-
+    var name;
+    var surname;
+    var jobTitle;
+    var email;
+    var department;
+    var editRowID;
+    if(key == "addNew"){
+        name = $('#employeeName')
+        surname = $('#employeeSurname')
+        jobTitle = $('#employeeJobTitle')
+        email = $('#employeeEmail')
+        department = $('#departmentSelect')
+        editRowID = $("#editRowID")
+    } else if(key == "update") {
+        name = $('#employeeNameUpdate')
+        surname = $('#employeeSurnameUpdate')
+        jobTitle = $('#employeeJobTitleUpdate')
+        email = $('#employeeEmailUpdate')
+        department = $('#departmentSelectUpdate')
+        editRowID = $("#editRowIDUpdate")
+        //console.log(department)
+    }
     if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && isNotEmpty(department)) {
+        console.log(department.val())
         $.ajax({
             url: './libs/php/ajax.php',
             method: 'POST',
@@ -61,13 +91,16 @@ function manageData(key) {
                 surname: surname.val(),
                 jobTitle: jobTitle.val(),
                 email: email.val(),
-                department: department.val()
+                department: department.val(),
+                rowID: editRowID.val()
             },
             success: function (response) {
-                alert(response)
-            }
 
+                alert(response)  
+            }
         })
+        //for some reason this function call is not working
+        getExistingData()
     }
 }   
 
@@ -82,5 +115,23 @@ function isNotEmpty(caller) {
     return true
 }
 
+function buildDepartmentsSelect() {
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'text',
+        data: {
+            key: 'buildDepartmentsSelect',
+        },
+        success: function(response) {
+            if(response != "reachedMax2") {
+                    $('#departmentSelect').append(response)
+                    $('#departmentSelectUpdate').append(response)
+                }
+        }
+    })
+}
 
+function buildLocationsSelect() {
 
+}
