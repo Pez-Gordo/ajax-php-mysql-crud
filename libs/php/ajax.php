@@ -116,8 +116,33 @@
                                     <td>'.$data["name"].'</td>
                                     <td>'.$data["locationID"].'</td>
                                     <td>
-                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
-                                        <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
+                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                    </td>
+                                </tr>
+                            ';
+                    
+                }
+                exit($response);
+            }
+            else
+                
+                exit('reachedMax');
+            
+        }
+
+        if ($_POST['key'] == 'getExistingDataLoc') {
+            $sql = $conn->query("SELECT location.id, location.name FROM location ORDER BY location.name ASC");
+            if ($sql->num_rows > 0) {
+                $response = "";
+                
+                while($data = $sql->fetch_array()) {
+                    
+                            $response .= '
+                                <tr>
+                                    <td>'.$data["id"].'</td>
+                                    <td>'.$data["name"].'</td>                                    
+                                    <td>
+                                        
                                         <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
                                     </td>
                                 </tr>

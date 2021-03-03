@@ -5,6 +5,7 @@ $(document).ready(function() {
     })
     getExistingData()
     getExistingDataDep()
+    getExistingDataLoc()
 })
 
 
@@ -67,6 +68,27 @@ function getExistingDataDep() {
             if(response != "reachedMax") {
                 $('#tbodyDepartments').empty()
                 $('#tbodyDepartments').append(response)
+                //$(".table").DataTable()
+                
+            }
+            
+        }
+
+    })
+}
+
+function getExistingDataLoc() {
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'text',
+        data: {
+            key: 'getExistingDataLoc',
+        },
+        success: function(response) {
+            if(response != "reachedMax") {
+                $('#tbodyLocations').empty()
+                $('#tbodyLocations').append(response)
                 //$(".table").DataTable()
                 
             }
@@ -277,7 +299,7 @@ $('#tableLocations').hide()
 document.getElementById("btnradio1").addEventListener("click", function() {
     $('#tableDepartments').hide()
     $('#tableLocations').hide()
-    $('#motherTable').removeClass("col-md-3")
+    $('#motherTable').removeClass("col-md-6")
     $('#motherTable').removeClass("col-md-9")
     $('#motherTable').addClass("col-md-12")
     $('#tableEmployees').show()
@@ -288,7 +310,7 @@ document.getElementById("btnradio2").addEventListener("click", function() {
   $('#tableEmployees').hide()
   $('#tableLocations').hide()
   $('#motherTable').removeClass("col-md-12")
-  $('#motherTable').removeClass("col-md-3")
+  $('#motherTable').removeClass("col-md-6")
   $('#motherTable').addClass("col-md-9")
   $('#tableDepartments').show()
 
@@ -299,6 +321,6 @@ document.getElementById("btnradio3").addEventListener("click", function() {
     $('#tableDepartments').hide()
     $('#motherTable').removeClass("col-md-12")
     $('#motherTable').removeClass("col-md-9")
-    $('#motherTable').addClass("col-md-3")
+    $('#motherTable').addClass("col-md-6")
     $('#tableLocations').show()
   });
