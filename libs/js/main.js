@@ -97,10 +97,11 @@ function manageData(key) {
             success: function (response) {
 
                 alert(response)  
+                getExistingData()
             }
         })
         //for some reason this function call is not working
-        getExistingData()
+        //getExistingData()
 
     } else {
         alert("You must fill all data")
@@ -143,6 +144,15 @@ function closeModalRead() {
     $("#tableManagerRead").modal('hide')
 }
 
+function closeModalCreate() {
+    $("#tableManager").modal('hide')
+}
+
+function closeModalUpdate() {
+    $("#tableManagerUpdate").modal('hide')
+    getExistingData()
+}
+
 function readData(rowID) {
     $.ajax({
         url: './libs/php/ajax.php',
@@ -162,6 +172,28 @@ function readData(rowID) {
             $("#departmentSelectRead").val(response.departmentSelect)
             
             $("#tableManagerRead").modal('show')
+            //console.log(response.departmentSelect)
+        }
+
+    })
+    
+}
+
+
+function deleteData(rowID) {
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            key: 'deleteRowData',
+            rowID: rowID
+        },
+        success: function (response) {
+            console.log(response)
+            $("#editRowIDDelete").val(rowID)
+            alert("employee has been deleted")
+            $("#tableManagerDelete").modal('show')
             //console.log(response.departmentSelect)
         }
 

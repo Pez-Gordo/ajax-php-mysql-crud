@@ -24,7 +24,7 @@
                                     <td>
                                         <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" value="Delete" class="btn btn-danger">
+                                        <input type="button" onclick="deleteData('.$data["id"].')" value="Delete" class="btn btn-danger">
                                     </td>
                                 </tr>
                             ';
@@ -42,7 +42,7 @@
                                     <td>
                                         <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" value="Delete" class="btn btn-danger">
+                                        <input type="button" onclick="deleteData('.$data["id"].')" value="Delete" class="btn btn-danger">
                                     </td>
                                 </tr>
                             ';
@@ -60,7 +60,7 @@
                                     <td>
                                         <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" value="Delete" class="btn btn-danger">
+                                        <input type="button" onclick="deleteData('.$data["id"].')" value="Delete" class="btn btn-danger">
                                     </td>
                                 </tr>
                             ';
@@ -78,7 +78,7 @@
                                     <td>
                                         <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" value="Delete" class="btn btn-danger">
+                                        <input type="button" onclick="deleteData('.$data["id"].')" value="Delete" class="btn btn-danger">
                                     </td>
                                 </tr>
                             ';
@@ -133,6 +133,17 @@
                 exit('Employee ' .$name. ' with: id ' .$rowID. ' surname ' .$surname. ' job title ' .$jobTitle. ' email ' .$email. ' department ' .$department. ' has been updated');
             
                 
+            }
+        
+            if ($_POST['key'] == 'deleteRowData') {
+                $rowID = intval($conn->real_escape_string($_POST['rowID']));
+    
+                //$sql = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
+                $conn->query("DELETE FROM personnel WHERE personnel.id = '$rowID'");
+                    
+                    exit('Employee ' .$name. ' with: id ' .$rowID. ' surname ' .$surname. ' job title ' .$jobTitle. ' email ' .$email. ' department ' .$department. ' has been deleted');
+                
+                    
             }
         
 

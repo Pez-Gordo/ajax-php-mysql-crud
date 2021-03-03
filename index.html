@@ -31,6 +31,7 @@
                         <input type="hidden" id="editRowID" value="0">
                     </div>
                     <div class="modal-footer">
+                        <input type="button" id="manageBtnCreateClose" onclick="closeModalCreate()" value="Close" class="btn btn-primary">
                         <input type="button" id="manageBtnCreate" onclick="manageData('addNew')" value="Save" class="btn btn-success">
                     </div>
                 </div>
@@ -79,7 +80,27 @@
                         <input type="hidden" id="editRowIDUpdate" value="0">
                     </div>
                     <div class="modal-footer">
+                        <input type="button" id="manageBtnCreateClose" onclick="closeModalUpdate()" value="Close" class="btn btn-primary">
                         <input type="button" id="manageBtnUpdate" onclick="manageData('update')" value="Update" class="btn btn-secondary">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Delete -->
+        <div id="tableManagerDelete" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="bannerDelete">Delete Employee Data</h2>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editRowIDDelete" value="0">
+                        <h3>Are you sure to delete?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="manageBtnDeleteClose" onclick="closeModalDelete()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnDelete" onclick="manageData('delete')" value="Update" class="btn btn-secondary">
                     </div>
                 </div>
             </div>
