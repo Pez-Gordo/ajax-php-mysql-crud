@@ -43,15 +43,12 @@ function getExistingData() {
         },
         success: function(response) {
             if(response != "reachedMax") {
-                $('tbody').empty()
-                $('tbody').append(response)
-                
-                
-            }
-            else {
-                //for some reason this plugin is included in index.html but not working when it's called
+                $('#tbodyEmployees').empty()
+                $('#tbodyEmployees').append(response)
                 $(".table").DataTable()
+                
             }
+            
         }
 
     })
