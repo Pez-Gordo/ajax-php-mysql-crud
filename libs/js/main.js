@@ -48,9 +48,9 @@ function manageData(key) {
     var surname = $('#employeeSurname')
     var jobTitle = $('#employeeJobTitle')
     var email = $('#employeeEmail')
-    //var department = $('#employeeDepartment')
+    var department = $('#departmentSelect')
 
-    if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email)) { //&& isNotEmpty(department)) {
+    if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && isNotEmpty(department)) {
         $.ajax({
             url: './libs/php/ajax.php',
             method: 'POST',
@@ -61,7 +61,7 @@ function manageData(key) {
                 surname: surname.val(),
                 jobTitle: jobTitle.val(),
                 email: email.val(),
-                //department: department.val()
+                department: department.val()
             },
             success: function (response) {
                 alert(response)
