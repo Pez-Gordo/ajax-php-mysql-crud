@@ -24,7 +24,7 @@
                                     <td>
                                         <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" onclick="deleteData('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
                                     </td>
                                 </tr>
                             ';
@@ -42,7 +42,7 @@
                                     <td>
                                         <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" onclick="deleteData('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
                                     </td>
                                 </tr>
                             ';
@@ -60,7 +60,7 @@
                                     <td>
                                         <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" onclick="deleteData('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
                                     </td>
                                 </tr>
                             ';
@@ -78,7 +78,7 @@
                                     <td>
                                         <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" onclick="deleteData('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
                                     </td>
                                 </tr>
                             ';
@@ -129,19 +129,19 @@
 
             //$sql = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
             $conn->query("UPDATE personnel SET personnel.firstName = '$name', personnel.lastName = '$surname', personnel.jobTitle = '$jobTitle', personnel.email = '$email', personnel.departmentID = '$department' WHERE personnel.id = '$rowID'");
-                
-                exit('Employee ' .$name. ' with: id ' .$rowID. ' surname ' .$surname. ' job title ' .$jobTitle. ' email ' .$email. ' department ' .$department. ' has been updated');
+                exit;
+                //exit('Employee ' .$name. ' with: id ' .$rowID. ' surname ' .$surname. ' job title ' .$jobTitle. ' email ' .$email. ' department ' .$department. ' has been updated');
             
                 
             }
         
-            if ($_POST['key'] == 'deleteRowData') {
+            if ($_POST['key'] == 'delete') {
                 $rowID = intval($conn->real_escape_string($_POST['rowID']));
     
                 //$sql = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
                 $conn->query("DELETE FROM personnel WHERE personnel.id = '$rowID'");
-                    
-                    exit('Employee ' .$name. ' with: id ' .$rowID. ' surname ' .$surname. ' job title ' .$jobTitle. ' email ' .$email. ' department ' .$department. ' has been deleted');
+                    exit;
+                    //exit('Employee ' .$name. ' with: id ' .$rowID. ' surname ' .$surname. ' job title ' .$jobTitle. ' email ' .$email. ' department ' .$department. ' has been deleted');
                 
                     
             }

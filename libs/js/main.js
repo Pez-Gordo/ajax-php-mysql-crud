@@ -78,20 +78,15 @@ function manageData(key) {
         department = $('#departmentSelectUpdate')
         editRowID = $("#editRowIDUpdate")
         //console.log(department)
-    }
-    if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
-        console.log(department.val())
+    } else if(key == "delete") {
+        editRowID = $("#editRowIDDelete")
+
         $.ajax({
             url: './libs/php/ajax.php',
             method: 'POST',
             dataType: 'text',
             data: {
                 key: key,
-                name: name.val(),
-                surname: surname.val(),
-                jobTitle: jobTitle.val(),
-                email: email.val(),
-                department: department.val(),
                 rowID: editRowID.val()
             },
             success: function (response) {
@@ -100,11 +95,38 @@ function manageData(key) {
                 getExistingData()
             }
         })
-        //for some reason this function call is not working
-        //getExistingData()
+        
+    }
+    if(key != "delete"){
+        if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
+            console.log(department.val())
+            $.ajax({
+                url: './libs/php/ajax.php',
+                method: 'POST',
+                dataType: 'text',
+                data: {
+                    key: key,
+                    name: name.val(),
+                    surname: surname.val(),
+                    jobTitle: jobTitle.val(),
+                    email: email.val(),
+                    department: department.val(),
+                    rowID: editRowID.val()
+                },
+                success: function (response) {
+                    closeModalDelete()
+                    $('#responseOpSuc').innerText = response
+                    $("#tableManagerOpSucc").modal('show')
+                    //alert(response)  
+                    getExistingData()
+                }
+            })
+            //for some reason this function call is not working
+            //getExistingData()
 
-    } else {
-        alert("You must fill all data")
+        } else {
+            alert("You must fill all data")
+        }
     }
 }   
 
@@ -153,6 +175,23 @@ function closeModalUpdate() {
     getExistingData()
 }
 
+function showModalDelete(rowID) {
+    $("#tableManagerDelete").modal('show')
+    $("#editRowIDDelete").val(rowID)
+}
+
+function closeDeleteModal() {
+    $("#tableManagerDelete").modal('hide')
+}
+
+function closeModalOpSucc() {
+    $("tableManagerOpSucc").modal('hide')
+}
+
+function closeModalDelete() {
+    $("tableManagerDelete").modal('hide')
+}
+
 function readData(rowID) {
     $.ajax({
         url: './libs/php/ajax.php',
@@ -163,7 +202,7 @@ function readData(rowID) {
             rowID: rowID
         },
         success: function (response) {
-            //$("#editRowIDUpdate").val(rowID)
+        
             $("#employeeNameRead").val(response.employeeName)
             $("#employeeSurnameRead").val(response.employeeSurname)
             $("#employeeJobTitleRead").val(response.employeeJobTitle)
@@ -191,7 +230,7 @@ function deleteData(rowID) {
         },
         success: function (response) {
             console.log(response)
-            $("#editRowIDDelete").val(rowID)
+            //$("#editRowIDDelete").val(rowID)
             alert("employee has been deleted")
             $("#tableManagerDelete").modal('show')
             //console.log(response.departmentSelect)
