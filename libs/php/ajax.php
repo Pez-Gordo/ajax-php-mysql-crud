@@ -149,7 +149,7 @@
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
 
             $conn->query("DELETE FROM personnel WHERE personnel.id = '$rowID'");
-                exit;        
+                    
         }
 
         if ($_POST['key'] == 'deleteDep') {

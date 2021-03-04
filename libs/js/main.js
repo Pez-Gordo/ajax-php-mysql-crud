@@ -134,7 +134,8 @@ function manageData(key) {
                 success: function (response) {
                     closeModalCreateLoc()
                     $('#responseOpSuc').innerText = response
-                    $("#tableManagerOpSucc").modal('show')
+                    showModalOpSucc() 
+                    //$("#tableManagerOpSucc").modal('show')
                     //alert(response)  
                     getExistingDataLoc()
                 }
@@ -160,7 +161,8 @@ function manageData(key) {
                 success: function (response) {
                     closeModalCreateDep()
                     $('#responseOpSuc').innerText = response
-                    $("#tableManagerOpSucc").modal('show')
+                    showModalOpSucc() 
+                    //$("#tableManagerOpSucc").modal('show')
                     //alert(response)  
                     getExistingDataDep()
                 }
@@ -188,7 +190,7 @@ function manageData(key) {
 
     } else if(key == "delete") {
         editRowID = $("#editRowIDDelete")
-
+        closeModalDelete()
         $.ajax({
             url: './libs/php/ajax.php',
             method: 'POST',
@@ -198,13 +200,14 @@ function manageData(key) {
                 rowID: editRowID.val()
             },
             success: function (response) {
-
-                alert(response)  
+                showModalOpSucc()
+                //alert(response)  
                 getExistingData()
             }
         })
     } else if(key == "deleteDep") {
         editRowID = $("#editRowIDDeleteDep")
+        closeModalDelete()
 
         $.ajax({
             url: './libs/php/ajax.php',
@@ -215,13 +218,14 @@ function manageData(key) {
                 rowID: editRowID.val()
             },
             success: function (response) {
-
-                alert(response)  
+                showModalOpSucc()
+                //alert(response)  
                 getExistingDataDep()
             }
         })
     } else if(key == "deleteLoc") {
         editRowID = $("#editRowIDDeleteLoc")
+        closeModalDelete()
 
         $.ajax({
             url: './libs/php/ajax.php',
@@ -232,8 +236,9 @@ function manageData(key) {
                 rowID: editRowID.val()
             },
             success: function (response) {
-
-                alert(response)  
+                showModalOpSucc()
+                //alert(response)  
+                
                 getExistingDataLoc()
             }
         })
@@ -258,14 +263,12 @@ function manageData(key) {
                 success: function (response) {
                     closeDeleteModal()
                     $('#responseOpSuc').innerText = response
-                    $("#tableManagerOpSucc").modal('show')
+                    showModalOpSucc() 
+                    //$("#tableManagerOpSucc").modal('show')
                     //alert(response)  
                     getExistingData()
                 }
             })
-            //for some reason this function call is not working
-            //getExistingData()
-
         } else {
             alert("You must fill all data")
         }
@@ -345,7 +348,10 @@ function closeModalUpdate() {
 
 function closeModalOpSucc() {
     $("#tableManagerOpSucc").modal('hide')
-    
+}
+
+function showModalOpSucc() {
+    $("#tableManagerOpSucc").modal('show')
 }
 
 function showModalDelete(rowID) {
@@ -370,15 +376,12 @@ function showModalDeleteLoc(rowID) {
     $("#editRowIDDeleteLoc").val(rowID)
 }
 
-function closeDeleteModal() {
+function closeModalDelete() {
     $("#tableManagerDelete").modal('hide')
     $("#tableManagerDeleteDep").modal('hide')
     $("#tableManagerDeleteLoc").modal('hide')
 }
 
-function closeModalOpSucc() {
-    $("tableManagerOpSucc").modal('hide')
-}
 
 
 
