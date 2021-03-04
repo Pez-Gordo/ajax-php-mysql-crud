@@ -256,7 +256,7 @@ function manageData(key) {
                     rowID: editRowID.val()
                 },
                 success: function (response) {
-                    closeModalDelete()
+                    closeDeleteModal()
                     $('#responseOpSuc').innerText = response
                     $("#tableManagerOpSucc").modal('show')
                     //alert(response)  
@@ -310,7 +310,9 @@ function buildLocationsSelect() {
         },
         success: function(response) {
             if(response != "reachedMax3") {
-                    $('#locationsSelect').append(response)
+                //$('#locationSelect').append("<option selected value='DEFAULT'>Select Department</option>")
+
+                    $('#locationSelect').append(response)
                     //$('#locationsSelectUpdate').append(response)
                 }
         }
@@ -378,9 +380,7 @@ function closeModalOpSucc() {
     $("tableManagerOpSucc").modal('hide')
 }
 
-function closeModalDelete() {
-    $("tableManagerDelete").modal('hide')
-}
+
 
 function readData(rowID) {
     $.ajax({

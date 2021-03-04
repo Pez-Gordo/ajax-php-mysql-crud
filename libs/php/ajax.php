@@ -96,7 +96,7 @@
         $jobTitle = $conn->real_escape_string($_POST['jobTitle']);
         $email = $conn->real_escape_string($_POST['email']);
         $department = $conn->real_escape_string($_POST['department']);
-        //$location = $conn->real_escape_string($_POST['location'])
+        $location = $conn->real_escape_string($_POST['location']);
 
         if($_POST['key'] == 'addNew') {
             $sql = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
@@ -169,7 +169,8 @@
         }
 
         if ($_POST['key'] == 'buildLocationsSelect') {
-            $sql = $conn->query("SELECT location.id, name FROM companydirectory.location ORDER BY location.name ASC");
+            //$sql = $conn->query("SELECT location.id, location.name FROM location ORDER BY location.name ASC");
+            $sql = $conn->query("SELECT location.id, location.name FROM companydirectory.location ORDER BY location.name ASC");
             if($sql->num_rows > 0) {
                 $response = "<option selected value='DEFAULT'>Select Location</option>";
                 while($data = $sql->fetch_array()) {
