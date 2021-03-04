@@ -55,8 +55,29 @@
                         <input type="hidden" id="editRowIDDepartment" value="0">
                     </div>
                     <div class="modal-footer">
-                        <input type="button" id="manageBtnCreateDepClose" onclick="closeModalCreate()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnCreateDepClose" onclick="closeModalCreateDep()" value="Close" class="btn btn-primary">
                         <input type="button" id="manageBtnCreateDep" onclick="manageData('addNewDep')" value="Save" class="btn btn-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Create Location -->
+
+        <div id="tableManagerLocation" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="banner">Create New Location</h2>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" placeholder="Location Name..." id="locationName"><br>
+
+                        <input type="hidden" id="editRowIDLocation" value="0">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="manageBtnCreateDepClose" onclick="closeModalCreateLoc()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnCreateDep" onclick="manageData('addNewLoc')" value="Save" class="btn btn-success">
                     </div>
                 </div>
             </div>
@@ -130,6 +151,44 @@
             </div>
         </div>
 
+          <!-- Modal Delete Dep-->
+          <div id="tableManagerDeleteDep" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="bannerDelete">Delete Department</h2>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editRowIDDeleteDep" value="0">
+                        <h3>Are you sure to delete?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="manageBtnDeleteCloseDep" onclick="closeDeleteModal()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnDeleteDep" onclick="manageData('deleteDep')" value="Delete" class="btn btn-danger">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <!-- Modal Delete Loc-->
+          <div id="tableManagerDeleteLoc" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="bannerDelete">Delete Location</h2>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editRowIDDeleteLoc" value="0">
+                        <h3>Are you sure to delete?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="manageBtnDeleteCloseLoc" onclick="closeDeleteModal()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnDeleteLoc" onclick="manageData('deleteLoc')" value="Delete" class="btn btn-danger">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal Operation Successful -->
 
         <div id="tableManagerOpSucc" class="modal fade">
@@ -149,6 +208,8 @@
             </div>
         </div>
 
+        <!-- Mother Container for tables -->
+
         <div class="row">
             <div id="motherTable" class="col-md-12 col-md-offset-2">
                 <h2>Company Directory</h2>
@@ -167,14 +228,15 @@
             
                 
                 <nav class="createButtons">
-                    <input style="float: right" type="button" class="btn btn-success" id="addNewLocation" value="Create Locaton">
+                    <input style="float: right" type="button" class="btn btn-success" id="addNewLocation" value="Create Location">
 
                     <input style="float: right" type="button" class="btn btn-success" id="addNewDepartment" value="Create Department">
 
                     <input style="float: right" type="button" class="btn btn-success" id="addNewEmployee" value="Create Employee">
                 </nav>
-                
-                <table id="tableEmployees" class="table table-hover table-bordered table-stripped">
+
+                <!-- Employees Table -->
+                <table id="tableEmployees" class="table table-hover table-bordered">
                     <thead>
                         <tr>
                             <th>id</th>
@@ -194,7 +256,8 @@
                 
                 <br><br>
 
-                <table id="tableDepartments" class="table table-hover table-bordered table-stripped">
+                <!-- Departments Table-->
+                <table id="tableDepartments" class="table table-hover table-bordered">
                     <thead>
                         <tr>
                             <th>id</th>
@@ -210,7 +273,8 @@
 
                 <br><br>
 
-                <table id="tableLocations" class="table table-hover table-bordered table-stripped">
+                <!-- Locations Table -->
+                <table id="tableLocations" class="table table-hover table-bordered">
                     <thead>
                         <tr>
                             <th>id</th>

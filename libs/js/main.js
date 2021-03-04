@@ -116,11 +116,36 @@ function manageData(key) {
     var department;
     var editRowID;
     var location;
-    if(key == "addNewDep") {
+    if(key == "addNewLoc") {
+        name = $("#locationName")
+        
+        editRowIDLoc = $('#editRowIDLocation')
+        //closeModalCreateDep()
+        if(isNotEmpty(name)) {
+            $.ajax({
+                url: './libs/php/ajax.php',
+                method: 'POST',
+                dataType: 'text',
+                data: {
+                    key: key,
+                    name: name.val(),
+                    rowID: editRowIDLoc.val()
+                },
+                success: function (response) {
+                    closeModalCreateLoc()
+                    $('#responseOpSuc').innerText = response
+                    $("#tableManagerOpSucc").modal('show')
+                    //alert(response)  
+                    getExistingDataLoc()
+                }
+            })
+        }
+    
+    }  else if(key == "addNewDep") {
         name = $("#departmentName")
         location = $('#locationSelect')
-        editRowID = $('#editRowIDDepartment')
-        closeModalCreateDep()
+        editRowIDDep = $('#editRowIDDepartment')
+        //closeModalCreateDep()
         if(isNotEmpty(name) && department.val() !== "DEFAULT") {
             $.ajax({
                 url: './libs/php/ajax.php',
@@ -130,10 +155,10 @@ function manageData(key) {
                     key: key,
                     name: name.val(),
                     location: location.val(),
-                    rowID: editRowIDDepartment.val()
+                    rowID: editRowIDDep.val()
                 },
                 success: function (response) {
-                    closeModalDelete()
+                    closeModalCreateDep()
                     $('#responseOpSuc').innerText = response
                     $("#tableManagerOpSucc").modal('show')
                     //alert(response)  
@@ -160,6 +185,7 @@ function manageData(key) {
         editRowID = $("#editRowIDUpdate")
         //console.log(department)
         closeModalUpdate()
+
     } else if(key == "delete") {
         editRowID = $("#editRowIDDelete")
 
@@ -177,9 +203,43 @@ function manageData(key) {
                 getExistingData()
             }
         })
-        
+    } else if(key == "deleteDep") {
+        editRowID = $("#editRowIDDeleteDep")
+
+        $.ajax({
+            url: './libs/php/ajax.php',
+            method: 'POST',
+            dataType: 'text',
+            data: {
+                key: key,
+                rowID: editRowID.val()
+            },
+            success: function (response) {
+
+                alert(response)  
+                getExistingDataDep()
+            }
+        })
+    } else if(key == "deleteLoc") {
+        editRowID = $("#editRowIDDeleteLoc")
+
+        $.ajax({
+            url: './libs/php/ajax.php',
+            method: 'POST',
+            dataType: 'text',
+            data: {
+                key: key,
+                rowID: editRowID.val()
+            },
+            success: function (response) {
+
+                alert(response)  
+                getExistingDataLoc()
+            }
+        })
     }
-    if(key != "delete" && key != "addNewDep"){
+
+    if(key != "delete" && key != "addNewDep" && key != "addNewLoc" && key != "deleteDep" && key != "deleteLoc"){
         if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
             console.log(department.val())
             $.ajax({
@@ -270,6 +330,12 @@ function closeModalCreateDep() {
     getExistingDataDep()
 }
 
+function closeModalCreateLoc() {
+    $("#tableManagerLocation").modal('hide')
+    getExistingDataLoc()
+}
+
+
 function closeModalUpdate() {
     $("#tableManagerUpdate").modal('hide')
     getExistingData()
@@ -282,11 +348,30 @@ function closeModalOpSucc() {
 
 function showModalDelete(rowID) {
     $("#tableManagerDelete").modal('show')
-    $("#editRowIDDelete").val(rowID)
+    $("#editRowIDDelete").val(rowID) 
+    $("#editRowIDDeleteDep").val(rowID)
+    $("#editRowIDDeleteLoc").val(rowID)
+
+}
+
+function showModalDeleteDep(rowID) {
+    $("#tableManagerDeleteDel").modal('show')
+    $("#editRowIDDelete").val(rowID) 
+    $("#editRowIDDeleteDep").val(rowID)
+    $("#editRowIDDeleteLoc").val(rowID)
+}
+
+function showModalDeleteLoc(rowID) {
+    $("#tableManagerDeleteLoc").modal('show')
+    $("#editRowIDDelete").val(rowID) 
+    $("#editRowIDDeleteDep").val(rowID)
+    $("#editRowIDDeleteLoc").val(rowID)
 }
 
 function closeDeleteModal() {
     $("#tableManagerDelete").modal('hide')
+    $("#tableManagerDeleteDep").modal('hide')
+    $("#tableManagerDeleteLoc").modal('hide')
 }
 
 function closeModalOpSucc() {
