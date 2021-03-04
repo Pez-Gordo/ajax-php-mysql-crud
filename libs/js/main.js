@@ -434,6 +434,9 @@ function deleteData(rowID) {
 
 $('#tableDepartments').hide()
 $('#tableLocations').hide()
+$('#addNewDepartment').hide()
+$('#addNewLocation').hide()
+
 
 
 document.getElementById("btnradio1").addEventListener("click", function() {
@@ -443,7 +446,9 @@ document.getElementById("btnradio1").addEventListener("click", function() {
     $('#motherTable').removeClass("col-md-9")
     $('#motherTable').addClass("col-md-12")
     $('#tableEmployees').show()
-    
+    $('#addNewDepartment').hide()
+    $('#addNewLocation').hide()
+    $('#addNewEmployee').show()
   });
 
 document.getElementById("btnradio2").addEventListener("click", function() {
@@ -453,7 +458,9 @@ document.getElementById("btnradio2").addEventListener("click", function() {
   $('#motherTable').removeClass("col-md-6")
   $('#motherTable').addClass("col-md-9")
   $('#tableDepartments').show()
-
+  $('#addNewDepartment').show()
+  $('#addNewLocation').hide()
+  $('#addNewEmployee').hide()
 });
 
 document.getElementById("btnradio3").addEventListener("click", function() {
@@ -463,4 +470,7 @@ document.getElementById("btnradio3").addEventListener("click", function() {
     $('#motherTable').removeClass("col-md-9")
     $('#motherTable').addClass("col-md-6")
     $('#tableLocations').show()
+    $('#addNewDepartment').hide()
+    $('#addNewLocation').show()
+    $('#addNewEmployee').hide()
   });
