@@ -34,8 +34,8 @@ function edit(rowID) {
             $("#employeeEmailUpdate").val(response.employeeEmail)
             buildDepartmentsSelect()
             $("#departmentSelectUpdate").val(response.departmentSelect)
-            
-            $("#tableManagerUpdate").modal('show')
+            showModalUpdate()
+            //$("#tableManagerUpdate").modal('show')
             console.log(response.departmentSelect)
         }
 
@@ -177,6 +177,7 @@ function manageData(key) {
         department = $('#departmentSelect')
         editRowID = $("#editRowID")
         closeModalCreate()
+        
 
     } else if(key == "update") {
         name = $('#employeeNameUpdate')
@@ -187,6 +188,7 @@ function manageData(key) {
         editRowID = $("#editRowIDUpdate")
         //console.log(department)
         closeModalUpdate()
+        
 
     } else if(key == "delete") {
         editRowID = $("#editRowIDDelete")
@@ -261,12 +263,13 @@ function manageData(key) {
                     rowID: editRowID.val()
                 },
                 success: function (response) {
-                    closeDeleteModal()
+                    //closeDeleteModal()
                     $('#responseOpSuc').innerText = response
                     showModalOpSucc() 
                     //$("#tableManagerOpSucc").modal('show')
                     //alert(response)  
                     getExistingData()
+                    
                 }
             })
         } else {
@@ -352,6 +355,10 @@ function closeModalOpSucc() {
 
 function showModalOpSucc() {
     $("#tableManagerOpSucc").modal('show')
+}
+
+function showModalUpdate() {
+    $("#tableManagerUpdate").modal('show')
 }
 
 function showModalDelete(rowID) {
