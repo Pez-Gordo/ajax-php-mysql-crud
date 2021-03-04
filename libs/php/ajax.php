@@ -166,9 +166,14 @@
 
         if ($_POST['key'] == 'deleteLoc') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
-
-            $conn->query("DELETE FROM location WHERE location.id = '$rowID'");
-            exit;
+            $isLocEmpty = $conn->query("SELECT * FROM department WHERE department.locationID = '$rowID'");
+            if($isLocEmpty->num_rows > 0){
+                exit("Location must be free of Departments to be deleted");
+            }
+            else{
+                $conn->query("DELETE FROM location WHERE location.id = '$rowID'");
+                exit;
+            }
         }
 
         if ($_POST['key'] == 'buildDepartmentsSelect') {
@@ -185,7 +190,6 @@
         }
 
         if ($_POST['key'] == 'buildLocationsSelect') {
-            //$sql = $conn->query("SELECT location.id, location.name FROM location ORDER BY location.name ASC");
             $sql = $conn->query("SELECT location.id, location.name FROM companydirectory.location ORDER BY location.name ASC");
             if($sql->num_rows > 0) {
                 $response = "<option selected value='DEFAULT'>Select Location</option>";
