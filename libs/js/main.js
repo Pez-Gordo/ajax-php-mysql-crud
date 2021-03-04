@@ -146,7 +146,7 @@ function manageData(key) {
         location = $('#locationSelect')
         editRowIDDep = $('#editRowIDDepartment')
         //closeModalCreateDep()
-        if(isNotEmpty(name) && department.val() !== "DEFAULT") {
+        if(isNotEmpty(name) && location.val() !== "DEFAULT") {
             $.ajax({
                 url: './libs/php/ajax.php',
                 method: 'POST',
@@ -357,7 +357,7 @@ function showModalDelete(rowID) {
 }
 
 function showModalDeleteDep(rowID) {
-    $("#tableManagerDeleteDel").modal('show')
+    $("#tableManagerDeleteDep").modal('show')
     $("#editRowIDDelete").val(rowID) 
     $("#editRowIDDeleteDep").val(rowID)
     $("#editRowIDDeleteLoc").val(rowID)

@@ -143,17 +143,33 @@
                 exit;
             
                 
-            }
+        }
         
-            if ($_POST['key'] == 'delete') {
-                $rowID = intval($conn->real_escape_string($_POST['rowID']));
-    
-                $conn->query("DELETE FROM personnel WHERE personnel.id = '$rowID'");
-                    exit;
-                
-                    
+        if ($_POST['key'] == 'delete') {
+            $rowID = intval($conn->real_escape_string($_POST['rowID']));
+
+            $conn->query("DELETE FROM personnel WHERE personnel.id = '$rowID'");
+                exit;        
+        }
+
+        if ($_POST['key'] == 'deleteDep') {
+            $rowID = intval($conn->real_escape_string($_POST['rowID']));
+            $isDepEmpty = $conn->query("SELECT * FROM personnel WHERE personnel.departmentID = '$rowID'");
+            if($isDepEmpty->num_rows > 0) {
+                exit("Department must be empty to be deleted");
             }
-        
+            else{
+                $conn->query("DELETE FROM department WHERE department.id = '$rowID'");
+                exit;
+            }
+        }
+
+        if ($_POST['key'] == 'deleteLoc') {
+            $rowID = intval($conn->real_escape_string($_POST['rowID']));
+
+            $conn->query("DELETE FROM location WHERE location.id = '$rowID'");
+            exit;
+        }
 
         if ($_POST['key'] == 'buildDepartmentsSelect') {
             $sql = $conn->query("SELECT id, name FROM department ORDER BY name ASC");
