@@ -3,6 +3,14 @@ $(document).ready(function() {
         buildDepartmentsSelect()
         $("#tableManager").modal('show')
     })
+    $("#addNewDepartment").on('click', function() {
+        buildLocationsSelect()
+        $("#tableManagerDepartment").modal('show')
+    })
+    $("#addNewLocation").on('click', function() {
+        $("#tableManagerLocation").modal('show')
+    })
+
     getExistingData()
     getExistingDataDep()
     getExistingDataLoc()
@@ -98,6 +106,8 @@ function getExistingDataLoc() {
     })
 }
 
+
+
 function manageData(key) {
     var name;
     var surname;
@@ -105,7 +115,34 @@ function manageData(key) {
     var email;
     var department;
     var editRowID;
-    if(key == "addNew"){
+    var location;
+    if(key == "addNewDep") {
+        name = $("#departmentName")
+        location = $('#locationSelect')
+        editRowID = $('#editRowIDDepartment')
+        closeModalCreateDep()
+        if(isNotEmpty(name) && department.val() !== "DEFAULT") {
+            $.ajax({
+                url: './libs/php/ajax.php',
+                method: 'POST',
+                dataType: 'text',
+                data: {
+                    key: key,
+                    name: name.val(),
+                    location: location.val(),
+                    rowID: editRowIDDepartment.val()
+                },
+                success: function (response) {
+                    closeModalDelete()
+                    $('#responseOpSuc').innerText = response
+                    $("#tableManagerOpSucc").modal('show')
+                    //alert(response)  
+                    getExistingDataDep()
+                }
+            })
+        }
+
+    } else if(key == "addNew"){
         name = $('#employeeName')
         surname = $('#employeeSurname')
         jobTitle = $('#employeeJobTitle')
@@ -142,7 +179,7 @@ function manageData(key) {
         })
         
     }
-    if(key != "delete"){
+    if(key != "delete" && key != "addNewDep"){
         if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
             console.log(department.val())
             $.ajax({
@@ -172,7 +209,7 @@ function manageData(key) {
         } else {
             alert("You must fill all data")
         }
-    }
+    } 
 }   
 
 function isNotEmpty(caller) {
@@ -204,7 +241,20 @@ function buildDepartmentsSelect() {
 }
 
 function buildLocationsSelect() {
-
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'text',
+        data: {
+            key: 'buildLocationsSelect',
+        },
+        success: function(response) {
+            if(response != "reachedMax3") {
+                    $('#locationsSelect').append(response)
+                    //$('#locationsSelectUpdate').append(response)
+                }
+        }
+    })
 }
 
 function closeModalRead() {
@@ -213,6 +263,11 @@ function closeModalRead() {
 
 function closeModalCreate() {
     $("#tableManager").modal('hide')
+}
+
+function closeModalCreateDep() {
+    $("#tableManagerDepartment").modal('hide')
+    getExistingDataDep()
 }
 
 function closeModalUpdate() {
@@ -290,7 +345,7 @@ function deleteData(rowID) {
     
 }
 
-// Radio Buttons controls
+// Bootstrap Radio Button controls to toggle between different tables
 
 $('#tableDepartments').hide()
 $('#tableLocations').hide()

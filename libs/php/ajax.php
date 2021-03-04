@@ -103,6 +103,19 @@
                 exit('reachedMax2');
         }
 
+        if ($_POST['key'] == 'buildLocationsSelect') {
+            $sql = $conn->query("SELECT id, name FROM companydirectory.location ORDER BY name ASC");
+            if($sql->num_rows > 0) {
+                $response = "<option selected value='DEFAULT'>Select Location</option>";
+                while($data = $sql->fetch_array()) {
+                    $response .= '<option value='.$data["id"].'>'.$data["name"].'</option>';
+                }
+                exit($response);
+            }
+            else
+                exit('reachedMax3');
+        }
+
         if ($_POST['key'] == 'getExistingDataDep') {
             $sql = $conn->query("SELECT department.id, department.name, department.locationID FROM department ORDER BY department.name ASC");
             if ($sql->num_rows > 0) {

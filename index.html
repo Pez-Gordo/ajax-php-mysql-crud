@@ -14,7 +14,7 @@
 
     <div class="container" style="margin-top: 30px;">
 
-        <!-- Modal Create-->
+        <!-- Modal Create Employee-->
         <div id="tableManager" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -34,6 +34,29 @@
                     <div class="modal-footer">
                         <input type="button" id="manageBtnCreateClose" onclick="closeModalCreate()" value="Close" class="btn btn-primary">
                         <input type="button" id="manageBtnCreate" onclick="manageData('addNew')" value="Save" class="btn btn-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Create Department -->
+
+        <div id="tableManagerDepartment" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="banner">Create New Department</h2>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" placeholder="Department Name..." id="departmentName"><br>
+                        <select name="locationSelect" class="form-control" id="locationSelect">
+
+                        </select>
+                        <input type="hidden" id="editRowIDDepartment" value="0">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="manageBtnCreateDepClose" onclick="closeModalCreate()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnCreateDep" onclick="manageData('addNewDep')" value="Save" class="btn btn-success">
                     </div>
                 </div>
             </div>
@@ -142,7 +165,7 @@
                     </div>
                 </div>
             
-                <br>
+                
                 <nav class="createButtons">
                     <input style="float: right" type="button" class="btn btn-success" id="addNewLocation" value="Create Locaton">
 
