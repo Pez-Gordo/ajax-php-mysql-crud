@@ -1,8 +1,13 @@
 <?php
 
     if(isset($_POST['key'])) {
-
+        
+        // connection to database
         $conn = new mysqli('localhost', 'root', 'my*8-9+6POiusql', 'companydirectory');
+
+        // Rendering HTML 
+
+        // Employees Table
 
         if($_POST['key'] == 'getExistingData') {
             
@@ -21,9 +26,13 @@
                                     <td>'.$data["email"].'</td>
                                     <td>'.$data["name"].'</td>
                                     <td>
-                                        <input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
+                                        <button class="btn" onclick="readData('.$data["id"].')"><img src="./libs/img/eye.png" alt=""></button>
+                                        <button class="btn" onclick="edit('.$data["id"].')"><img src="./libs/img/pencil.png" alt=""></button>
+                                        <button class="btn" onclick="showModalDelete('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
+
+                                        <!--<input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
                                         <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">-->
                                     </td>
                                 </tr>
                             ';
@@ -35,6 +44,8 @@
                 
                 exit('reachedMax');
         }
+
+        // Departments Table
 
         if ($_POST['key'] == 'getExistingDataDep') {
             $sql = $conn->query("SELECT department.id, department.name, department.locationID FROM department ORDER BY department.name ASC");
@@ -49,7 +60,8 @@
                                     <td>'.$data["name"].'</td>
                                     <td>'.$data["locationID"].'</td>
                                     <td>
-                                        <input type="button" onclick="showModalDeleteDep('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                        <button class="btn" onclick="showModalDeleteDep('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
+                                        <!--<input type="button" onclick="showModalDeleteDep('.$data["id"].')" value="Delete" class="btn btn-danger">-->
                                     </td>
                                 </tr>
                             ';
@@ -63,6 +75,8 @@
             
         }
 
+        // Locations Table
+
         if ($_POST['key'] == 'getExistingDataLoc') {
             $sql = $conn->query("SELECT location.id, location.name FROM location ORDER BY location.name ASC");
             if ($sql->num_rows > 0) {
@@ -75,8 +89,8 @@
                                     <td>'.$data["id"].'</td>
                                     <td>'.$data["name"].'</td>                                    
                                     <td>
-                                        
-                                        <input type="button" onclick="showModalDeleteLoc('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                        <button class="btn" onclick="showModalDeleteLoc('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
+                                        <!--<input type="button" onclick="showModalDeleteLoc('.$data["id"].')" value="Delete" class="btn btn-danger">-->
                                     </td>
                                 </tr>
                             ';
@@ -190,7 +204,7 @@
         }
 
         if ($_POST['key'] == 'buildLocationsSelect') {
-            $sql = $conn->query("SELECT location.id, location.name FROM companydirectory.location ORDER BY location.name ASC");
+            $sql = $conn->query("SELECT location.id, location.name FROM location ORDER BY location.name ASC");
             if($sql->num_rows > 0) {
                 $response = "<option selected value='DEFAULT'>Select Location</option>";
                 while($data = $sql->fetch_array()) {

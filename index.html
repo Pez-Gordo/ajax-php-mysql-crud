@@ -5,9 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Directory</title>
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./libs/css/dataTables.bootstrap.min.css">
+    <!-- Datatables jQuery -->
+    <link rel="stylesheet" src="./libs/css/jquery.dataTables.min.css">
+    <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"></link>-->
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <!-- local stylesheet -->
     <link rel="stylesheet" href="./libs/css/style.css">
 </head>
 <body>
@@ -229,12 +235,14 @@
                 
                 <nav class="createButtons">
 
-                    <input style="float: right" type="button" class="btn btn-success" id="addNewLocation" value="Create Location">
-
+                    <!--<input style="float: right" type="button" class="btn btn-success" id="addNewLocation" value="Create Location">
                     <input style="float: right" type="button" class="btn btn-success" id="addNewDepartment" value="Create Department">
+                    <input style="float: right" type="button" class="btn btn-success" id="addNewEmployee" value="Create Employee">-->
+                        
+                    <button style="float: right" id="addNewEmployee" class="btn"><img src="./libs/img/plus.png" alt=""></button>
+                    <button style="float: right" id="addNewDepartment" class="btn"><img src="./libs/img/plus.png" alt=""></button>
+                    <button style="float: right" id="addNewLocation" class="btn"><img src="./libs/img/plus.png" alt=""></button>
 
-                    <input style="float: right" type="button" class="btn btn-success" id="addNewEmployee" value="Create Employee">
-                    
                 </nav>
 
                 <!-- Employees Table -->
@@ -256,7 +264,7 @@
                     </tbody>
                 </table>
                 
-                <br><br>
+              
 
                 <!-- Departments Table-->
                 <table id="tableDepartments" class="table table-hover table-bordered">
@@ -273,7 +281,7 @@
                     </tbody>
                 </table>
 
-                <br><br>
+                
 
                 <!-- Locations Table -->
                 <table id="tableLocations" class="table table-hover table-bordered">
@@ -289,6 +297,8 @@
                     </tbody>
                 </table>
 
+                
+
             </div>
         </div>
     </div>
@@ -301,7 +311,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./libs/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="./libs/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="./libs/js/dataTables.bootstrap.min.js"></script>-
     <script type="text/javascript" src="./libs/js/main.js"></script>
 </body>
 </html>

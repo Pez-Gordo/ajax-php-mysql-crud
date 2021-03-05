@@ -1,3 +1,7 @@
+//var eTable = $('#tableEmployees')
+//var dTable = $('#tableDepartments')
+//var lTable = $('#tableLocations')
+
 $(document).ready(function() {
     $("#addNewEmployee").on('click', function() {
         buildDepartmentsSelect()
@@ -14,6 +18,9 @@ $(document).ready(function() {
     getExistingData()
     getExistingDataDep()
     getExistingDataLoc()
+
+    
+    //eTable.dataTable()
 })
 
 
@@ -263,11 +270,9 @@ function manageData(key) {
                     rowID: editRowID.val()
                 },
                 success: function (response) {
-                    //closeDeleteModal()
+                    
                     $('#responseOpSuc').innerText = response
                     showModalOpSucc() 
-                    //$("#tableManagerOpSucc").modal('show')
-                    //alert(response)  
                     getExistingData()
                     
                 }
@@ -418,7 +423,7 @@ function readData(rowID) {
     
 }
 
-
+/*
 function deleteData(rowID) {
     $.ajax({
         url: './libs/php/ajax.php',
@@ -439,6 +444,7 @@ function deleteData(rowID) {
     })
     
 }
+*/
 
 // Bootstrap Radio Button controls to toggle between different tables
 
@@ -452,35 +458,46 @@ $('#addNewLocation').hide()
 document.getElementById("btnradio1").addEventListener("click", function() {
     $('#tableDepartments').hide()
     $('#tableLocations').hide()
-    $('#motherTable').removeClass("col-md-6")
-    $('#motherTable').removeClass("col-md-9")
-    $('#motherTable').addClass("col-md-12")
+    $('#motherTable').removeClass("col-md-8 col-md-offset-6")
+    $('#motherTable').removeClass("col-md-10 col-md-offset-4")
+    $('#motherTable').addClass("col-md-12 col-md-offset-2")
     $('#tableEmployees').show()
     $('#addNewDepartment').hide()
     $('#addNewLocation').hide()
     $('#addNewEmployee').show()
+    //dTable.fnDestroy();
+    //lTable.fnDestroy();
+    //oTable.dataTable();
   });
 
 document.getElementById("btnradio2").addEventListener("click", function() {
   $('#tableEmployees').hide()
   $('#tableLocations').hide()
-  $('#motherTable').removeClass("col-md-12")
-  $('#motherTable').removeClass("col-md-6")
-  $('#motherTable').addClass("col-md-9")
+  $('#motherTable').removeClass("col-md-12 col-md-offset-2")
+  $('#motherTable').removeClass("col-md-8 col-md-offset-6")
+  $('#motherTable').addClass("col-md-10 col-md-offset-4")
   $('#tableDepartments').show()
   $('#addNewDepartment').show()
   $('#addNewLocation').hide()
   $('#addNewEmployee').hide()
+  //oTable.fnDestroy();
+  //lTable.fnDestroy();
+  //dTable.dataTable();
 });
 
 document.getElementById("btnradio3").addEventListener("click", function() {
     $('#tableEmployees').hide()
     $('#tableDepartments').hide()
-    $('#motherTable').removeClass("col-md-12")
-    $('#motherTable').removeClass("col-md-9")
-    $('#motherTable').addClass("col-md-6")
+    $('#motherTable').removeClass("col-md-12 col-md-offset-2")
+    $('#motherTable').removeClass("col-md-10 col-md-offset-4")
+    $('#motherTable').addClass("col-md-8 col-md-offset-6")
     $('#tableLocations').show()
     $('#addNewDepartment').hide()
     $('#addNewLocation').show()
     $('#addNewEmployee').hide()
+    //oTable.fnDestroy();
+    //dTable.fnDestroy();
+    //lTable.dataTable();
   });
+
+  
