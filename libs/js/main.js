@@ -342,6 +342,9 @@ function buildLocationsSelect() {
     })
 }
 
+
+// Modal Management Functions
+
 function closeModalRead() {
     $("#tableManagerRead").modal('hide')
 }

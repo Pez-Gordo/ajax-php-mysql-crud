@@ -11,7 +11,7 @@
 
         if($_POST['key'] == 'getExistingData') {
             
-            $sql = $conn->query("SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.name FROM personnel LEFT JOIN department ON personnel.departmentID = department.id ORDER BY lastName ASC");
+            $sql = $conn->query("SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id ORDER BY lastName ASC");
             if ($sql->num_rows > 0) {
                 $response = "";
                 
@@ -24,15 +24,12 @@
                                     <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
                                     <td>'.$data["jobTitle"].'</td>
                                     <td>'.$data["email"].'</td>
-                                    <td>'.$data["name"].'</td>
+                                    <td>'.$data["dname"].'</td>
                                     <td>
                                         <button class="btn" onclick="readData('.$data["id"].')"><img src="./libs/img/eye.png" alt=""></button>
                                         <button class="btn" onclick="edit('.$data["id"].')"><img src="./libs/img/pencil.png" alt=""></button>
                                         <button class="btn" onclick="showModalDelete('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
-
-                                        <!--<input type="button" onclick="readData('.$data["id"].')" value="Read" class="btn btn-primary">
-                                        <input type="button" onclick="edit('.$data["id"].')" value="Update" class="btn btn-secondary">
-                                        <input type="button" onclick="showModalDelete('.$data["id"].')" value="Delete" class="btn btn-danger">-->
+                        
                                     </td>
                                 </tr>
                             ';
@@ -48,7 +45,7 @@
         // Departments Table
 
         if ($_POST['key'] == 'getExistingDataDep') {
-            $sql = $conn->query("SELECT department.id, department.name, department.locationID FROM department ORDER BY department.name ASC");
+            $sql = $conn->query("SELECT department.id, department.dname, department.locationID, location.lname FROM department LEFT JOIN location ON department.locationID = location.id ORDER BY department.dname ASC");
             if ($sql->num_rows > 0) {
                 $response = "";
                 
@@ -57,11 +54,10 @@
                             $response .= '
                                 <tr>
                                     <td>'.$data["id"].'</td>
-                                    <td>'.$data["name"].'</td>
-                                    <td>'.$data["locationID"].'</td>
+                                    <td>'.$data["dname"].'</td>
+                                    <td>'.$data["lname"].'</td>
                                     <td>
                                         <button class="btn" onclick="showModalDeleteDep('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
-                                        <!--<input type="button" onclick="showModalDeleteDep('.$data["id"].')" value="Delete" class="btn btn-danger">-->
                                     </td>
                                 </tr>
                             ';
@@ -78,7 +74,7 @@
         // Locations Table
 
         if ($_POST['key'] == 'getExistingDataLoc') {
-            $sql = $conn->query("SELECT location.id, location.name FROM location ORDER BY location.name ASC");
+            $sql = $conn->query("SELECT location.id, location.lname FROM location ORDER BY location.lname ASC");
             if ($sql->num_rows > 0) {
                 $response = "";
                 
@@ -87,10 +83,9 @@
                             $response .= '
                                 <tr>
                                     <td>'.$data["id"].'</td>
-                                    <td>'.$data["name"].'</td>                                    
+                                    <td>'.$data["lname"].'</td>                                    
                                     <td>
                                         <button class="btn" onclick="showModalDeleteLoc('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
-                                        <!--<input type="button" onclick="showModalDeleteLoc('.$data["id"].')" value="Delete" class="btn btn-danger">-->
                                     </td>
                                 </tr>
                             ';
