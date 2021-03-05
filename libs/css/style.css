@@ -11,3 +11,25 @@
         display: none;
     }
 }
+
+#colLeft {
+    display: inline;
+    float: left;
+    overflow: none;
+    white-space: nowrap;
+
+}
+#colCenter {
+  float: left;
+  display: inline;
+  overflow: none;
+  white-space: nowrap;
+}
+#colRight {
+  display: inline;
+  float: left;
+  overflow: none;
+  white-space: nowrap;
+
+
+}

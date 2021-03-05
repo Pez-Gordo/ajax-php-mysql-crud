@@ -283,14 +283,16 @@ function manageData(key) {
                 },
                 success: function (response) {
                     
-                    $('#responseOpSuc').innerText = response
+                    //$('#responseOpSuc').innerText = response
                     showModalOpSucc() 
                     getExistingData()
                     
                 }
             })
         } else {
-            alert("You must fill all data")
+            
+            showModalOpFailFill()
+
         }
     } 
 }   
@@ -384,6 +386,15 @@ function showModalOpFail() {
 function closeModalOpFail() {
     $("#tableManagerOpFail").modal("hide")
 }
+
+function showModalOpFailFill() {
+    $("#tableManagerOpFailFill").modal("show")
+}
+
+function closeModalOpFailFill() {
+    $("#tableManagerOpFailFill").modal("hide")
+}
+
 
 function showModalUpdate() {
     $("#tableManagerUpdate").modal('show')

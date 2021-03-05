@@ -23,12 +23,19 @@
                                     <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
                                     <td class="one">'.$data["jobTitle"].'</td>
                                     <td class="one">'.$data["email"].'</td>
-                                    <td class="one">'.$data["dname"].'</td>
+                                    <td>'.$data["dname"].'</td>
                                     <td>
-                                        <button class="btn" onclick="readData('.$data["id"].')"><img src="./libs/img/eye.png" alt=""></button>
-                                        <button class="btn" onclick="edit('.$data["id"].')"><img src="./libs/img/pencil.png" alt=""></button>
-                                        <button class="btn" onclick="showModalDelete('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
-                        
+                                        <nav>
+                                            <div id="colLeft">
+                                                <img class="inlineImage" src="./libs/img/eye.png" alt="" onclick="readData('.$data["id"].')">
+                                            </div>
+                                            <div id="colCenter">
+                                                <img class="inlineImage" src="./libs/img/pencil.png" alt="" onclick="edit('.$data["id"].')">
+                                            </div>
+                                            <div id="colRight">
+                                                <img class="inlineImage" src="./libs/img/trash.png" alt="" onclick="showModalDelete('.$data["id"].')">
+                                            </div>
+                                        </nav>
                                     </td>
                                 </tr>
                             ';
@@ -55,7 +62,7 @@
                                     <td>'.$data["dname"].'</td>
                                     <td>'.$data["lname"].'</td>
                                     <td>
-                                        <button class="btn" onclick="showModalDeleteDep('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
+                                       <img src="./libs/img/trash.png" alt="" onclick="showModalDeleteDep('.$data["id"].')">
                                     </td>
                                 </tr>
                             ';
@@ -82,7 +89,7 @@
                                 <tr>
                                     <td>'.$data["lname"].'</td>                                    
                                     <td>
-                                        <button class="btn" onclick="showModalDeleteLoc('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
+                                        <img src="./libs/img/trash.png" alt="" onclick="showModalDeleteLoc('.$data["id"].')">
                                     </td>
                                 </tr>
                             ';
@@ -116,28 +123,28 @@
 
         if($_POST['key'] == 'addNewDep') {
             
-            $conn->query("INSERT INTO department (name, locationID) VALUES ('$name', '$location')");
+            $conn->query("INSERT INTO department (dname, locationID) VALUES ('$name', '$location')");
             exit('New department has been inserted');
             
         }
 
         if($_POST['key'] == 'addNewLoc') {
             
-            $conn->query("INSERT INTO location (name) VALUES ('$name')");
+            $conn->query("INSERT INTO location (lname) VALUES ('$name')");
             exit('New location has been inserted');
             
         }
 
         if ($_POST['key'] == 'getRowData') {
             $rowID = $conn->real_escape_string($_POST['rowID']);
-            $sql = $conn->query("SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.name FROM personnel LEFT JOIN department ON personnel.departmentID = department.id WHERE personnel.id='$rowID'");
+            $sql = $conn->query("SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id WHERE personnel.id='$rowID'");
             $data = $sql->fetch_array();
             $jsonArray = array(
                 'employeeName' => $data['firstName'],
                 'employeeSurname' => $data['lastName'],
                 'employeeJobTitle' => $data['jobTitle'],
                 'employeeEmail' => $data['email'],
-                'departmentSelect' => $data['name'],
+                'departmentSelect' => $data['dname'],
             );
             exit(json_encode($jsonArray));
         }
@@ -183,11 +190,11 @@
         }
 
         if ($_POST['key'] == 'buildDepartmentsSelect') {
-            $sql = $conn->query("SELECT id, name FROM department ORDER BY name ASC");
+            $sql = $conn->query("SELECT id, dname FROM department ORDER BY dname ASC");
             if($sql->num_rows > 0) {
                 $response = "<option selected value='DEFAULT'>Select Department</option>";
                 while($data = $sql->fetch_array()) {
-                    $response .= '<option value='.$data["id"].'>'.$data["name"].'</option>';
+                    $response .= '<option value='.$data["id"].'>'.$data["dname"].'</option>';
                 }
                 exit($response);
             }
@@ -196,11 +203,11 @@
         }
 
         if ($_POST['key'] == 'buildLocationsSelect') {
-            $sql = $conn->query("SELECT location.id, location.name FROM location ORDER BY location.name ASC");
+            $sql = $conn->query("SELECT location.id, location.lname FROM location ORDER BY location.lname ASC");
             if($sql->num_rows > 0) {
                 $response = "<option selected value='DEFAULT'>Select Location</option>";
                 while($data = $sql->fetch_array()) {
-                    $response .= '<option value='.$data["id"].'>'.$data["name"].'</option>';
+                    $response .= '<option value='.$data["id"].'>'.$data["lname"].'</option>';
                 }
                 exit($response);
             }
