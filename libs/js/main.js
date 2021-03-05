@@ -1,9 +1,4 @@
-//var eTable = $('#tableEmployees')
-//var dTable = $('#tableDepartments')
-//var lTable = $('#tableLocations')
-
 var activeButton = "employees"
-
 
 $(document).ready(function() {
     $("#addNewEmployee").on('click', function() {
@@ -21,11 +16,7 @@ $(document).ready(function() {
     getExistingData()
     getExistingDataDep()
     getExistingDataLoc()
-
-    
-    //eTable.dataTable()
 })
-
 
 function edit(rowID) {
     $.ajax({
@@ -43,13 +34,11 @@ function edit(rowID) {
             $("#employeeSurnameUpdate").val(response.employeeSurname)
             $("#employeeJobTitleUpdate").val(response.employeeJobTitle)
             $("#employeeEmailUpdate").val(response.employeeEmail)
-            buildDepartmentsSelect()
+            buildDepartmentsSelect(rowID)
             $("#departmentSelectUpdate").val(response.departmentSelect)
             showModalUpdate()
-            //$("#tableManagerUpdate").modal('show')
             console.log(response.departmentSelect)
         }
-
     })
 }
 
@@ -77,7 +66,6 @@ function getExistingData() {
                 $('#tbodyEmployees').append(rows)   
             }
         }
-
     })
 }
 
@@ -184,7 +172,6 @@ function manageData(key) {
                 },
                 success: function (response) {
                     closeModalCreateDep()
-                    //$('#responseOpSuc').innerText = response
                     showModalOpSucc() 
                     getExistingDataDep()
                 }
@@ -211,7 +198,6 @@ function manageData(key) {
         email = $('#employeeEmailUpdate')
         department = $('#departmentSelectUpdate')
         editRowID = $("#editRowIDUpdate")
-        //console.log(department)
         closeModalUpdate()
         
 
@@ -228,7 +214,6 @@ function manageData(key) {
             },
             success: function (response) {
                 showModalOpSucc()
-                //alert(response)  
                 getExistingData()
             }
         })
@@ -296,18 +281,13 @@ function manageData(key) {
                     department: department.val(),
                     rowID: editRowID.val()
                 },
-                success: function (response) {
-                    
-                    //$('#responseOpSuc').innerText = response
+                success: function () {
                     showModalOpSucc() 
                     getExistingData()
-                    
                 }
             })
         } else {
-            
             showModalOpFailFill()
-
         }
     } 
 }   
@@ -341,8 +321,7 @@ function buildDepartmentsSelect() {
                     rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"                    
                 }
                 $('#departmentSelect').append(rows)   
-                $('#departmentSelectUpdate').append(rows)   
-              
+                $('#departmentSelectUpdate').append(rows)              
             }
         }
     })
@@ -360,17 +339,17 @@ function buildLocationsSelect() {
             console.log("locationSelect", response)
             if(response != "reachedMax") {
                 $('#locationSelect').empty()
+                
                 var rows = "<option selected value='DEFAULT'>Select Location</option>"
                 
                 for(var i = 0; i < response.length; i++) {
                     rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"                    
                 }
-                $('#locationSelect').append(rows)   
+                $('#locationSelect').append(rows)
             }
         }
     })
 }
-
 
 // Modal Management Functions
 
@@ -395,7 +374,6 @@ function closeModalCreateLoc() {
     $("#tableManagerLocation").modal('hide')
     getExistingDataLoc()
 }
-
 
 function closeModalUpdate() {
     $("#tableManagerUpdate").modal('hide')
@@ -426,7 +404,6 @@ function closeModalOpFailFill() {
     $("#tableManagerOpFailFill").modal("hide")
 }
 
-
 function showModalUpdate() {
     $("#tableManagerUpdate").modal('show')
 }
@@ -436,7 +413,6 @@ function showModalDelete(rowID) {
     $("#editRowIDDelete").val(rowID) 
     $("#editRowIDDeleteDep").val(rowID)
     $("#editRowIDDeleteLoc").val(rowID)
-
 }
 
 function showModalDeleteDep(rowID) {
@@ -459,9 +435,6 @@ function closeModalDelete() {
     $("#tableManagerDeleteLoc").modal('hide')
 }
 
-
-
-
 function readData(rowID) {
     $.ajax({
         url: './libs/php/ajax.php',
@@ -472,44 +445,15 @@ function readData(rowID) {
             rowID: rowID
         },
         success: function (response) {
-            
             $("#employeeNameRead").val(response.employeeName)
             $("#employeeSurnameRead").val(response.employeeSurname)
             $("#employeeJobTitleRead").val(response.employeeJobTitle)
             $("#employeeEmailRead").val(response.employeeEmail)
             $("#departmentSelectRead").val(response.departmentSelect)
-            
             showModalRead()
-            //$("#tableManagerRead").modal('show')
-            //console.log(response.departmentSelect)
         }
-
     })
-    
 }
-
-/*
-function deleteData(rowID) {
-    $.ajax({
-        url: './libs/php/ajax.php',
-        method: 'POST',
-        dataType: 'json',
-        data: {
-            key: 'deleteRowData',
-            rowID: rowID
-        },
-        success: function (response) {
-            console.log(response)
-            //$("#editRowIDDelete").val(rowID)
-            alert("employee has been deleted")
-            $("#tableManagerDelete").modal('show')
-            //console.log(response.departmentSelect)
-        }
-
-    })
-    
-}
-*/
 
 // Bootstrap Radio Button controls to toggle between different tables
 
@@ -518,79 +462,47 @@ $('#tableLocations').hide()
 $('#addNewDepartment').hide()
 $('#addNewLocation').hide()
 
-
-
 document.getElementById("btnradio1").addEventListener("click", function() {
     $('#tableDepartments').hide()
     $('#tableLocations').hide()
-    /*
-    $('#motherTable').removeClass("col-md-8 col-md-offset-6")
-    $('#motherTable').removeClass("col-md-10 col-md-offset-4")
-    $('#motherTable').addClass("col-md-12 col-md-offset-2")
-    */
     $('#tableEmployees').show()
     $('#addNewDepartment').hide()
     $('#addNewLocation').hide()
     $('#addNewEmployee').show()
-
     $("#employeesImg").attr("src", "./libs/img/employeesSel.png")
     $("#departmentsImg").attr("src", "./libs/img/departments.png")
     $("#locationsImg").attr("src", "./libs/img/locations.png")
     
     activeButton = "employees"
-
-    //dTable.fnDestroy();
-    //lTable.fnDestroy();
-    //oTable.dataTable();
   });
 
 document.getElementById("btnradio2").addEventListener("click", function() {
     $('#tableEmployees').hide()
     $('#tableLocations').hide()
-  /*
-  $('#motherTable').removeClass("col-md-12 col-md-offset-2")
-  $('#motherTable').removeClass("col-md-8 col-md-offset-6")
-  $('#motherTable').addClass("col-md-10 col-md-offset-4")
-  */
     $('#tableDepartments').show()
     $('#addNewDepartment').show()
     $('#addNewLocation').hide()
     $('#addNewEmployee').hide()
-
     $("#employeesImg").attr("src", "./libs/img/employees.png")
     $("#departmentsImg").attr("src", "./libs/img/departmentsSel.png")
     $("#locationsImg").attr("src", "./libs/img/locations.png")  
+    
     activeButton = "departments"
-
-  //oTable.fnDestroy();
-  //lTable.fnDestroy();
-  //dTable.dataTable();
 });
 
 document.getElementById("btnradio3").addEventListener("click", function() {
     $('#tableEmployees').hide()
     $('#tableDepartments').hide()
-    /*
-    $('#motherTable').removeClass("col-md-12 col-md-offset-2")
-    $('#motherTable').removeClass("col-md-10 col-md-offset-4")
-    $('#motherTable').addClass("col-md-8 col-md-offset-6")
-    */
     $('#tableLocations').show()
     $('#addNewDepartment').hide()
     $('#addNewLocation').show()
     $('#addNewEmployee').hide()
-
     $("#employeesImg").attr("src", "./libs/img/employees.png")
     $("#departmentsImg").attr("src", "./libs/img/departments.png")
     $("#locationsImg").attr("src", "./libs/img/locationsSel.png")
 
     activeButton = "locations"
-
-    //oTable.fnDestroy();
-    //dTable.fnDestroy();
-    //lTable.dataTable();
 });
-
 
 // Functions to manage hover changing styles
 
@@ -605,12 +517,10 @@ function onHover(param)
     else if(param === "locations"){
         $("#locationsImg").attr('src', './libs/img/locationsSel.png')
     }
-
 }
 
 function offHover(param)
 {
-
     if(param === "employees") {
         if(activeButton === "employees") {
             $("#employeesImg").attr('src', './libs/img/employeesSel.png')
