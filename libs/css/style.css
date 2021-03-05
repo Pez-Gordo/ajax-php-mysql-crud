@@ -1,15 +1,13 @@
-#toggleTable {
-    float: right;
-}
-
-#departmentsImg:hover {
-    background: url("./libs/img/departmentsSel.png") no-repeat;
-}
-
-#locationsImg:hover {
-    background: url("./libs/img/locationsSel.png") no-repeat;
-}
-
-#employeesImg:hover {
-    background: url("./libs/img/employeesSel.png") no-repeat;
+/*===== BASE =====*/
+*,::before,::after{
+    box-sizing: border-box;
+  }
+  html{
+    scroll-behavior: smooth;
+  }
+  
+@media only screen and (max-width: 450px) {
+    .one{
+        display: none;
+    }
 }

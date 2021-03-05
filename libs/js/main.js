@@ -481,9 +481,11 @@ $('#addNewLocation').hide()
 document.getElementById("btnradio1").addEventListener("click", function() {
     $('#tableDepartments').hide()
     $('#tableLocations').hide()
+    /*
     $('#motherTable').removeClass("col-md-8 col-md-offset-6")
     $('#motherTable').removeClass("col-md-10 col-md-offset-4")
     $('#motherTable').addClass("col-md-12 col-md-offset-2")
+    */
     $('#tableEmployees').show()
     $('#addNewDepartment').hide()
     $('#addNewLocation').hide()
@@ -503,9 +505,11 @@ document.getElementById("btnradio1").addEventListener("click", function() {
 document.getElementById("btnradio2").addEventListener("click", function() {
   $('#tableEmployees').hide()
   $('#tableLocations').hide()
+  /*
   $('#motherTable').removeClass("col-md-12 col-md-offset-2")
   $('#motherTable').removeClass("col-md-8 col-md-offset-6")
   $('#motherTable').addClass("col-md-10 col-md-offset-4")
+  */
   $('#tableDepartments').show()
   $('#addNewDepartment').show()
   $('#addNewLocation').hide()
@@ -525,9 +529,11 @@ document.getElementById("btnradio2").addEventListener("click", function() {
 document.getElementById("btnradio3").addEventListener("click", function() {
     $('#tableEmployees').hide()
     $('#tableDepartments').hide()
+    /*
     $('#motherTable').removeClass("col-md-12 col-md-offset-2")
     $('#motherTable').removeClass("col-md-10 col-md-offset-4")
     $('#motherTable').addClass("col-md-8 col-md-offset-6")
+    */
     $('#tableLocations').show()
     $('#addNewDepartment').hide()
     $('#addNewLocation').show()

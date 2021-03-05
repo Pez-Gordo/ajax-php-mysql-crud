@@ -18,13 +18,12 @@
                 while($data = $sql->fetch_array()) {
                     
                             $response .= '
-                                <tr>
-                                    <td>'.$data["id"].'</td>
+                                <tr>                                    
                                     <td>'.$data["firstName"].'</td>
                                     <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
-                                    <td>'.$data["jobTitle"].'</td>
-                                    <td>'.$data["email"].'</td>
-                                    <td>'.$data["dname"].'</td>
+                                    <td class="one">'.$data["jobTitle"].'</td>
+                                    <td class="one">'.$data["email"].'</td>
+                                    <td class="one">'.$data["dname"].'</td>
                                     <td>
                                         <button class="btn" onclick="readData('.$data["id"].')"><img src="./libs/img/eye.png" alt=""></button>
                                         <button class="btn" onclick="edit('.$data["id"].')"><img src="./libs/img/pencil.png" alt=""></button>
@@ -53,7 +52,6 @@
                     
                             $response .= '
                                 <tr>
-                                    <td>'.$data["id"].'</td>
                                     <td>'.$data["dname"].'</td>
                                     <td>'.$data["lname"].'</td>
                                     <td>
@@ -82,7 +80,6 @@
                     
                             $response .= '
                                 <tr>
-                                    <td>'.$data["id"].'</td>
                                     <td>'.$data["lname"].'</td>                                    
                                     <td>
                                         <button class="btn" onclick="showModalDeleteLoc('.$data["id"].')"><img src="./libs/img/trash.png" alt=""></button>
