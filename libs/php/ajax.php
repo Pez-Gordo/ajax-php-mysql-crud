@@ -13,39 +13,16 @@
             
             $sql = $conn->query("SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id ORDER BY lastName ASC");
             if ($sql->num_rows > 0) {
-                $response = "";
-                
+                $rawData = array();
+                $i = 0;
                 while($data = $sql->fetch_array()) {
-                    
-                            $response .= '
-                                <tr>                                    
-                                    <td>'.$data["firstName"].'</td>
-                                    <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
-                                    <td class="one">'.$data["jobTitle"].'</td>
-                                    <td class="one">'.$data["email"].'</td>
-                                    <td class="two">'.$data["dname"].'</td>
-                                    <td>
-                                        <div class="containerTD">
-                                            <div class="left">
-                                                <img class="inlineImage" src="./libs/img/eye.png" alt="" onclick="readData('.$data["id"].')">
-                                            </div>
-                                            <div class="center">
-                                                <img class="inlineImage" src="./libs/img/pencil.png" alt="" onclick="edit('.$data["id"].')">
-                                            </div>
-                                            <div class="right">
-                                                <img class="inlineImage" src="./libs/img/trash.png" alt="" onclick="showModalDelete('.$data["id"].')">
-                                            </div>                                        
-                                        </div>
-                                    </td>
-                                </tr>
-                            ';
-                    
+                    $rawData[$i] = $data;
+                    $i++;    
                 }
-                exit($response);
+                exit(json_encode($rawData));
             }
             else
-                
-                exit('reachedMax');
+                exit('reachedMax');   
         }
 
         // Departments Table

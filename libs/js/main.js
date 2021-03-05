@@ -62,17 +62,46 @@ function getExistingData() {
             key: 'getExistingData',
         },
         success: function(response) {
+            console.log(response)
             if(response != "reachedMax") {
                 $('#tbodyEmployees').empty()
-                $('#tbodyEmployees').append(response)
+                var rows = ""
                 
-                
+                for(var i = 0; i < response.length; i++) {
+                    rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td>" + response[i][3] + "</td><td>" + response[i][4] + "</td><td>" + response[i][6] + "</td>"
+                    rows += "<td><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'>"
+                    rows += "<img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'>"
+                    rows += "<img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></td></tr>"
+                }
+                $('#tbodyEmployees').append(rows)   
             }
-            
         }
 
     })
 }
+
+/*
+                                <tr>                                    
+                                    <td>'.$data["firstName"].'</td>
+                                    <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
+                                    <td class="one">'.$data["jobTitle"].'</td>
+                                    <td class="one">'.$data["email"].'</td>
+                                    <td class="two">'.$data["dname"].'</td>
+                                    <td>
+                                        <div class="containerTD">
+                                            <div class="left">
+                                                <img class="inlineImage" src="./libs/img/eye.png" alt="" onclick="readData('.$data["id"].')">
+                                            </div>
+                                            <div class="center">
+                                                <img class="inlineImage" src="./libs/img/pencil.png" alt="" onclick="edit('.$data["id"].')">
+                                            </div>
+                                            <div class="right">
+                                                <img class="inlineImage" src="./libs/img/trash.png" alt="" onclick="showModalDelete('.$data["id"].')">
+                                            </div>                                        
+                                        </div>
+                                    </td>
+                                </tr>
+*/
 
 function getExistingDataDep() {
     $.ajax({
