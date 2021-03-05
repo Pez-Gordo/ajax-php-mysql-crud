@@ -57,7 +57,7 @@ function getExistingData() {
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
-        dataType: 'text',
+        dataType: 'json',
         data: {
             key: 'getExistingData',
         },
@@ -65,7 +65,7 @@ function getExistingData() {
             if(response != "reachedMax") {
                 $('#tbodyEmployees').empty()
                 $('#tbodyEmployees').append(response)
-                //$(".table").DataTable()
+                
                 
             }
             
@@ -78,23 +78,35 @@ function getExistingDataDep() {
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
-        dataType: 'text',
+        dataType: 'json',
         data: {
             key: 'getExistingDataDep',
         },
         success: function(response) {
+            console.log(response)
             if(response != "reachedMax") {
                 $('#tbodyDepartments').empty()
-                $('#tbodyDepartments').append(response)
-                //$(".table").DataTable()
+                var rows = ""
                 
+                for(var i = 0; i < response.length; i++) {
+                    rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][3] + "</td>"
+                    rows += "<td><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></td></tr>"
+                }
+                $('#tbodyDepartments').append(rows)   
             }
-            
         }
 
     })
 }
-
+/*
+                                <tr>
+                                    <td>'.$data["dname"].'</td>
+                                    <td>'.$data["lname"].'</td>
+                                    <td>
+                                       <img src="./libs/img/trash.png" alt="" onclick="showModalDeleteDep('.$data["id"].')">
+                                    </td>
+                                </tr>
+*/
 function getExistingDataLoc() {
     $.ajax({
         url: './libs/php/ajax.php',

@@ -53,27 +53,17 @@
         if ($_POST['key'] == 'getExistingDataDep') {
             $sql = $conn->query("SELECT department.id, department.dname, department.locationID, location.lname FROM department LEFT JOIN location ON department.locationID = location.id ORDER BY department.dname ASC");
             if ($sql->num_rows > 0) {
-                $response = "";
-                
+                $rawData = array();
+                $i = 0;
                 while($data = $sql->fetch_array()) {
-                    
-                            $response .= '
-                                <tr>
-                                    <td>'.$data["dname"].'</td>
-                                    <td>'.$data["lname"].'</td>
-                                    <td>
-                                       <img src="./libs/img/trash.png" alt="" onclick="showModalDeleteDep('.$data["id"].')">
-                                    </td>
-                                </tr>
-                            ';
-                    
+                    $rawData[$i] = $data;
+                    $i++;    
                 }
-                exit($response);
+                exit(json_encode($rawData));
             }
             else
-                
-                exit('reachedMax');
-            
+                exit('reachedMax');                           
+                    
         }
 
         // Locations Table
