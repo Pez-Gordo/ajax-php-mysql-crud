@@ -2,6 +2,9 @@
 //var dTable = $('#tableDepartments')
 //var lTable = $('#tableLocations')
 
+var activeButton = "employees"
+
+
 $(document).ready(function() {
     $("#addNewEmployee").on('click', function() {
         buildDepartmentsSelect()
@@ -227,9 +230,14 @@ function manageData(key) {
                 rowID: editRowID.val()
             },
             success: function (response) {
-                showModalOpSucc()
-                //alert(response)  
-                getExistingDataDep()
+                if(response === "Department must be empty to be deleted") {
+                    showModalOpFail()
+                }
+                else {
+                    showModalOpSucc()
+                    getExistingDataDep()
+
+                }  
             }
         })
     } else if(key == "deleteLoc") {
@@ -245,10 +253,14 @@ function manageData(key) {
                 rowID: editRowID.val()
             },
             success: function (response) {
-                showModalOpSucc()
-                //alert(response)  
-                
-                getExistingDataLoc()
+                if(response === "Location must be free of Departments to be deleted") {
+                    showModalOpFail()
+                }
+                else {
+                    showModalOpSucc()
+                    getExistingDataLoc()
+
+                }  
             }
         })
     }
@@ -362,6 +374,14 @@ function showModalOpSucc() {
     $("#tableManagerOpSucc").modal('show')
 }
 
+function showModalOpFail() {
+    $("#tableManagerOpFail").modal("show")
+}
+
+function closeModalOpFail() {
+    $("#tableManagerOpFail").modal("hide")
+}
+
 function showModalUpdate() {
     $("#tableManagerUpdate").modal('show')
 }
@@ -470,6 +490,7 @@ document.getElementById("btnradio1").addEventListener("click", function() {
     $("#departmentsImg").attr("src", "./libs/img/departments.png")
     $("#locationsImg").attr("src", "./libs/img/locations.png")
     
+    activeButton = "employees"
 
     //dTable.fnDestroy();
     //lTable.fnDestroy();
@@ -491,6 +512,8 @@ document.getElementById("btnradio2").addEventListener("click", function() {
     $("#departmentsImg").attr("src", "./libs/img/departmentsSel.png")
     $("#locationsImg").attr("src", "./libs/img/locations.png")
 
+    activeButton = "departments"
+
   //oTable.fnDestroy();
   //lTable.fnDestroy();
   //dTable.dataTable();
@@ -511,10 +534,53 @@ document.getElementById("btnradio3").addEventListener("click", function() {
     $("#departmentsImg").attr("src", "./libs/img/departments.png")
     $("#locationsImg").attr("src", "./libs/img/locationsSel.png")
 
+    activeButton = "locations"
 
     //oTable.fnDestroy();
     //dTable.fnDestroy();
     //lTable.dataTable();
-  });
+});
 
-  
+
+function onHover(param)
+{   
+    if(param === "employees") {
+        $("#employeesImg").attr('src', './libs/img/employeesSel.png')
+    }
+    else if(param === "departments") {
+        $("#departmentsImg").attr('src', './libs/img/departmentsSel.png')
+    }
+    else if(param === "locations"){
+        $("#locationsImg").attr('src', './libs/img/locationsSel.png')
+    }
+
+}
+
+function offHover(param)
+{
+
+    if(param === "employees") {
+        if(activeButton === "employees") {
+            $("#employeesImg").attr('src', './libs/img/employeesSel.png')
+        } 
+        else {
+            $("#employeesImg").attr('src', './libs/img/employees.png');
+        }
+    }
+    else if(param === "departments") {
+        if(activeButton === "departments"){
+            $("#departmentsImg").attr('src', './libs/img/departmentsSel.png')
+        }
+        else {
+            $("#departmentsImg").attr('src', './libs/img/departments.png');
+        }
+    }
+    else if(param === "locations"){
+        if(activeButton === "locations"){
+            $("#locationsImg").attr('src', './libs/img/locationsSel.png')
+        }
+        else {
+            $("#locationsImg").attr('src', './libs/img/locations.png');
+        }
+    }
+}

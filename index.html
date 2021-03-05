@@ -99,9 +99,6 @@
                         <input type="text" class="form-control" placeholder="Employee Job Title..." id="employeeJobTitleRead" disabled><br>
                         <input type="text" class="form-control" placeholder="Employee Email..." id="employeeEmailRead" disabled><br>
                         <input type="text" class="form-control" id="departmentSelectRead" disabled>
-
-                        
-                        <!--<input type="hidden" id="editRowIDUpdate" value="0">-->
                     </div>
                     <div class="modal-footer">
                         <input type="button" id="manageBtnRead" onclick="closeModalRead()" value="Close" class="btn btn-primary">
@@ -211,7 +208,26 @@
             </div>
         </div>
 
-        <!-- Mother Container for tables 2900ff-->
+         <!-- Modal Operation Fail -->
+
+         <div id="tableManagerOpFail" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="bannerOpSucc">Operation Failed</h2>
+                    </div>
+                    <div class="modal-body">
+                        <h3 id="responseOpSuc">Instance must be emptied before deletion</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="manageBtnOpSuccClose" onclick="closeModalOpFail()" value="Close" class="btn btn-primary">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mother Container for tables -->
 
         <div class="row">
             <div id="motherTable" class="col-md-12 col-md-offset-2">
@@ -219,13 +235,13 @@
                 <div class="container-fluid" id="toggleTable">
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
-                        <label class="" for="btnradio1"><img src="./libs/img/employeesSel.png" id="employeesImg" alt=""></label>
+                        <label class="" for="btnradio1"><img src="./libs/img/employeesSel.png" onmouseover="onHover('employees')" onmouseout="offHover('employees')" id="employeesImg" alt=""></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                        <label class="" for="btnradio2"><img src="./libs/img/departments.png" id="departmentsImg" alt=""></label>
+                        <label class="" for="btnradio2"><img src="./libs/img/departments.png" onmouseover="onHover('departments')" onmouseout="offHover('departments')" id="departmentsImg" alt=""></label>
 
                         <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                        <label class="" for="btnradio3"><img src="./libs/img/locations.png" id="locationsImg" alt=""></label>
+                        <label class="" for="btnradio3"><img src="./libs/img/locations.png" onmouseover="onHover('locations')" onmouseout="offHover('locations')" id="locationsImg" alt=""></label>
                     </div>
                 </div>
             
