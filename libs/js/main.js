@@ -465,6 +465,12 @@ document.getElementById("btnradio1").addEventListener("click", function() {
     $('#addNewDepartment').hide()
     $('#addNewLocation').hide()
     $('#addNewEmployee').show()
+
+    $("#employeesImg").attr("src", "./libs/img/employeesSel.png")
+    $("#departmentsImg").attr("src", "./libs/img/departments.png")
+    $("#locationsImg").attr("src", "./libs/img/locations.png")
+    
+
     //dTable.fnDestroy();
     //lTable.fnDestroy();
     //oTable.dataTable();
@@ -480,6 +486,11 @@ document.getElementById("btnradio2").addEventListener("click", function() {
   $('#addNewDepartment').show()
   $('#addNewLocation').hide()
   $('#addNewEmployee').hide()
+
+    $("#employeesImg").attr("src", "./libs/img/employees.png")
+    $("#departmentsImg").attr("src", "./libs/img/departmentsSel.png")
+    $("#locationsImg").attr("src", "./libs/img/locations.png")
+
   //oTable.fnDestroy();
   //lTable.fnDestroy();
   //dTable.dataTable();
@@ -495,6 +506,12 @@ document.getElementById("btnradio3").addEventListener("click", function() {
     $('#addNewDepartment').hide()
     $('#addNewLocation').show()
     $('#addNewEmployee').hide()
+
+    $("#employeesImg").attr("src", "./libs/img/employees.png")
+    $("#departmentsImg").attr("src", "./libs/img/departments.png")
+    $("#locationsImg").attr("src", "./libs/img/locationsSel.png")
+
+
     //oTable.fnDestroy();
     //dTable.fnDestroy();
     //lTable.dataTable();
