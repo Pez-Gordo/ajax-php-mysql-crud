@@ -342,17 +342,21 @@ function buildLocationsSelect() {
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
-        dataType: 'text',
+        dataType: 'json',
         data: {
             key: 'buildLocationsSelect',
         },
         success: function(response) {
-            if(response != "reachedMax3") {
-                //$('#locationSelect').append("<option selected value='DEFAULT'>Select Department</option>")
-
-                    $('#locationSelect').append(response)
-                    //$('#locationsSelectUpdate').append(response)
+            console.log("locationSelect", response)
+            if(response != "reachedMax") {
+                $('#locationSelect').empty()
+                var rows = "<option selected value='DEFAULT'>Select Location</option>"
+                
+                for(var i = 0; i < response.length; i++) {
+                    rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"                    
                 }
+                $('#locationSelect').append(rows)   
+            }
         }
     })
 }
@@ -531,22 +535,21 @@ document.getElementById("btnradio1").addEventListener("click", function() {
   });
 
 document.getElementById("btnradio2").addEventListener("click", function() {
-  $('#tableEmployees').hide()
-  $('#tableLocations').hide()
+    $('#tableEmployees').hide()
+    $('#tableLocations').hide()
   /*
   $('#motherTable').removeClass("col-md-12 col-md-offset-2")
   $('#motherTable').removeClass("col-md-8 col-md-offset-6")
   $('#motherTable').addClass("col-md-10 col-md-offset-4")
   */
-  $('#tableDepartments').show()
-  $('#addNewDepartment').show()
-  $('#addNewLocation').hide()
-  $('#addNewEmployee').hide()
+    $('#tableDepartments').show()
+    $('#addNewDepartment').show()
+    $('#addNewLocation').hide()
+    $('#addNewEmployee').hide()
 
     $("#employeesImg").attr("src", "./libs/img/employees.png")
     $("#departmentsImg").attr("src", "./libs/img/departmentsSel.png")
-    $("#locationsImg").attr("src", "./libs/img/locations.png")
-
+    $("#locationsImg").attr("src", "./libs/img/locations.png")  
     activeButton = "departments"
 
   //oTable.fnDestroy();
@@ -578,6 +581,8 @@ document.getElementById("btnradio3").addEventListener("click", function() {
     //lTable.dataTable();
 });
 
+
+// Functions to manage hover changing styles
 
 function onHover(param)
 {   

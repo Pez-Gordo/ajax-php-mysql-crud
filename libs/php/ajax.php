@@ -163,6 +163,17 @@
         if ($_POST['key'] == 'buildLocationsSelect') {
             $sql = $conn->query("SELECT location.id, location.lname FROM location ORDER BY location.lname ASC");
             if($sql->num_rows > 0) {
+                $rawData = array();
+                $i = 0;
+                while($data = $sql->fetch_array()) {
+                    $rawData[$i] = $data;
+                    $i++;    
+                }
+                exit(json_encode($rawData));
+            }
+            else
+                exit('reachedMax');
+                /*
                 $response = "<option selected value='DEFAULT'>Select Location</option>";
                 while($data = $sql->fetch_array()) {
                     $response .= '<option value='.$data["id"].'>'.$data["lname"].'</option>';
@@ -170,7 +181,9 @@
                 exit($response);
             }
             else
-                exit('reachedMax3');
+                exit('reachedMax');
+                */
+
         }
 
     }        
