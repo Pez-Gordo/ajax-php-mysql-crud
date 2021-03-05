@@ -19,7 +19,7 @@
 }
 
 .containerTD > div {
-    
+    min-width: 160;
     max-height: 64px;
 
 }
