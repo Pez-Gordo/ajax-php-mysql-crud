@@ -80,27 +80,18 @@
 
         if ($_POST['key'] == 'getExistingDataLoc') {
             $sql = $conn->query("SELECT location.id, location.lname FROM location ORDER BY location.lname ASC");
-            if ($sql->num_rows > 0) {
-                $response = "";
-                
+            
+            if ($sql->num_rows > 0) {                
+                $rawData = array();
+                $i = 0;
                 while($data = $sql->fetch_array()) {
-                    
-                            $response .= '
-                                <tr>
-                                    <td>'.$data["lname"].'</td>                                    
-                                    <td>
-                                        <img src="./libs/img/trash.png" alt="" onclick="showModalDeleteLoc('.$data["id"].')">
-                                    </td>
-                                </tr>
-                            ';
-                    
+                    $rawData[$i] = $data;
+                    $i++;    
                 }
-                exit($response);
+                exit(json_encode($rawData));
             }
             else
-                
                 exit('reachedMax');
-            
         }
     
 

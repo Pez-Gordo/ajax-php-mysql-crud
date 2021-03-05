@@ -99,18 +99,23 @@ function getExistingDataLoc() {
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
-        dataType: 'text',
+        dataType: 'json',
         data: {
             key: 'getExistingDataLoc',
         },
         success: function(response) {
+            
+            console.log(response)
             if(response != "reachedMax") {
                 $('#tbodyLocations').empty()
-                $('#tbodyLocations').append(response)
-                //$(".table").DataTable()
+                var rows = ""
                 
+                for(var i = 0; i < response.length; i++) {
+                    rows += "<tr><td>" + response[i][1] + "</td>"
+                    rows += "<td><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></td></tr>"
+                }
+                $('#tbodyLocations').append(rows)   
             }
-            
         }
 
     })
