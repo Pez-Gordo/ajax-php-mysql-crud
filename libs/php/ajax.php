@@ -5,8 +5,6 @@
         // connection to database
         $conn = new mysqli('localhost', 'root', 'my*8-9+6POiusql', 'companydirectory');
 
-        // Rendering HTML 
-
         // Employees Table
 
         if($_POST['key'] == 'getExistingData') {
@@ -61,13 +59,14 @@
                 exit('reachedMax');
         }
     
-
         $name = $conn->real_escape_string($_POST['name']);
         $surname = $conn->real_escape_string($_POST['surname']);
         $jobTitle = $conn->real_escape_string($_POST['jobTitle']);
         $email = $conn->real_escape_string($_POST['email']);
         $department = $conn->real_escape_string($_POST['department']);
         $location = $conn->real_escape_string($_POST['location']);
+
+        // create employee
 
         if($_POST['key'] == 'addNew') {
             $sql = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
@@ -79,19 +78,23 @@
             }
         }
 
+        // create new department
+
         if($_POST['key'] == 'addNewDep') {
             
             $conn->query("INSERT INTO department (dname, locationID) VALUES ('$name', '$location')");
             exit('New department has been inserted');
-            
         }
+
+        // create new location
 
         if($_POST['key'] == 'addNewLoc') {
             
             $conn->query("INSERT INTO location (lname) VALUES ('$name')");
             exit('New location has been inserted');
-            
         }
+
+        // get row data for read modal and update modal
 
         if ($_POST['key'] == 'getRowData') {
             $rowID = $conn->real_escape_string($_POST['rowID']);
@@ -107,21 +110,24 @@
             exit(json_encode($jsonArray));
         }
 
+        // update employee
+
         if ($_POST['key'] == 'update') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
 
             $conn->query("UPDATE personnel SET personnel.firstName = '$name', personnel.lastName = '$surname', personnel.jobTitle = '$jobTitle', personnel.email = '$email', personnel.departmentID = '$department' WHERE personnel.id = '$rowID'");
                 exit;
-            
-                
         }
+
+        // delete employee
         
         if ($_POST['key'] == 'delete') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
 
-            $conn->query("DELETE FROM personnel WHERE personnel.id = '$rowID'");
-                    
+            $conn->query("DELETE FROM personnel WHERE personnel.id = '$rowID'");     
         }
+
+        // delete department
 
         if ($_POST['key'] == 'deleteDep') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
@@ -135,6 +141,8 @@
             }
         }
 
+        // delete location
+
         if ($_POST['key'] == 'deleteLoc') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
             $isLocEmpty = $conn->query("SELECT * FROM department WHERE department.locationID = '$rowID'");
@@ -147,18 +155,24 @@
             }
         }
 
+        // build departments select
+
         if ($_POST['key'] == 'buildDepartmentsSelect') {
             $sql = $conn->query("SELECT id, dname FROM department ORDER BY dname ASC");
             if($sql->num_rows > 0) {
-                $response = "<option selected value='DEFAULT'>Select Department</option>";
+                $rawData = array();
+                $i = 0;
                 while($data = $sql->fetch_array()) {
-                    $response .= '<option value='.$data["id"].'>'.$data["dname"].'</option>';
+                    $rawData[$i] = $data;
+                    $i++;    
                 }
-                exit($response);
+                exit(json_encode($rawData));
             }
             else
-                exit('reachedMax2');
+                exit('reachedMax');
         }
+
+        // build locations select
 
         if ($_POST['key'] == 'buildLocationsSelect') {
             $sql = $conn->query("SELECT location.id, location.lname FROM location ORDER BY location.lname ASC");
@@ -173,20 +187,6 @@
             }
             else
                 exit('reachedMax');
-                /*
-                $response = "<option selected value='DEFAULT'>Select Location</option>";
-                while($data = $sql->fetch_array()) {
-                    $response .= '<option value='.$data["id"].'>'.$data["lname"].'</option>';
-                }
-                exit($response);
-            }
-            else
-                exit('reachedMax');
-                */
-
         }
-
     }        
-
-
 ?>

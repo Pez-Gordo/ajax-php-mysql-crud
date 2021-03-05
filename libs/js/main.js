@@ -37,6 +37,7 @@ function edit(rowID) {
             rowID: rowID
         },
         success: function (response) {
+            console.log("updateData", response)
             $("#editRowIDUpdate").val(rowID)
             $("#employeeNameUpdate").val(response.employeeName)
             $("#employeeSurnameUpdate").val(response.employeeSurname)
@@ -62,7 +63,7 @@ function getExistingData() {
             key: 'getExistingData',
         },
         success: function(response) {
-            console.log(response)
+            console.log("employeesTable",response)
             if(response != "reachedMax") {
                 $('#tbodyEmployees').empty()
                 var rows = ""
@@ -89,7 +90,7 @@ function getExistingDataDep() {
             key: 'getExistingDataDep',
         },
         success: function(response) {
-            console.log(response)
+            console.log("departmentsTable", response)
             if(response != "reachedMax") {
                 $('#tbodyDepartments').empty()
                 var rows = ""
@@ -115,7 +116,7 @@ function getExistingDataLoc() {
         },
         success: function(response) {
             
-            console.log(response)
+            console.log("LocationsTable", response)
             if(response != "reachedMax") {
                 $('#tbodyLocations').empty()
                 var rows = ""
@@ -143,7 +144,7 @@ function manageData(key) {
         name = $("#locationName")
         
         editRowIDLoc = $('#editRowIDLocation')
-        //closeModalCreateDep()
+      
         if(isNotEmpty(name)) {
             $.ajax({
                 url: './libs/php/ajax.php',
@@ -156,20 +157,20 @@ function manageData(key) {
                 },
                 success: function (response) {
                     closeModalCreateLoc()
-                    $('#responseOpSuc').innerText = response
                     showModalOpSucc() 
-                    //$("#tableManagerOpSucc").modal('show')
-                    //alert(response)  
                     getExistingDataLoc()
                 }
             })
+        }
+        else {
+            showModalOpFailFill()
         }
     
     }  else if(key == "addNewDep") {
         name = $("#departmentName")
         location = $('#locationSelect')
         editRowIDDep = $('#editRowIDDepartment')
-        //closeModalCreateDep()
+
         if(isNotEmpty(name) && location.val() !== "DEFAULT") {
             $.ajax({
                 url: './libs/php/ajax.php',
@@ -183,13 +184,14 @@ function manageData(key) {
                 },
                 success: function (response) {
                     closeModalCreateDep()
-                    $('#responseOpSuc').innerText = response
+                    //$('#responseOpSuc').innerText = response
                     showModalOpSucc() 
-                    //$("#tableManagerOpSucc").modal('show')
-                    //alert(response)  
                     getExistingDataDep()
                 }
             })
+        }
+        else {
+            showModalOpFailFill() 
         }
 
     } else if(key == "addNew"){
@@ -325,15 +327,23 @@ function buildDepartmentsSelect() {
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
-        dataType: 'text',
+        dataType: 'json',
         data: {
             key: 'buildDepartmentsSelect',
         },
         success: function(response) {
-            if(response != "reachedMax2") {
-                    $('#departmentSelect').append(response)
-                    $('#departmentSelectUpdate').append(response)
+            console.log("departmentsSelect", response)
+            if(response != "reachedMax") {
+                $('#departmentSelect').empty()
+                var rows = "<option selected value='DEFAULT'>Select Department</option>"
+                
+                for(var i = 0; i < response.length; i++) {
+                    rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"                    
                 }
+                $('#departmentSelect').append(rows)   
+                $('#departmentSelectUpdate').append(rows)   
+              
+            }
         }
     })
 }
@@ -462,7 +472,7 @@ function readData(rowID) {
             rowID: rowID
         },
         success: function (response) {
-        
+            
             $("#employeeNameRead").val(response.employeeName)
             $("#employeeSurnameRead").val(response.employeeSurname)
             $("#employeeJobTitleRead").val(response.employeeJobTitle)
