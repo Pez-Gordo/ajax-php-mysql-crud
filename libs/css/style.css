@@ -1,6 +1,6 @@
 /*===== BASE =====*/
 *,::before,::after{
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
   }
   html{
     scroll-behavior: smooth;
@@ -12,24 +12,13 @@
     }
 }
 
-#colLeft {
-    display: inline;
-    float: left;
-    overflow: none;
-    white-space: nowrap;
-
+@media only screen and (max-width: 500px) {
+    .two{
+        display: none;
+    }
 }
-#colCenter {
-  float: left;
-  display: inline;
-  overflow: none;
-  white-space: nowrap;
-}
-#colRight {
-  display: inline;
-  float: left;
-  overflow: none;
-  white-space: nowrap;
 
 
-}
+
+
+

@@ -351,6 +351,10 @@ function closeModalRead() {
     $("#tableManagerRead").modal('hide')
 }
 
+function showModalRead() {
+    $("#tableManagerRead").modal('show')
+}
+
 function closeModalCreate() {
     $("#tableManager").modal('hide')
 }
@@ -446,10 +450,10 @@ function readData(rowID) {
             $("#employeeSurnameRead").val(response.employeeSurname)
             $("#employeeJobTitleRead").val(response.employeeJobTitle)
             $("#employeeEmailRead").val(response.employeeEmail)
-            
             $("#departmentSelectRead").val(response.departmentSelect)
             
-            $("#tableManagerRead").modal('show')
+            showModalRead()
+            //$("#tableManagerRead").modal('show')
             //console.log(response.departmentSelect)
         }
 

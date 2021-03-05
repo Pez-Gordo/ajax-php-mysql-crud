@@ -23,19 +23,17 @@
                                     <td id="surname_'.$data["id"].'">'.$data["lastName"].'</td>
                                     <td class="one">'.$data["jobTitle"].'</td>
                                     <td class="one">'.$data["email"].'</td>
-                                    <td>'.$data["dname"].'</td>
+                                    <td class="two">'.$data["dname"].'</td>
                                     <td>
-                                        <nav>
-                                            <div id="colLeft">
+                                            <div id="colLeft" class="blockButtons">
                                                 <img class="inlineImage" src="./libs/img/eye.png" alt="" onclick="readData('.$data["id"].')">
                                             </div>
-                                            <div id="colCenter">
+                                            <div id="colCenter" class="blockButtons">
                                                 <img class="inlineImage" src="./libs/img/pencil.png" alt="" onclick="edit('.$data["id"].')">
                                             </div>
-                                            <div id="colRight">
+                                            <div id="colRight" class="blockButtons">
                                                 <img class="inlineImage" src="./libs/img/trash.png" alt="" onclick="showModalDelete('.$data["id"].')">
-                                            </div>
-                                        </nav>
+                                            </div>                                        
                                     </td>
                                 </tr>
                             ';
