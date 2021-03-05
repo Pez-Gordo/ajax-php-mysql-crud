@@ -18,7 +18,13 @@
     }
 }
 
+.containerTD > div {
+    
+    max-height: 64px;
 
+}
 
-
-
+.containerTD {
+    display: flex;
+    justify-content: space-between;
+}

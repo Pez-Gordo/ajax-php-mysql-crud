@@ -25,15 +25,17 @@
                                     <td class="one">'.$data["email"].'</td>
                                     <td class="two">'.$data["dname"].'</td>
                                     <td>
-                                            <div id="colLeft" class="blockButtons">
+                                        <div class="containerTD">
+                                            <div class="left">
                                                 <img class="inlineImage" src="./libs/img/eye.png" alt="" onclick="readData('.$data["id"].')">
                                             </div>
-                                            <div id="colCenter" class="blockButtons">
+                                            <div class="center">
                                                 <img class="inlineImage" src="./libs/img/pencil.png" alt="" onclick="edit('.$data["id"].')">
                                             </div>
-                                            <div id="colRight" class="blockButtons">
+                                            <div class="right">
                                                 <img class="inlineImage" src="./libs/img/trash.png" alt="" onclick="showModalDelete('.$data["id"].')">
                                             </div>                                        
+                                        </div>
                                     </td>
                                 </tr>
                             ';
