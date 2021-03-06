@@ -298,37 +298,54 @@ function manageData(key) {
 
     if(key != "delete" && key != "addNewDep" && key != "addNewLoc" && key != "deleteDep" && key != "deleteLoc"){
         if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
-            console.log(department.val())
             $.ajax({
                 url: './libs/php/ajax.php',
                 method: 'POST',
-                dataType: 'text',
+                dataType: 'json',
                 data: {
-                    key: key,
-                    name: name.val(),
-                    surname: surname.val(),
-                    jobTitle: jobTitle.val(),
-                    email: email.val(),
-                    department: department.val(),
-                    rowID: editRowID.val()
+                    key: 'check',
+                    emaile: email.val()
                 },
-                success: function (response) {
-                    if(response != 1){
-                        showModalOpSucc() 
-                        var searchText = $("#search").val()
-                        if(searchText != ""){
-                            querySearch(searchText)
-                        }
-                        else{
-                            getExistingData()
-                        }
+                success: function(response) {
+                    console.log("<<<<------>>>>", response)
+                    if(response.length != 0) {
+                        //alert("Email existe")
+                        showModalOpFailEmail()
                     }
                     else {
-                        //$("#responseOpFail").innerText = "Email already exist"
-                        showModalOpFailEmail()
+                        //alert("añadiendo registro")
+                        $.ajax({
+                            url: './libs/php/ajax.php',
+                            method: 'POST',
+                            dataType: 'text',
+                            data: {
+                                key: key,
+                                name: name.val(),
+                                surname: surname.val(),
+                                jobTitle: jobTitle.val(),
+                                email: email.val(),
+                                department: department.val(),
+                                rowID: editRowID.val()
+                            },
+                            success: function () {
+                                
+                                showModalOpSucc() 
+                                var searchText = $("#search").val()
+                                if(searchText != ""){
+                                    querySearch(searchText)
+                                }
+                                else{
+                                    getExistingData()
+                                }
+                            },
+                                
+                            
+                        })
                     }
                 }
             })
+            
+            
         } else {
             showModalOpFailFill()
         }
@@ -458,11 +475,11 @@ function showModalUpdate() {
 }
 
 function showModalOpFailEmail() {
-    $("#tableManagerFailEmail").modal('show')
+    $("#tableManagerOpFailEmail").modal('show')
 }
 
-function closeModalFailEmail() {
-    $('#tableManagerFailEmail').modal('hide')
+function closeModalOpFailEmail() {
+    $('#tableManagerOpFailEmail').modal('hide')
 }
 
 
@@ -491,6 +508,11 @@ function closeModalDelete() {
     $("#tableManagerDelete").modal('hide')
     $("#tableManagerDeleteDep").modal('hide')
     $("#tableManagerDeleteLoc").modal('hide')
+}
+
+function todos() {
+    closeModalOpFailEmail()
+    showModalUpdate()
 }
 
 function readData(rowID) {

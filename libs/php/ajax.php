@@ -117,15 +117,31 @@
         if ($_POST['key'] == 'update') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
             
-            $email = $_POST['email'];
-            $result = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
-            if($result->rowCount > 0){
-                exit(1);
+            $conn->query("UPDATE personnel SET personnel.firstName = '$name', personnel.lastName = '$surname', personnel.jobTitle = '$jobTitle', personnel.email = '$email', personnel.departmentID = '$department' WHERE personnel.id = '$rowID'");
+            
+            exit;
+        }
+
+        if ($_POST['key'] == 'check') {
+            //$email = $conn->real_escape_string($_POST['emaile']);
+            $email = $_POST['emaile'];
+            $result = $conn->query("SELECT * FROM personnel WHERE email LIKE '$email'");
+            $rawData = array();
+                $i = 0;
+                while($data = $result->fetch_array()) {
+                    $rawData[$i] = $data;
+                    $i++;    
+                }
+                exit(json_encode($rawData));
+            //exit(json_encode($result));
+            /*
+            if ($result->num_rows > 0) {
+                exit(10);
             }
             else {
-                $conn->query("UPDATE personnel SET personnel.firstName = '$name', personnel.lastName = '$surname', personnel.jobTitle = '$jobTitle', personnel.email = '$email', personnel.departmentID = '$department' WHERE personnel.id = '$rowID'");
+                exit(5);
             }
-            exit;
+            */
         }
 
         // delete employee
