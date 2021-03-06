@@ -191,9 +191,9 @@
         }
 
         // // implementing search input
-/*
+
         if($_POST['key'] == 'querySearch') {
-            $inputSearch = $_POST['inputSearch'];
+            //$inputSearch = $_POST['inputSearch'];
             $query = $_POST['query'];
             
             $sql = $conn->query($query);
@@ -209,8 +209,7 @@
                 exit(json_encode($rawData));
             }
             else
-                exit('reachedMax');
-        }*/
-
+                exit(json_encode($sql));
+        }
     }        
 ?>

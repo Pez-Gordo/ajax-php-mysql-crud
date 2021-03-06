@@ -6,25 +6,45 @@
     scroll-behavior: smooth;
   }
   
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 478px) {
     .one{
         display: none;
     }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 564px) {
     .two{
         display: none;
     }
 }
 
+@media only screen and (max-width: 638px) {
+    .three{
+        display: none;
+    }
+}
+
 .containerTD > div {
-    min-width: 160;
-    max-height: 64px;
+   max-width: 152px;
+   max-height: 64px;
 
 }
 
 .containerTD {
     display: flex;
+    justify-content: center;
+}
+
+#search {
+    max-width: 250px;
+}
+
+.containerHead > div {
+
+}
+
+.containerHead {
+    display: flex;
     justify-content: space-between;
+
 }

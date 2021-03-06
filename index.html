@@ -265,17 +265,22 @@
                     </div>
                 </div>
                 
-                <nav class="createButtons">
-                    <!-- implementing search input --> 
-                    <!--<input type="text" class="form-control" placeholder="Search" id="search" autofocus>
-                    <input style="float: left" type="text" id="search" onkeyup="querySearch()" autofocus>-->
+                <div class="containerHead">             
+                    
+                    <!-- implementing search input -->
+                    <div>
+                        <input type="text" class="form-control" placeholder="Search" id="search" autofocus>
+                    </div>
+
+                    <div>
+                        <button style="float: right" id="addNewEmployee" class="btn"><img src="./libs/img/plus.png" alt=""></button>
+                        <button style="float: right" id="addNewDepartment" class="btn"><img src="./libs/img/plus.png" alt=""></button>
+                        <button style="float: right" id="addNewLocation" class="btn"><img src="./libs/img/plus.png" alt=""></button>
+                    </div>
+
                     
 
-                    <button style="float: right" id="addNewEmployee" class="btn"><img src="./libs/img/plus.png" alt=""></button>
-                    <button style="float: right" id="addNewDepartment" class="btn"><img src="./libs/img/plus.png" alt=""></button>
-                    <button style="float: right" id="addNewLocation" class="btn"><img src="./libs/img/plus.png" alt=""></button>
-
-                </nav>
+                </div>
 
                 <!-- Employees Table -->
                 <table id="tableEmployees" class="table table-hover table-bordered">
@@ -284,8 +289,8 @@
                             <th>Name</th>
                             <th>Surname</th>
                             <th class="one">Job Title</th>
-                            <th class="one">Email</th>
-                            <th class="two">Department</th>
+                            <th class="two">Email</th>
+                            <th class="three">Department</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

@@ -16,6 +16,31 @@ $(document).ready(function() {
     getExistingData()
     getExistingDataDep()
     getExistingDataLoc()
+    
+    
+
+    $("#search").on('keyup', function() {
+        var inputText = $('#search').val()
+        console.log(inputText)
+        setTimeout(querySearch(inputText), 200)
+    })
+
+/*    $("#resetButton").on('click', function() {
+        $('#search').value = ""
+        var inputText = $('#search').val()
+
+        //console.log(inputText)
+        setTimeout(querySearch(inputText), 200)
+    })
+
+
+    $("#searchButton").on('click', function() {
+        var inputText = $('#search').val()
+        //console.log(inputText)
+        querySearch(inputText)
+    
+    })
+  */  
 })
 
 function edit(rowID) {
@@ -36,10 +61,6 @@ function edit(rowID) {
             $("#employeeEmailUpdate").val(response.employeeEmail)
             $("#editRowIDUpdate2").val(response.departmentID)
             buildDepartmentsSelect(response.departmentID)
-            
-            // code to change the preselected option here...
-            
-
             showModalUpdate()
             console.log(response.departmentSelect)
         }
@@ -62,7 +83,7 @@ function getExistingData() {
                 var rows = ""
                 
                 for(var i = 0; i < response.length; i++) {
-                    rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='one'>" + response[i][4] + "</td><td class='two'>" + response[i][6] + "</td>"
+                    rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='two'>" + response[i][4] + "</td><td class='three'>" + response[i][6] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></div></td></tr>"
@@ -89,7 +110,7 @@ function getExistingDataDep() {
                 
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][3] + "</td>"
-                    rows += "<td><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></td></tr>"
+                    rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyDepartments').append(rows)   
             }
@@ -115,7 +136,7 @@ function getExistingDataLoc() {
                 
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td>"
-                    rows += "<td><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></td></tr>"
+                    rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyLocations').append(rows)   
             }
@@ -559,18 +580,27 @@ function offHover(param)
 }
 
 
+
+
+
 // implementing search input
-/*
-function querySearch() {
-    var searchInput = $("#search").val()
-    var query = "SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id WHERE personnel.lastName LIKE %"+searchInput+"% ORDER BY lastName ASC"
+
+function querySearch(text) {
+    //var text = $("#search").val()
+    textKeyword = text + "%"
+    console.log(text)
+    
+    //var query = `SELECT * FROM personnel WHERE lastName LIKE '${textKeyword}'`
+    //var query = "SELECT * FROM personnel WHERE id < 15"
+
+    console.log(query)
+    var query = `SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id WHERE personnel.lastName LIKE '${textKeyword}' ORDER BY lastName ASC`
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
         dataType: 'json',
         data: {
             key: 'querySearch',
-            searchInput: searchInput,
             query: query 
         },
         success: function (response) {
@@ -587,10 +617,14 @@ function querySearch() {
                 }
                 $('#tbodyEmployees').append(rows)   
             }
+            else {
+                $('#tbodyEmployees').empty()
+                alert("No matches found")
+
+            }
         }
     })
 }
 
-$("#search").keypress(querySearch())
 
-*/
+
