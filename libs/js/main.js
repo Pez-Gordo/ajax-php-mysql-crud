@@ -312,14 +312,20 @@ function manageData(key) {
                     department: department.val(),
                     rowID: editRowID.val()
                 },
-                success: function () {
-                    showModalOpSucc() 
-                    var searchText = $("#search").val()
-                    if(searchText != ""){
-                        querySearch(searchText)
+                success: function (response) {
+                    if(response != 1){
+                        showModalOpSucc() 
+                        var searchText = $("#search").val()
+                        if(searchText != ""){
+                            querySearch(searchText)
+                        }
+                        else{
+                            getExistingData()
+                        }
                     }
-                    else{
-                        getExistingData()
+                    else {
+                        //$("#responseOpFail").innerText = "Email already exist"
+                        showModalOpFailEmail()
                     }
                 }
             })
@@ -450,6 +456,15 @@ function closeModalOpFailFill() {
 function showModalUpdate() {
     $("#tableManagerUpdate").modal('show')
 }
+
+function showModalOpFailEmail() {
+    $("#tableManagerFailEmail").modal('show')
+}
+
+function closeModalFailEmail() {
+    $('#tableManagerFailEmail').modal('hide')
+}
+
 
 function showModalDelete(rowID) {
     $("#tableManagerDelete").modal('show')

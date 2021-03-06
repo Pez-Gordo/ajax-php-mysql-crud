@@ -69,9 +69,10 @@
         // create employee
 
         if($_POST['key'] == 'addNew') {
+            $email = $_POST['email'];
             $sql = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
             if($sql->num_rows > 0)
-                exit("Employee with this email already exist");
+                exit(1);
             else {
                 $conn->query("INSERT INTO personnel (firstName, lastName, jobTitle, email, departmentID) VALUES ('$name', '$surname', '$jobTitle', '$email', '$department')");
                 exit('Employee has been inserted');
@@ -115,9 +116,16 @@
 
         if ($_POST['key'] == 'update') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
-
-            $conn->query("UPDATE personnel SET personnel.firstName = '$name', personnel.lastName = '$surname', personnel.jobTitle = '$jobTitle', personnel.email = '$email', personnel.departmentID = '$department' WHERE personnel.id = '$rowID'");
-                exit;
+            
+            $email = $_POST['email'];
+            $result = $conn->query("SELECT id FROM personnel WHERE email = '$email'");
+            if($result->rowCount > 0){
+                exit(1);
+            }
+            else {
+                $conn->query("UPDATE personnel SET personnel.firstName = '$name', personnel.lastName = '$surname', personnel.jobTitle = '$jobTitle', personnel.email = '$email', personnel.departmentID = '$department' WHERE personnel.id = '$rowID'");
+            }
+            exit;
         }
 
         // delete employee
