@@ -86,7 +86,7 @@ function getExistingData() {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='two'>" + response[i][4] + "</td><td class='three'>" + response[i][6] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
-                    rows += "<div><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></div></td></tr>"
+                    rows += "<div><img src='./libs/img/trash.png' onclick='showModalDelete(" + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyEmployees').append(rows)   
             }
@@ -238,8 +238,13 @@ function manageData(key) {
                 rowID: editRowID.val()
             },
             success: function (response) {
-                showModalOpSucc()
-                getExistingData()
+                var searchText = $("#search").val()
+                if(searchText != ""){
+                    querySearch(searchText)
+                }
+                else{
+                    getExistingData()
+                }
             }
         })
     } else if(key == "deleteDep") {
@@ -309,7 +314,13 @@ function manageData(key) {
                 },
                 success: function () {
                     showModalOpSucc() 
-                    getExistingData()
+                    var searchText = $("#search").val()
+                    if(searchText != ""){
+                        querySearch(searchText)
+                    }
+                    else{
+                        getExistingData()
+                    }
                 }
             })
         } else {
@@ -409,7 +420,7 @@ function closeModalCreateLoc() {
 
 function closeModalUpdate() {
     $("#tableManagerUpdate").modal('hide')
-    getExistingData()
+    
 }
 
 function closeModalOpSucc() {
@@ -504,7 +515,8 @@ document.getElementById("btnradio1").addEventListener("click", function() {
     $("#employeesImg").attr("src", "./libs/img/employeesSel.png")
     $("#departmentsImg").attr("src", "./libs/img/departments.png")
     $("#locationsImg").attr("src", "./libs/img/locations.png")
-    
+    $("#search").show()
+
     activeButton = "employees"
   });
 
@@ -518,7 +530,7 @@ document.getElementById("btnradio2").addEventListener("click", function() {
     $("#employeesImg").attr("src", "./libs/img/employees.png")
     $("#departmentsImg").attr("src", "./libs/img/departmentsSel.png")
     $("#locationsImg").attr("src", "./libs/img/locations.png")  
-    
+    $("#search").hide()
     activeButton = "departments"
 });
 
@@ -532,6 +544,7 @@ document.getElementById("btnradio3").addEventListener("click", function() {
     $("#employeesImg").attr("src", "./libs/img/employees.png")
     $("#departmentsImg").attr("src", "./libs/img/departments.png")
     $("#locationsImg").attr("src", "./libs/img/locationsSel.png")
+    $("#search").hide()
 
     activeButton = "locations"
 });
@@ -613,7 +626,7 @@ function querySearch(text) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='one'>" + response[i][4] + "</td><td class='two'>" + response[i][6] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
-                    rows += "<div><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></div></td></tr>"
+                    rows += "<div><img src='./libs/img/trash.png' onclick='showModalDelete(" + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyEmployees').append(rows)   
             }
