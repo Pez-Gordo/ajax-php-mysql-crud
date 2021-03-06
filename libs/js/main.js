@@ -34,8 +34,12 @@ function edit(rowID) {
             $("#employeeSurnameUpdate").val(response.employeeSurname)
             $("#employeeJobTitleUpdate").val(response.employeeJobTitle)
             $("#employeeEmailUpdate").val(response.employeeEmail)
-            buildDepartmentsSelect(rowID)
-            $("#departmentSelectUpdate").val(response.departmentSelect)
+            $("#editRowIDUpdate2").val(response.departmentID)
+            buildDepartmentsSelect(response.departmentID)
+            
+            // code to change the preselected option here...
+            
+
             showModalUpdate()
             console.log(response.departmentSelect)
         }
@@ -230,7 +234,7 @@ function manageData(key) {
                 rowID: editRowID.val()
             },
             success: function (response) {
-                if(response === "Department must be empty to be deleted") {
+                if(response == "Fail") {
                     showModalOpFail()
                 }
                 else {
@@ -253,7 +257,8 @@ function manageData(key) {
                 rowID: editRowID.val()
             },
             success: function (response) {
-                if(response === "Location must be free of Departments to be deleted") {
+                console.log("<-------------- %%%%%% ---------------->",response)
+                if(response == "Fail") {
                     showModalOpFail()
                 }
                 else {
@@ -303,7 +308,7 @@ function isNotEmpty(caller) {
     return true
 }
 
-function buildDepartmentsSelect() {
+function buildDepartmentsSelect(depID) {
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
@@ -315,11 +320,17 @@ function buildDepartmentsSelect() {
             console.log("departmentsSelect", response)
             if(response != "reachedMax") {
                 $('#departmentSelect').empty()
-                var rows = "<option selected value='DEFAULT'>Select Department</option>"
+                var rows = "<option>Select Department</option>"
                 
                 for(var i = 0; i < response.length; i++) {
-                    rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"                    
+                    if(response[i][0] == depID) {
+                        rows += "<option value=" + response[i][0] + " selected>" + response[i][1] + "</option>"
+                    }
+                    else {
+                        rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"                    
+                    }
                 }
+                    
                 $('#departmentSelect').append(rows)   
                 $('#departmentSelectUpdate').append(rows)              
             }
@@ -546,3 +557,40 @@ function offHover(param)
         }
     }
 }
+
+
+// implementing search input
+/*
+function querySearch() {
+    var searchInput = $("#search").val()
+    var query = "SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id WHERE personnel.lastName LIKE %"+searchInput+"% ORDER BY lastName ASC"
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            key: 'querySearch',
+            searchInput: searchInput,
+            query: query 
+        },
+        success: function (response) {
+            console.log("searchTable",response)
+            if(response != "reachedMax") {
+                $('#tbodyEmployees').empty()
+                var rows = ""
+                
+                for(var i = 0; i < response.length; i++) {
+                    rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='one'>" + response[i][4] + "</td><td class='two'>" + response[i][6] + "</td>"
+                    rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
+                    rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
+                    rows += "<div><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></div></td></tr>"
+                }
+                $('#tbodyEmployees').append(rows)   
+            }
+        }
+    })
+}
+
+$("#search").keypress(querySearch())
+
+*/

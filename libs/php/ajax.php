@@ -106,6 +106,7 @@
                 'employeeJobTitle' => $data['jobTitle'],
                 'employeeEmail' => $data['email'],
                 'departmentSelect' => $data['dname'],
+                'departmentID' => $data['departmentID'],
             );
             exit(json_encode($jsonArray));
         }
@@ -131,9 +132,9 @@
 
         if ($_POST['key'] == 'deleteDep') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
-            $isDepEmpty = $conn->query("SELECT * FROM personnel WHERE personnel.departmentID = '$rowID'");
+            $isDepEmpty = $conn->query("SELECT * FROM personnel");
             if($isDepEmpty->num_rows > 0) {
-                exit("Department must be empty to be deleted");
+                exit("Fail");
             }
             else{
                 $conn->query("DELETE FROM department WHERE department.id = '$rowID'");
@@ -145,9 +146,9 @@
 
         if ($_POST['key'] == 'deleteLoc') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
-            $isLocEmpty = $conn->query("SELECT * FROM department WHERE department.locationID = '$rowID'");
+            $isLocEmpty = $conn->query("SELECT * FROM department");
             if($isLocEmpty->num_rows > 0){
-                exit("Location must be free of Departments to be deleted");
+                exit("Fail");
             }
             else{
                 $conn->query("DELETE FROM location WHERE location.id = '$rowID'");
@@ -188,5 +189,28 @@
             else
                 exit('reachedMax');
         }
+
+        // // implementing search input
+/*
+        if($_POST['key'] == 'querySearch') {
+            $inputSearch = $_POST['inputSearch'];
+            $query = $_POST['query'];
+            
+            $sql = $conn->query($query);
+            //$sql = $conn->query("SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id WHERE personnel.lastName = '$inputSearch' ORDER BY lastName ASC");
+            //$sql = $conn->query("SELECT name FROM table_example WHERE name LIKE '%$inputSearch%' OR description LIKE '%$inputSearch%'");
+            if($sql->num_rows > 0) {
+                $rawData = array();
+                $i = 0;
+                while($data = $sql->fetch_array()) {
+                    $rawData[$i] = $data;
+                    $i++;    
+                }
+                exit(json_encode($rawData));
+            }
+            else
+                exit('reachedMax');
+        }*/
+
     }        
 ?>
