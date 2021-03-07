@@ -175,6 +175,18 @@
                 exit(json_encode($rawData));
         }            
 
+        if($_POST['key'] == 'checkLocation') {
+            $locName = $_POST['locName'];
+            $result = $conn->query("SELECT * FROM location WHERE lname = '$locName'");
+            $rawData = array();
+                $i = 0;
+                while($data = $result->fetch_array()) {
+                    $rawData[$i] = $data;
+                    $i++;    
+                }
+                exit(json_encode($rawData));
+        }
+
 
 
         // delete employee

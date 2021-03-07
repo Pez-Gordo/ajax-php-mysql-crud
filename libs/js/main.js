@@ -139,25 +139,40 @@ function manageData(key) {
     var editRowID;
     var location;
     if(key == "addNewLoc") {
-        name = $("#locationName")
-        
-        editRowIDLoc = $('#editRowIDLocation')
-      
-        if(isNotEmpty(name)) {
+        location = $("#locationName")
+             
+        if(isNotEmpty(location)) {
             $.ajax({
                 url: './libs/php/ajax.php',
                 method: 'POST',
-                dataType: 'text',
+                dataType: 'json',
                 data: {
-                    key: key,
-                    name: name.val(),
-                    rowID: editRowIDLoc.val()
+                    key: 'checkLocation',
+                    locName: location.val(),
                 },
-                success: function (response) {
-                    closeModalCreateLoc()
-                    showModalOpSucc() 
-                    getExistingDataLoc()
-                }
+                success: function(response) {
+                    console.log("<<<<--- CHECK DEP--->>>>", response)
+                    if(response.length != 0) {
+                        showModalOpFailAddLoc()
+                    }
+                    else {
+                        $.ajax({
+                            url: './libs/php/ajax.php',
+                            method: 'POST',
+                            dataType: 'text',
+                            data: {
+                                key: key,
+                                name: location.val(),
+                            },
+                            success: function () {
+                                $('#locationName').val('')
+                                closeModalCreateLoc()
+                                showModalOpSucc() 
+                                getExistingDataLoc()
+                            }
+                        })
+                    }
+                },
             })
         }
         else {
@@ -171,7 +186,6 @@ function manageData(key) {
         editRowIDDep = $('#editRowIDDepartment')
 
         if(isNotEmpty(name) && location.val() !== "DEFAULT") {
-            console.log("LOCATION !!!!!!!!!", locationID)
             $.ajax({
                 url: './libs/php/ajax.php',
                 method: 'POST',
@@ -198,6 +212,7 @@ function manageData(key) {
                                 rowID: editRowIDDep.val()
                             },
                             success: function () {
+                                $('#departmentName').val('')
                                 closeModalCreateDep()
                                 showModalOpSucc() 
                                 getExistingDataDep()
@@ -219,6 +234,7 @@ function manageData(key) {
         department = $('#departmentSelect')
         editRowID = $("#editRowID")
         closeModalCreate()
+
         
 
     } else if(key == "update") {
@@ -351,7 +367,11 @@ function manageData(key) {
                                 rowID: editRowID.val()
                             },
                             success: function () {
-                                
+                                name.val('')
+                                surname.val('')
+                                jobTitle.val('')
+                                email.val('')
+                                department.val('DEFAULT')
                                 showModalOpSucc() 
                                 var searchText = $("#search").val()
                                 if(searchText != ""){
@@ -517,6 +537,14 @@ function closeModalOpFailAddDep(){
     $('#tableManagerOpFailAddDep').modal('hide')
 }
 
+function showModalOpFailAddLoc(){
+    $('#tableManagerOpFailAddLoc').modal('show')
+}
+
+function closeModalOpFailAddLoc(){
+    $('#tableManagerOpFailAddLoc').modal('hide')
+}
+
 function showModalDelete(rowID) {
     $("#tableManagerDelete").modal('show')
     $("#editRowIDDelete").val(rowID) 
@@ -552,6 +580,11 @@ function todos() {
 function todosAddDep() {
     closeModalOpFailAddDep()
     showModalAddDep()
+}
+
+function todosAddLoc() {
+    closeModalOpFailAddLoc()
+    showModalAddLoc()
 }
 
 function readData(rowID) {
