@@ -151,6 +151,31 @@
                 exit(json_encode($rawData));
         }
 
+        if ($_POST['key'] == 'checkDelDep') {
+            $rowID = $_POST['rowID'];
+            $result = $conn->query("SELECT * FROM personnel WHERE departmentID = '$rowID'");
+            $rawData = array();
+                $i = 0;
+                while($data = $result->fetch_array()) {
+                    $rawData[$i] = $data;
+                    $i++;    
+                }
+                exit(json_encode($rawData));
+        }
+
+        if ($_POST['key'] == 'checkDelLoc') {
+            $rowID = $_POST['rowID'];
+            $result = $conn->query("SELECT * FROM department WHERE locationID = '$rowID'");
+            $rawData = array();
+                $i = 0;
+                while($data = $result->fetch_array()) {
+                    $rawData[$i] = $data;
+                    $i++;    
+                }
+                exit(json_encode($rawData));
+        }            
+
+
 
         // delete employee
         
@@ -165,6 +190,9 @@
 
         if ($_POST['key'] == 'deleteDep') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
+            $conn->query("DELETE FROM department WHERE department.id = '$rowID'");
+            exit;
+            /*
             $isDepEmpty = $conn->query("SELECT * FROM personnel WHERE departmentID = '$rowID");
             if($isDepEmpty->num_rows > 0){
                 exit("Fail");
@@ -172,13 +200,16 @@
             else{
                 $conn->query("DELETE FROM department WHERE department.id = '$rowID'");
                 exit;
-            }
+            }*/
         }
 
         // delete location
 
         if ($_POST['key'] == 'deleteLoc') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
+            $conn->query("DELETE FROM location WHERE location.id = '$rowID'");
+            exit;
+            /*
             $isLocEmpty = $conn->query("SELECT * FROM department WHERE locationID = '$rowID");
             if($isLocEmpty->num_rows > 0){
                 exit("Fail");
@@ -186,7 +217,7 @@
             else{
                 $conn->query("DELETE FROM location WHERE location.id = '$rowID'");
                 exit;
-            }
+            }*/
         }
 
         // build departments select

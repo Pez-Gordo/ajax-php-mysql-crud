@@ -95,7 +95,7 @@ function getExistingDataDep() {
                 
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][3] + "</td>"
-                    rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></div></td></tr>"
+                    rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='showModalDeleteDep(" + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyDepartments').append(rows)   
             }
@@ -255,49 +255,69 @@ function manageData(key) {
     } else if(key == "deleteDep") {
         editRowID = $("#editRowIDDeleteDep")
         closeModalDelete()
-
         $.ajax({
             url: './libs/php/ajax.php',
             method: 'POST',
-            dataType: 'text',
+            dataType: 'json',
             data: {
-                key: key,
+                key: 'checkDelDep',
                 rowID: editRowID.val()
             },
-            success: function (response) {
-                if(response == "Fail") {
+            success: function(response) {
+                console.log("<<<<--- CHECK DEL DEP--->>>>", response)
+                if(response.length != 0) {
                     showModalOpFail()
                 }
                 else {
-                    showModalOpSucc()
-                    getExistingDataDep()
 
-                }  
-            }
+                    $.ajax({
+                        url: './libs/php/ajax.php',
+                        method: 'POST',
+                        dataType: 'text',
+                        data: {
+                            key: key,
+                            rowID: editRowID.val()
+                        },
+                        success: function () {
+                            showModalOpSucc()
+                            getExistingDataDep()
+                        }
+                    })
+                }
+            },
         })
     } else if(key == "deleteLoc") {
         editRowID = $("#editRowIDDeleteLoc")
         closeModalDelete()
-
         $.ajax({
             url: './libs/php/ajax.php',
             method: 'POST',
-            dataType: 'text',
+            dataType: 'json',
             data: {
-                key: key,
+                key: 'checkDelLoc',
                 rowID: editRowID.val()
             },
-            success: function (response) {
-                console.log("<-------------- %%%%%% ---------------->",response)
-                if(response == "Fail") {
+            success: function(response) {
+                console.log("<<<<--- CHECK DEL LOC--->>>>", response)
+                if(response.length != 0) {
                     showModalOpFail()
                 }
                 else {
-                    showModalOpSucc()
-                    getExistingDataLoc()
-
-                }  
-            }
+                    $.ajax({
+                        url: './libs/php/ajax.php',
+                        method: 'POST',
+                        dataType: 'text',
+                        data: {
+                            key: key,
+                            rowID: editRowID.val()
+                        },
+                        success: function () {
+                            showModalOpSucc()
+                            getExistingDataLoc()  
+                        }
+                    })
+                }
+            },
         })
     }
 
