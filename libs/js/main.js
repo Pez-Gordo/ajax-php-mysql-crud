@@ -7,7 +7,8 @@ $(document).ready(function() {
     })
     $("#addNewDepartment").on('click', function() {
         buildLocationsSelect()
-        $("#tableManagerDepartment").modal('show')
+        showModalAddDep()
+        
     })
     $("#addNewLocation").on('click', function() {
         $("#tableManagerLocation").modal('show')
@@ -24,23 +25,7 @@ $(document).ready(function() {
         console.log(inputText)
         setTimeout(querySearch(inputText), 200)
     })
-
-/*    $("#resetButton").on('click', function() {
-        $('#search').value = ""
-        var inputText = $('#search').val()
-
-        //console.log(inputText)
-        setTimeout(querySearch(inputText), 200)
-    })
-
-
-    $("#searchButton").on('click', function() {
-        var inputText = $('#search').val()
-        //console.log(inputText)
-        querySearch(inputText)
-    
-    })
-  */  
+ 
 })
 
 function edit(rowID) {
@@ -182,23 +167,43 @@ function manageData(key) {
     }  else if(key == "addNewDep") {
         name = $("#departmentName")
         location = $('#locationSelect')
+        locationID = $('#locationSelect')
         editRowIDDep = $('#editRowIDDepartment')
 
         if(isNotEmpty(name) && location.val() !== "DEFAULT") {
+            console.log("LOCATION !!!!!!!!!", locationID)
             $.ajax({
                 url: './libs/php/ajax.php',
                 method: 'POST',
-                dataType: 'text',
+                dataType: 'json',
                 data: {
-                    key: key,
-                    name: name.val(),
-                    location: location.val(),
-                    rowID: editRowIDDep.val()
+                    key: 'checkLoc',
+                    depName: name.val(),
+                    locID: locationID.val()
                 },
-                success: function (response) {
-                    closeModalCreateDep()
-                    showModalOpSucc() 
-                    getExistingDataDep()
+                success: function(response) {
+                    console.log("<<<<--- CHECK DEP--->>>>", response)
+                    if(response.length != 0) {
+                        showModalOpFailAddDep()
+                    }
+                    else {
+                        $.ajax({
+                            url: './libs/php/ajax.php',
+                            method: 'POST',
+                            dataType: 'text',
+                            data: {
+                                key: key,
+                                name: name.val(),
+                                location: location.val(),
+                                rowID: editRowIDDep.val()
+                            },
+                            success: function () {
+                                closeModalCreateDep()
+                                showModalOpSucc() 
+                                getExistingDataDep()
+                            }
+                        })
+                    }
                 }
             })
         }
@@ -309,11 +314,9 @@ function manageData(key) {
                 success: function(response) {
                     console.log("<<<<------>>>>", response)
                     if(response.length != 0) {
-                        //alert("Email existe")
                         showModalOpFailEmail()
                     }
                     else {
-                        //alert("añadiendo registro")
                         $.ajax({
                             url: './libs/php/ajax.php',
                             method: 'POST',
@@ -431,6 +434,10 @@ function closeModalCreate() {
     $("#tableManager").modal('hide')
 }
 
+function showModalAddDep() {
+    $("#tableManagerDepartment").modal('show')
+}
+
 function closeModalCreateDep() {
     $("#tableManagerDepartment").modal('hide')
     getExistingDataDep()
@@ -482,6 +489,13 @@ function closeModalOpFailEmail() {
     $('#tableManagerOpFailEmail').modal('hide')
 }
 
+function showModalOpFailAddDep(){
+    $('#tableManagerOpFailAddDep').modal('show')
+}
+
+function closeModalOpFailAddDep(){
+    $('#tableManagerOpFailAddDep').modal('hide')
+}
 
 function showModalDelete(rowID) {
     $("#tableManagerDelete").modal('show')
@@ -513,6 +527,11 @@ function closeModalDelete() {
 function todos() {
     closeModalOpFailEmail()
     showModalUpdate()
+}
+
+function todosAddDep() {
+    closeModalOpFailAddDep()
+    showModalAddDep()
 }
 
 function readData(rowID) {

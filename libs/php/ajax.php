@@ -122,8 +122,9 @@
             exit;
         }
 
+        // checking email for database consistency
+
         if ($_POST['key'] == 'check') {
-            //$email = $conn->real_escape_string($_POST['emaile']);
             $email = $_POST['emaile'];
             $result = $conn->query("SELECT * FROM personnel WHERE email LIKE '$email'");
             $rawData = array();
@@ -133,16 +134,23 @@
                     $i++;    
                 }
                 exit(json_encode($rawData));
-            //exit(json_encode($result));
-            /*
-            if ($result->num_rows > 0) {
-                exit(10);
-            }
-            else {
-                exit(5);
-            }
-            */
         }
+
+        // checking email for database consistency
+
+        if ($_POST['key'] == 'checkLoc') {
+            $depName = $_POST['depName'];
+            $location = $_POST['locID'];
+            $result = $conn->query("SELECT * FROM department WHERE dname LIKE '$depName' AND locationID LIKE '$location'");
+            $rawData = array();
+                $i = 0;
+                while($data = $result->fetch_array()) {
+                    $rawData[$i] = $data;
+                    $i++;    
+                }
+                exit(json_encode($rawData));
+        }
+
 
         // delete employee
         
@@ -157,8 +165,8 @@
 
         if ($_POST['key'] == 'deleteDep') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
-            $isDepEmpty = $conn->query("SELECT * FROM personnel");
-            if($isDepEmpty->num_rows > 0) {
+            $isDepEmpty = $conn->query("SELECT * FROM personnel WHERE departmentID = '$rowID");
+            if($isDepEmpty->num_rows > 0){
                 exit("Fail");
             }
             else{
@@ -171,7 +179,7 @@
 
         if ($_POST['key'] == 'deleteLoc') {
             $rowID = intval($conn->real_escape_string($_POST['rowID']));
-            $isLocEmpty = $conn->query("SELECT * FROM department");
+            $isLocEmpty = $conn->query("SELECT * FROM department WHERE locationID = '$rowID");
             if($isLocEmpty->num_rows > 0){
                 exit("Fail");
             }
@@ -218,12 +226,11 @@
         // // implementing search input
 
         if($_POST['key'] == 'querySearch') {
-            //$inputSearch = $_POST['inputSearch'];
+            
             $query = $_POST['query'];
             
             $sql = $conn->query($query);
-            //$sql = $conn->query("SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id WHERE personnel.lastName = '$inputSearch' ORDER BY lastName ASC");
-            //$sql = $conn->query("SELECT name FROM table_example WHERE name LIKE '%$inputSearch%' OR description LIKE '%$inputSearch%'");
+            
             if($sql->num_rows > 0) {
                 $rawData = array();
                 $i = 0;
