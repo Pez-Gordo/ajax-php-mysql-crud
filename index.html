@@ -35,7 +35,7 @@
                         <input type="hidden" id="editRowID" value="0">
                     </div>
                     <div class="modal-footer">
-                        <input type="button" id="manageBtnCreateClose" onclick="closeModalCreate()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnCreateClose" onclick="manageModal('createEmployee', 'hide')" value="Close" class="btn btn-primary">
                         <input type="button" id="manageBtnCreate" onclick="manageData('addNew')" value="Save" class="btn btn-success">
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                         <input type="hidden" id="editRowIDDepartment" value="0">
                     </div>
                     <div class="modal-footer">
-                        <input type="button" id="manageBtnCreateDepClose" onclick="closeModalCreateDep()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnCreateDepClose" onclick="manageModal('createDepartment', 'hide')" value="Close" class="btn btn-primary">
                         <input type="button" id="manageBtnCreateDep" onclick="manageData('addNewDep')" value="Save" class="btn btn-success">
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                         <input type="text" class="form-control" id="departmentSelectRead" disabled>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" id="manageBtnRead" onclick="closeModalRead()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnRead" onclick="manageModal('readEmployee', 'hide')" value="Close" class="btn btn-primary">
                     </div>
                 </div>
             </div>
@@ -126,7 +126,7 @@
                         <input type="hidden" id="editRowIDUpdate2" value="0">
                     </div>
                     <div class="modal-footer">
-                        <input type="button" id="manageBtnCreateClose" onclick="closeModalUpdate()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnCreateClose" onclick="manageModal('updateEmployee', 'hide')" value="Close" class="btn btn-primary">
                         <input type="button" id="manageBtnUpdate" onclick="manageData('update')" value="Update" class="btn btn-secondary">
                     </div>
                 </div>
@@ -202,7 +202,7 @@
                         <h3 id="responseOpSuc"></h3>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" id="manageBtnOpSuccClose" onclick="closeModalOpSucc()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnOpSuccClose" onclick="manageModal('operationSuccessful', 'hide')" value="Close" class="btn btn-primary">
                         
                     </div>
                 </div>
@@ -221,7 +221,7 @@
                         <h3 id="responseOpFail">Instance must be emptied before deletion</h3>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" id="manageBtnOpSuccClose" onclick="closeModalOpFail()" value="Close" class="btn btn-primary">
+                        <input type="button" id="manageBtnOpSuccClose" onclick="manageModal('operationFail', 'hide')" value="Close" class="btn btn-primary">
                         
                     </div>
                 </div>
@@ -240,7 +240,68 @@
                         <h3 id="responseOpFailFill">You must fill all data</h3>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" id="manageBtnOpSuccClose" onclick="closeModalOpFailFill()" value="Close" class="btn btn-primary">
+
+                        <input type="button" id="manageBtnOpSuccClose" onclick="todosFailFill()" value="Close" class="btn btn-primary">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <!-- Modal Operation Fail Fill Department-->
+
+        <div id="tableManagerOpFailFillDepartment" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="bannerOpFailFillDepartment">Operation Add Department Failed</h2>
+                    </div>
+                    <div class="modal-body">
+                        <h3 id="responseOpFailFillDepartment">You must fill all data</h3>
+                    </div>
+                    <div class="modal-footer">
+
+                        <input type="button" id="manageBtnOpFailDepClose" onclick="todosFailFillDep()" value="Close" class="btn btn-primary">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Operation Fail Fill Update-->
+
+        <div id="tableManagerOpFailFillUpdate" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="bannerOpFailFillUpdate">Operation Failed</h2>
+                    </div>
+                    <div class="modal-body">
+                        <h3 id="responseOpFailFillUpdate">You must fill all data</h3>
+                    </div>
+                    <div class="modal-footer">
+
+                        <input type="button" id="manageBtnOpFailFillUpdateClose" onclick="todosFailFillUpdate()" value="Close" class="btn btn-primary">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Operation Fail Fill Create-->
+
+        <div id="tableManagerOpFailFillCreate" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="bannerOpFailFillCreate">Operation Create Employee Failed</h2>
+                    </div>
+                    <div class="modal-body">
+                        <h3 id="responseOpFailFillCreate">You must fill all data</h3>
+                    </div>
+                    <div class="modal-footer">
+
+                        <input type="button" id="manageBtnOpFailFillCreateClose" onclick="todosFailFillCreate()" value="Close" class="btn btn-primary">
                         
                     </div>
                 </div>

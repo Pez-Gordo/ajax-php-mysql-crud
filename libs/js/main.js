@@ -3,15 +3,14 @@ var activeButton = "employees"
 $(document).ready(function() {
     $("#addNewEmployee").on('click', function() {
         buildDepartmentsSelect()
-        $("#tableManager").modal('show')
+        manageModal("createEmployee", "show")
     })
     $("#addNewDepartment").on('click', function() {
         buildLocationsSelect()
-        showModalAddDep()
-        
+        manageModal("createDepartment", "show")
     })
     $("#addNewLocation").on('click', function() {
-        $("#tableManagerLocation").modal('show')
+        manageModal("createLocation", "show")
     })
 
     getExistingData()
@@ -43,7 +42,7 @@ function edit(rowID) {
             $("#employeeEmailUpdate").val(response.employeeEmail)
             $("#editRowIDUpdate2").val(response.departmentID)
             buildDepartmentsSelect(response.departmentID)
-            showModalUpdate()
+            manageModal("updateEmployee", "show")
             console.log(response.departmentSelect)
         }
     })
@@ -148,7 +147,7 @@ function manageData(key) {
                 success: function(response) {
                     console.log("<<<<--- CHECK DEP--->>>>", response)
                     if(response.length != 0) {
-                        showModalOpFailAddLoc()
+                        manageModal("operationFailAddLoc", "show")
                     }
                     else {
                         $.ajax({
@@ -162,16 +161,13 @@ function manageData(key) {
                             success: function () {
                                 $('#locationName').val('')
                                 closeModalCreateLoc()
-                                showModalOpSucc() 
+                                manageModal("operationSuccessful", "show")
                                 getExistingDataLoc()
                             }
                         })
                     }
                 },
             })
-        }
-        else {
-            showModalOpFailFill()
         }
     
     }  else if(key == "addNewDep") {
@@ -193,7 +189,7 @@ function manageData(key) {
                 success: function(response) {
                     console.log("<<<<--- CHECK DEP--->>>>", response)
                     if(response.length != 0) {
-                        showModalOpFailAddDep()
+                        manageModal("operationFailAddDep", "show")
                     }
                     else {
                         $.ajax({
@@ -208,8 +204,8 @@ function manageData(key) {
                             },
                             success: function () {
                                 $('#departmentName').val('')
-                                closeModalCreateDep()
-                                showModalOpSucc() 
+                                manageModal("createDepartment", "hide")
+                                manageModal("operationSuccessful", "show")
                                 getExistingDataDep()
                             }
                         })
@@ -218,7 +214,7 @@ function manageData(key) {
             })
         }
         else {
-            showModalOpFailFill() 
+            manageModal("operationFailFillDep", "show")
         }
 
     } else if(key == "addNew"){
@@ -228,7 +224,7 @@ function manageData(key) {
         email = $('#employeeEmail')
         department = $('#departmentSelect')
         editRowID = $("#editRowID")
-        closeModalCreate()
+        manageModal("modalCreate", "hide")
 
     } else if(key == "update") {
         name = $('#employeeNameUpdate')
@@ -237,7 +233,7 @@ function manageData(key) {
         email = $('#employeeEmailUpdate')
         department = $('#departmentSelectUpdate')
         editRowID = $("#editRowIDUpdate")
-        closeModalUpdate()
+        manageModal("updateEmployee", "hide")
 
     } else if(key == "delete") {
         editRowID = $("#editRowIDDelete")
@@ -274,10 +270,9 @@ function manageData(key) {
             success: function(response) {
                 console.log("<<<<--- CHECK DEL DEP--->>>>", response)
                 if(response.length != 0) {
-                    showModalOpFail()
+                    manageModal("operationFail", "show")
                 }
                 else {
-
                     $.ajax({
                         url: './libs/php/ajax.php',
                         method: 'POST',
@@ -287,7 +282,7 @@ function manageData(key) {
                             rowID: editRowID.val()
                         },
                         success: function () {
-                            showModalOpSucc()
+                            manageModal("operationSuccessful", "show")
                             getExistingDataDep()
                         }
                     })
@@ -308,7 +303,7 @@ function manageData(key) {
             success: function(response) {
                 console.log("<<<<--- CHECK DEL LOC--->>>>", response)
                 if(response.length != 0) {
-                    showModalOpFail()
+                    manageModal("operationFail", "show")
                 }
                 else {
                     $.ajax({
@@ -320,7 +315,7 @@ function manageData(key) {
                             rowID: editRowID.val()
                         },
                         success: function () {
-                            showModalOpSucc()
+                            manageModal("operationSuccessful", "show")
                             getExistingDataLoc()  
                         }
                     })
@@ -329,7 +324,7 @@ function manageData(key) {
         })
     }
 
-    if(key != "delete" && key != "addNewDep" && key != "addNewLoc" && key != "deleteDep" && key != "deleteLoc"){
+    if(key == "addNew"){
         if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
             $.ajax({
                 url: './libs/php/ajax.php',
@@ -342,7 +337,7 @@ function manageData(key) {
                 success: function(response) {
                     console.log("<<<<------>>>>", response)
                     if(response.length != 0) {
-                        showModalOpFailEmail()
+                        manageModal("operationFailEmail", "show")
                     }
                     else {
                         $.ajax({
@@ -364,7 +359,7 @@ function manageData(key) {
                                 jobTitle.val('')
                                 email.val('')
                                 department.val('DEFAULT')
-                                showModalOpSucc() 
+                                manageModal("operationSuccessful", "hide")
                                 var searchText = $("#search").val()
                                 if(searchText != ""){
                                     querySearch(searchText)
@@ -380,7 +375,61 @@ function manageData(key) {
             
             
         } else {
-            showModalOpFailFill()
+            manageModal("operationFailFill", "show")
+        }
+    }
+    
+    if(key == "update"){
+        if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
+            $.ajax({
+                url: './libs/php/ajax.php',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    key: 'check',
+                    emaile: email.val()
+                },
+                success: function(response) {
+                    console.log("<<<<------>>>>", response)
+                    if(response.length > 1) {
+                        manageModal("operationFailEmail", "show")
+                    }
+                    else {
+                        $.ajax({
+                            url: './libs/php/ajax.php',
+                            method: 'POST',
+                            dataType: 'text',
+                            data: {
+                                key: key,
+                                name: name.val(),
+                                surname: surname.val(),
+                                jobTitle: jobTitle.val(),
+                                email: email.val(),
+                                department: department.val(),
+                                rowID: editRowID.val()
+                            },
+                            success: function () {
+                                name.val('')
+                                surname.val('')
+                                jobTitle.val('')
+                                email.val('')
+                                department.val('DEFAULT')
+                                manageModal("operationSuccessful", "show")
+                                var searchText = $("#search").val()
+                                if(searchText != ""){
+                                    querySearch(searchText)
+                                }
+                                else{
+                                    getExistingData()
+                                }
+                            },
+                        })
+                    }
+                }
+            })
+             
+        } else {
+            manageModal("operationFailFillUpdate", "show")
         }
     } 
 }   
@@ -418,7 +467,6 @@ function buildDepartmentsSelect(depID) {
                         rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"                    
                     }
                 }
-                    
                 $('#departmentSelect').append(rows)   
                 $('#departmentSelectUpdate').append(rows)              
             }
@@ -450,89 +498,16 @@ function buildLocationsSelect() {
     })
 }
 
-// Modal Management Functions
-
-function closeModalRead() {
-    $("#tableManagerRead").modal('hide')
-}
-
-function showModalRead() {
-    $("#tableManagerRead").modal('show')
-}
-
-function closeModalCreate() {
-    $("#tableManager").modal('hide')
-}
-
-function showModalAddDep() {
-    $("#tableManagerDepartment").modal('show')
-}
-
-function closeModalCreateDep() {
-    $("#tableManagerDepartment").modal('hide')
-    getExistingDataDep()
-}
-
 function closeModalCreateLoc() {
     $("#tableManagerLocation").modal('hide')
     getExistingDataLoc()
 }
 
-function closeModalUpdate() {
-    $("#tableManagerUpdate").modal('hide')
-    
-}
-
-function closeModalOpSucc() {
-    $("#tableManagerOpSucc").modal('hide')
-}
-
-function showModalOpSucc() {
-    $("#tableManagerOpSucc").modal('show')
-}
-
-function showModalOpFail() {
-    $("#tableManagerOpFail").modal("show")
-}
-
-function closeModalOpFail() {
-    $("#tableManagerOpFail").modal("hide")
-}
-
-function showModalOpFailFill() {
-    $("#tableManagerOpFailFill").modal("show")
-}
-
-function closeModalOpFailFill() {
-    $("#tableManagerOpFailFill").modal("hide")
-}
-
-function showModalUpdate() {
-    $("#tableManagerUpdate").modal('show')
-}
-
-function showModalOpFailEmail() {
-    $("#tableManagerOpFailEmail").modal('show')
-}
-
-function closeModalOpFailEmail() {
-    $('#tableManagerOpFailEmail').modal('hide')
-}
-
-function showModalOpFailAddDep(){
-    $('#tableManagerOpFailAddDep').modal('show')
-}
-
-function closeModalOpFailAddDep(){
-    $('#tableManagerOpFailAddDep').modal('hide')
-}
-
-function showModalOpFailAddLoc(){
-    $('#tableManagerOpFailAddLoc').modal('show')
-}
-
-function closeModalOpFailAddLoc(){
-    $('#tableManagerOpFailAddLoc').modal('hide')
+function showModalDeleteLoc(rowID) {
+    $("#tableManagerDeleteLoc").modal('show')
+    $("#editRowIDDelete").val(rowID) 
+    $("#editRowIDDeleteDep").val(rowID)
+    $("#editRowIDDeleteLoc").val(rowID)
 }
 
 function showModalDelete(rowID) {
@@ -549,32 +524,133 @@ function showModalDeleteDep(rowID) {
     $("#editRowIDDeleteLoc").val(rowID)
 }
 
-function showModalDeleteLoc(rowID) {
-    $("#tableManagerDeleteLoc").modal('show')
-    $("#editRowIDDelete").val(rowID) 
-    $("#editRowIDDeleteDep").val(rowID)
-    $("#editRowIDDeleteLoc").val(rowID)
-}
-
 function closeModalDelete() {
     $("#tableManagerDelete").modal('hide')
     $("#tableManagerDeleteDep").modal('hide')
     $("#tableManagerDeleteLoc").modal('hide')
 }
 
+function manageModal(modal, key) {
+    if (key == "show"){
+        switch(modal) {
+            case "createEmployee":
+                $("#tableManager").modal('show')
+                break;
+            case "readEmployee":
+                $("#tableManagerRead").modal('show')
+                break;
+            case "createDepartment":
+                $("#tableManagerDepartment").modal('show')
+                break;
+            case "updateEmployee":
+                $("#tableManagerUpdate").modal('show')
+                break;
+            case "operationSuccessful":
+                $("#tableManagerOpSucc").modal('show')
+                break;
+            case "operationFail":
+                $("#tableManagerOpFail").modal("show")
+                break;
+            case "operationFailFill":
+                $("#tableManagerOpFailFill").modal("show")
+                break;
+            case "operationFailFillDep":
+                $("#tableManagerOpFailFillDepartment").modal("show")
+                break;
+            case "operationFailFillUpdate":
+                $("#tableManagerOpFailFillUpdate").modal("show")
+                break;
+            case "operationFailEmail":
+                $("#tableManagerOpFailEmail").modal('show')
+                break;
+            case "operationFailAddDep":
+                $('#tableManagerOpFailAddDep').modal('show')
+                break;
+            case "operationFailAddLoc":
+                $('#tableManagerOpFailAddLoc').modal('show')
+                break;
+            case "createLocation":
+                $("#tableManagerLocation").modal('show')
+                break;
+        }
+    }
+    else if (key == "hide") {
+        switch(modal) {
+            case "createEmployee":
+                $("#tableManager").modal('hide')
+                break;
+            case "readEmployee":
+                $("#tableManagerRead").modal('hide')
+                break;
+            case "createDepartment":
+                $("#tableManagerDepartment").modal('hide')
+                break;
+            case "updateEmployee":
+                $("#tableManagerUpdate").modal('hide')
+                break;
+            case "operationSuccessful":
+                $("#tableManagerOpSucc").modal('hide')
+                break;
+            case "operationFail":
+                $("#tableManagerOpFail").modal("hide")
+                break;
+            case "operationFailFill":
+                $("#tableManagerOpFailFill").modal("hide")
+                break;
+            case "operationFailFillDep":
+                $("#tableManagerOpFailFillDepartment").modal("hide")
+                break;
+            case "operationFailFillUpdate":
+                $("#tableManagerOpFailFillUpdate").modal("hide")
+                break;
+            case "operationFailEmail":
+                $("#tableManagerOpFailEmail").modal('hide')
+                break;
+            case "operationFailAddDep":
+                $('#tableManagerOpFailAddDep').modal('hide')
+                break;
+            case "operationFailAddLoc":
+                $('#tableManagerOpFailAddLoc').modal('hide')
+                break;
+        }   
+    }
+}
+
+
+
 function todos() {
-    closeModalOpFailEmail()
-    showModalUpdate()
+    manageModal("operationFailEmail", "hide")
+    manageModal("updateEmployee", "show")
 }
 
 function todosAddDep() {
-    closeModalOpFailAddDep()
-    showModalAddDep()
+    manageModal("operationFailAddDep", "show")
+    manageModal("createDepartment", "show")
 }
 
 function todosAddLoc() {
-    closeModalOpFailAddLoc()
+    manageModal("operationFailAddLoc", "hide")
     showModalAddLoc()
+}
+
+function todosFailFill() {
+    manageModal("operationFailFill", "hide")
+    manageModal("createEmployee", "show")
+}
+
+function todosFailFillUpdate() {
+    manageModal("operationFailFillUpdate", "hide")
+    manageModal("updateEmployee", "show")
+}
+
+function todosFailFillCreate() {
+    manageModal("operationFailFill", "hide")
+    manageModal("createEmployee", "show")
+}
+
+function todosFailFillDep() {
+    manageModal("operationFailFillDep", "hide")
+    manageModal("createDepartment", "show")
 }
 
 function readData(rowID) {
@@ -592,7 +668,7 @@ function readData(rowID) {
             $("#employeeJobTitleRead").val(response.employeeJobTitle)
             $("#employeeEmailRead").val(response.employeeEmail)
             $("#departmentSelectRead").val(response.departmentSelect)
-            showModalRead()
+            manageModal("readEmployee", "show")
         }
     })
 }
