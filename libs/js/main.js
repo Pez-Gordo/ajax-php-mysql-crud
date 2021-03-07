@@ -17,15 +17,12 @@ $(document).ready(function() {
     getExistingData()
     getExistingDataDep()
     getExistingDataLoc()
-    
-    
 
     $("#search").on('keyup', function() {
         var inputText = $('#search').val()
         console.log(inputText)
         setTimeout(querySearch(inputText), 200)
     })
- 
 })
 
 function edit(rowID) {
@@ -100,7 +97,6 @@ function getExistingDataDep() {
                 $('#tbodyDepartments').append(rows)   
             }
         }
-
     })
 }
 
@@ -126,7 +122,6 @@ function getExistingDataLoc() {
                 $('#tbodyLocations').append(rows)   
             }
         }
-
     })
 }
 
@@ -235,8 +230,6 @@ function manageData(key) {
         editRowID = $("#editRowID")
         closeModalCreate()
 
-        
-
     } else if(key == "update") {
         name = $('#employeeNameUpdate')
         surname = $('#employeeSurnameUpdate')
@@ -245,7 +238,6 @@ function manageData(key) {
         department = $('#departmentSelectUpdate')
         editRowID = $("#editRowIDUpdate")
         closeModalUpdate()
-        
 
     } else if(key == "delete") {
         editRowID = $("#editRowIDDelete")
@@ -381,8 +373,6 @@ function manageData(key) {
                                     getExistingData()
                                 }
                             },
-                                
-                            
                         })
                     }
                 }
@@ -625,7 +615,6 @@ document.getElementById("btnradio1").addEventListener("click", function() {
     $("#departmentsImg").attr("src", "./libs/img/departments.png")
     $("#locationsImg").attr("src", "./libs/img/locations.png")
     $("#search").show()
-
     activeButton = "employees"
   });
 
@@ -654,7 +643,6 @@ document.getElementById("btnradio3").addEventListener("click", function() {
     $("#departmentsImg").attr("src", "./libs/img/departments.png")
     $("#locationsImg").attr("src", "./libs/img/locationsSel.png")
     $("#search").hide()
-
     activeButton = "locations"
 });
 
@@ -701,21 +689,10 @@ function offHover(param)
     }
 }
 
-
-
-
-
 // implementing search input
 
 function querySearch(text) {
-    //var text = $("#search").val()
     textKeyword = text + "%"
-    console.log(text)
-    
-    //var query = `SELECT * FROM personnel WHERE lastName LIKE '${textKeyword}'`
-    //var query = "SELECT * FROM personnel WHERE id < 15"
-
-    console.log(query)
     var query = `SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id WHERE personnel.lastName LIKE '${textKeyword}' ORDER BY lastName ASC`
     $.ajax({
         url: './libs/php/ajax.php',
@@ -742,11 +719,7 @@ function querySearch(text) {
             else {
                 $('#tbodyEmployees').empty()
                 alert("No matches found")
-
             }
         }
     })
 }
-
-
-
