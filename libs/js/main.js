@@ -67,7 +67,7 @@ function getExistingData() {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='two'>" + response[i][4] + "</td><td class='three'>" + response[i][6] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
-                    rows += "<div><img src='./libs/img/trash.png' onclick='showModalDelete(" + response[i][0] + ")'></div></td></tr>"
+                    rows += "<div><img src='./libs/img/trash.png' onclick='manageModal(\"delete\", \"show\", " + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyEmployees').append(rows)   
             }
@@ -91,7 +91,9 @@ function getExistingDataDep() {
                 
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][3] + "</td>"
-                    rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='showModalDeleteDep(" + response[i][0] + ")'></div></td></tr>"
+                    //rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='showModalDeleteDep(" + response[i][0] + ")'></div></td></tr>"
+                    rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='manageModal(\"deleteDep\", \"show\", " + response[i][0] + ")'></div></td></tr>"
+                    
                 }
                 $('#tbodyDepartments').append(rows)   
             }
@@ -116,7 +118,7 @@ function getExistingDataLoc() {
                 
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td>"
-                    rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='showModalDeleteLoc(" + response[i][0] + ")'></div></td></tr>"
+                    rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='manageModal(\"deleteLoc\", \"show\", " + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyLocations').append(rows)   
             }
@@ -237,7 +239,8 @@ function manageData(key) {
 
     } else if(key == "delete") {
         editRowID = $("#editRowIDDelete")
-        closeModalDelete()
+        manageModal("delete", "hide")
+        //closeModalDelete()
         $.ajax({
             url: './libs/php/ajax.php',
             method: 'POST',
@@ -258,7 +261,8 @@ function manageData(key) {
         })
     } else if(key == "deleteDep") {
         editRowID = $("#editRowIDDeleteDep")
-        closeModalDelete()
+        manageModal("delete", "hide")
+        //closeModalDelete()
         $.ajax({
             url: './libs/php/ajax.php',
             method: 'POST',
@@ -291,7 +295,8 @@ function manageData(key) {
         })
     } else if(key == "deleteLoc") {
         editRowID = $("#editRowIDDeleteLoc")
-        closeModalDelete()
+        manageModal("delete", "hide")
+        //closeModalDelete()
         $.ajax({
             url: './libs/php/ajax.php',
             method: 'POST',
@@ -498,39 +503,7 @@ function buildLocationsSelect() {
     })
 }
 
-function closeModalCreateLoc() {
-    $("#tableManagerLocation").modal('hide')
-    getExistingDataLoc()
-}
-
-function showModalDeleteLoc(rowID) {
-    $("#tableManagerDeleteLoc").modal('show')
-    $("#editRowIDDelete").val(rowID) 
-    $("#editRowIDDeleteDep").val(rowID)
-    $("#editRowIDDeleteLoc").val(rowID)
-}
-
-function showModalDelete(rowID) {
-    $("#tableManagerDelete").modal('show')
-    $("#editRowIDDelete").val(rowID) 
-    $("#editRowIDDeleteDep").val(rowID)
-    $("#editRowIDDeleteLoc").val(rowID)
-}
-
-function showModalDeleteDep(rowID) {
-    $("#tableManagerDeleteDep").modal('show')
-    $("#editRowIDDelete").val(rowID) 
-    $("#editRowIDDeleteDep").val(rowID)
-    $("#editRowIDDeleteLoc").val(rowID)
-}
-
-function closeModalDelete() {
-    $("#tableManagerDelete").modal('hide')
-    $("#tableManagerDeleteDep").modal('hide')
-    $("#tableManagerDeleteLoc").modal('hide')
-}
-
-function manageModal(modal, key) {
+function manageModal(modal, key, id) {
     if (key == "show"){
         switch(modal) {
             case "createEmployee":
@@ -572,6 +545,25 @@ function manageModal(modal, key) {
             case "createLocation":
                 $("#tableManagerLocation").modal('show')
                 break;
+            case "delete":
+                $("#tableManagerDelete").modal('show')
+                $("#editRowIDDelete").val(id) 
+                $("#editRowIDDeleteDep").val(id)
+                $("#editRowIDDeleteLoc").val(id)
+                break;
+            case "deleteDep":
+                $("#tableManagerDeleteDep").modal('show')
+                $("#editRowIDDelete").val(id) 
+                $("#editRowIDDeleteDep").val(id)
+                $("#editRowIDDeleteLoc").val(id)
+                break;
+            case "deleteLoc":
+                $("#tableManagerDeleteLoc").modal('show')
+                $("#editRowIDDelete").val(id) 
+                $("#editRowIDDeleteDep").val(id)
+                $("#editRowIDDeleteLoc").val(id)
+                break;
+
         }
     }
     else if (key == "hide") {
@@ -611,6 +603,14 @@ function manageModal(modal, key) {
                 break;
             case "operationFailAddLoc":
                 $('#tableManagerOpFailAddLoc').modal('hide')
+                break;
+            case "createLocation":
+                $("#tableManagerLocation").modal('hide')
+                break;
+            case "delete":
+                $("#tableManagerDelete").modal('hide')
+                $("#tableManagerDeleteDep").modal('hide')
+                $("#tableManagerDeleteLoc").modal('hide')
                 break;
         }   
     }
@@ -788,7 +788,8 @@ function querySearch(text) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='one'>" + response[i][4] + "</td><td class='two'>" + response[i][6] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
-                    rows += "<div><img src='./libs/img/trash.png' onclick='showModalDelete(" + response[i][0] + ")'></div></td></tr>"
+                    //rows += "<div><img src='./libs/img/trash.png' onclick='showModalDelete(" + response[i][0] + ")'></div></td></tr>"
+                    rows += "<div><img src='./libs/img/trash.png' onclick='manageModal('delete', 'show', " + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyEmployees').append(rows)   
             }
