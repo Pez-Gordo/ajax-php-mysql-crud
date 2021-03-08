@@ -1,4 +1,8 @@
+// Global variable for radio buttons
+
 var activeButton = "employees"
+
+// To manipulate the page safely we check the document is ready
 
 $(document).ready(function() {
     $("#addNewEmployee").on('click', function() {
@@ -24,6 +28,32 @@ $(document).ready(function() {
     })
 })
 
+// Functions
+
+// Function to read data
+
+function readData(rowID) {
+    $.ajax({
+        url: './libs/php/ajax.php',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            key: 'getRowData',
+            rowID: rowID
+        },
+        success: function (response) {
+            $("#employeeNameRead").val(response.employeeName)
+            $("#employeeSurnameRead").val(response.employeeSurname)
+            $("#employeeJobTitleRead").val(response.employeeJobTitle)
+            $("#employeeEmailRead").val(response.employeeEmail)
+            $("#departmentSelectRead").val(response.departmentSelect)
+            manageModal("readEmployee", "show")
+        }
+    })
+}
+
+// Function to edit data
+
 function edit(rowID) {
     $.ajax({
         url: './libs/php/ajax.php',
@@ -48,8 +78,14 @@ function edit(rowID) {
     })
 }
 
+// Getting info from Database to build tables
+
+// Table Employees
 
 function getExistingData() {
+
+    // Ajax call to fetch data from database
+
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
@@ -63,6 +99,8 @@ function getExistingData() {
                 $('#tbodyEmployees').empty()
                 var rows = ""
                 
+                // Rendering Employees table
+
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='two'>" + response[i][4] + "</td><td class='three'>" + response[i][6] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
@@ -75,7 +113,12 @@ function getExistingData() {
     })
 }
 
+// Table Departments
+
 function getExistingDataDep() {
+
+    // Ajax call to get Departments data
+
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
@@ -89,6 +132,8 @@ function getExistingDataDep() {
                 $('#tbodyDepartments').empty()
                 var rows = ""
                 
+                // Rendering Departments table
+
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][3] + "</td>"
                     //rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='showModalDeleteDep(" + response[i][0] + ")'></div></td></tr>"
@@ -101,7 +146,12 @@ function getExistingDataDep() {
     })
 }
 
+// Table Locations
+
 function getExistingDataLoc() {
+
+    // Ajax call to fetch data from locations table
+
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
@@ -116,6 +166,8 @@ function getExistingDataLoc() {
                 $('#tbodyLocations').empty()
                 var rows = ""
                 
+                // Rendering locations table
+
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='manageModal(\"deleteLoc\", \"show\", " + response[i][0] + ")'></div></td></tr>"
@@ -126,6 +178,8 @@ function getExistingDataLoc() {
     })
 }
 
+// Function for managing data
+
 function manageData(key) {
     var name;
     var surname;
@@ -134,10 +188,18 @@ function manageData(key) {
     var department;
     var editRowID;
     var location;
+
+    // Create New Location
+
     if(key == "addNewLoc") {
         location = $("#locationName")
-             
+
+        // Checking location name field is not empty
+
         if(isNotEmpty(location)) {
+
+            // Ajax to check there's no other location with this name
+
             $.ajax({
                 url: './libs/php/ajax.php',
                 method: 'POST',
@@ -152,6 +214,9 @@ function manageData(key) {
                         manageModal("operationFailAddLoc", "show")
                     }
                     else {
+
+                        // Ajax to insert data in locations table and reload the table
+
                         $.ajax({
                             url: './libs/php/ajax.php',
                             method: 'POST',
@@ -172,13 +237,20 @@ function manageData(key) {
             })
         }
     
+    // Create New Department
+
     }  else if(key == "addNewDep") {
         name = $("#departmentName")
         location = $('#locationSelect')
         locationID = $('#locationSelect')
         editRowIDDep = $('#editRowIDDepartment')
 
+        // Checking form fields are not empty
+
         if(isNotEmpty(name) && location.val() !== "DEFAULT") {
+
+            // Checking there's no other department in this location with the same name
+
             $.ajax({
                 url: './libs/php/ajax.php',
                 method: 'POST',
@@ -194,6 +266,9 @@ function manageData(key) {
                         manageModal("operationFailAddDep", "show")
                     }
                     else {
+
+                        // Ajax to insert department into departments table and reload table 
+
                         $.ajax({
                             url: './libs/php/ajax.php',
                             method: 'POST',
@@ -219,118 +294,26 @@ function manageData(key) {
             manageModal("operationFailFillDep", "show")
         }
 
+    // Create New Employee
+
     } else if(key == "addNew"){
+
+        // Dumping form data into variables
+
         name = $('#employeeName')
         surname = $('#employeeSurname')
         jobTitle = $('#employeeJobTitle')
         email = $('#employeeEmail')
         department = $('#departmentSelect')
         editRowID = $("#editRowID")
-        manageModal("modalCreate", "hide")
+        manageModal("createEmployee", "hide")
 
-    } else if(key == "update") {
-        name = $('#employeeNameUpdate')
-        surname = $('#employeeSurnameUpdate')
-        jobTitle = $('#employeeJobTitleUpdate')
-        email = $('#employeeEmailUpdate')
-        department = $('#departmentSelectUpdate')
-        editRowID = $("#editRowIDUpdate")
-        manageModal("updateEmployee", "hide")
+        // Checking for any empty form fields 
 
-    } else if(key == "delete") {
-        editRowID = $("#editRowIDDelete")
-        manageModal("delete", "hide")
-        //closeModalDelete()
-        $.ajax({
-            url: './libs/php/ajax.php',
-            method: 'POST',
-            dataType: 'text',
-            data: {
-                key: key,
-                rowID: editRowID.val()
-            },
-            success: function (response) {
-                var searchText = $("#search").val()
-                if(searchText != ""){
-                    querySearch(searchText)
-                }
-                else{
-                    getExistingData()
-                }
-            }
-        })
-    } else if(key == "deleteDep") {
-        editRowID = $("#editRowIDDeleteDep")
-        manageModal("delete", "hide")
-        //closeModalDelete()
-        $.ajax({
-            url: './libs/php/ajax.php',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                key: 'checkDelDep',
-                rowID: editRowID.val()
-            },
-            success: function(response) {
-                console.log("<<<<--- CHECK DEL DEP--->>>>", response)
-                if(response.length != 0) {
-                    manageModal("operationFail", "show")
-                }
-                else {
-                    $.ajax({
-                        url: './libs/php/ajax.php',
-                        method: 'POST',
-                        dataType: 'text',
-                        data: {
-                            key: key,
-                            rowID: editRowID.val()
-                        },
-                        success: function () {
-                            manageModal("operationSuccessful", "show")
-                            getExistingDataDep()
-                        }
-                    })
-                }
-            },
-        })
-    } else if(key == "deleteLoc") {
-        editRowID = $("#editRowIDDeleteLoc")
-        manageModal("delete", "hide")
-        //closeModalDelete()
-        $.ajax({
-            url: './libs/php/ajax.php',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                key: 'checkDelLoc',
-                rowID: editRowID.val()
-            },
-            success: function(response) {
-                console.log("<<<<--- CHECK DEL LOC--->>>>", response)
-                if(response.length != 0) {
-                    manageModal("operationFail", "show")
-                }
-                else {
-                    $.ajax({
-                        url: './libs/php/ajax.php',
-                        method: 'POST',
-                        dataType: 'text',
-                        data: {
-                            key: key,
-                            rowID: editRowID.val()
-                        },
-                        success: function () {
-                            manageModal("operationSuccessful", "show")
-                            getExistingDataLoc()  
-                        }
-                    })
-                }
-            },
-        })
-    }
-
-    if(key == "addNew"){
         if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
+
+            // Ajax to check there's no other employee with this email
+
             $.ajax({
                 url: './libs/php/ajax.php',
                 method: 'POST',
@@ -345,6 +328,9 @@ function manageData(key) {
                         manageModal("operationFailEmail", "show")
                     }
                     else {
+
+                        // Ajax to insert data in Personnel table and reload table
+
                         $.ajax({
                             url: './libs/php/ajax.php',
                             method: 'POST',
@@ -364,7 +350,7 @@ function manageData(key) {
                                 jobTitle.val('')
                                 email.val('')
                                 department.val('DEFAULT')
-                                manageModal("operationSuccessful", "hide")
+                                manageModal("operationSuccessful", "show")
                                 var searchText = $("#search").val()
                                 if(searchText != ""){
                                     querySearch(searchText)
@@ -378,28 +364,48 @@ function manageData(key) {
                 }
             })
             
-            
         } else {
             manageModal("operationFailFill", "show")
         }
-    }
-    
-    if(key == "update"){
+
+    // Update employee data
+
+    } else if(key == "update") {
+
+        // Dumping form data into variables
+
+        name = $('#employeeNameUpdate')
+        surname = $('#employeeSurnameUpdate')
+        jobTitle = $('#employeeJobTitleUpdate')
+        email = $('#employeeEmailUpdate')
+        department = $('#departmentSelectUpdate')
+        editRowID = $("#editRowIDUpdate")
+        manageModal("updateEmployee", "hide")
+
+        // Checking every field in the form is filled
+
         if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
+
+            // Ajax call to check there's no other employee with the same email. We include rowID in ajax call to exclude the actual employee that is being updated from the query 
+
             $.ajax({
                 url: './libs/php/ajax.php',
                 method: 'POST',
                 dataType: 'json',
                 data: {
                     key: 'check',
-                    emaile: email.val()
+                    emaile: email.val(),
+                    rowID: editRowID.val()
                 },
                 success: function(response) {
                     console.log("<<<<------>>>>", response)
-                    if(response.length > 1) {
-                        manageModal("operationFailEmail", "show")
+                    if(response.length != 0) {
+                        manageModal("operationFailEmailUpdate", "show")
                     }
                     else {
+
+                        // Ajax call to update employee info in database and reload table
+                    
                         $.ajax({
                             url: './libs/php/ajax.php',
                             method: 'POST',
@@ -436,8 +442,121 @@ function manageData(key) {
         } else {
             manageModal("operationFailFillUpdate", "show")
         }
-    } 
+
+    // Delete Employee
+
+    } else if(key == "delete") {
+        editRowID = $("#editRowIDDelete")
+        manageModal("delete", "hide")
+
+        // Ajax call to delete employee from database
+
+        $.ajax({
+            url: './libs/php/ajax.php',
+            method: 'POST',
+            dataType: 'text',
+            data: {
+                key: key,
+                rowID: editRowID.val()
+            },
+            success: function () {
+                var searchText = $("#search").val()
+                if(searchText != ""){
+                    querySearch(searchText)
+                }
+                else{
+                    getExistingData()
+                }
+            }
+        })
+
+    // Delete department
+
+    } else if(key == "deleteDep") {
+        editRowID = $("#editRowIDDeleteDep")
+        manageModal("delete", "hide")
+
+        // Ajax call to check there's no dependencies pending on the selected department
+
+        $.ajax({
+            url: './libs/php/ajax.php',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                key: 'checkDelDep',
+                rowID: editRowID.val()
+            },
+            success: function(response) {
+                console.log("<<<<--- CHECK DEL DEP--->>>>", response)
+                if(response.length != 0) {
+                    manageModal("operationFail", "show")
+                }
+                else {
+
+                    // In case of success we make another ajax to delete department
+
+                    $.ajax({
+                        url: './libs/php/ajax.php',
+                        method: 'POST',
+                        dataType: 'text',
+                        data: {
+                            key: key,
+                            rowID: editRowID.val()
+                        },
+                        success: function () {
+                            manageModal("operationSuccessful", "show")
+                            getExistingDataDep()
+                        }
+                    })
+                }
+            },
+        })
+
+    // Delete Location
+
+    } else if(key == "deleteLoc") {
+        editRowID = $("#editRowIDDeleteLoc")
+        manageModal("delete", "hide")
+
+        // Ajax call to check for dependencies
+
+        $.ajax({
+            url: './libs/php/ajax.php',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                key: 'checkDelLoc',
+                rowID: editRowID.val()
+            },
+            success: function(response) {
+                console.log("<<<<--- CHECK DEL LOC--->>>>", response)
+                if(response.length != 0) {
+                    manageModal("operationFail", "show")
+                }
+                else {
+
+                    // In case of success we make another ajax to delete location
+
+                    $.ajax({
+                        url: './libs/php/ajax.php',
+                        method: 'POST',
+                        dataType: 'text',
+                        data: {
+                            key: key,
+                            rowID: editRowID.val()
+                        },
+                        success: function () {
+                            manageModal("operationSuccessful", "show")
+                            getExistingDataLoc()  
+                        }
+                    })
+                }
+            },
+        })
+    }
 }   
+
+// Checking for empty fields
 
 function isNotEmpty(caller) {
     if (caller.val() == '') {
@@ -449,6 +568,8 @@ function isNotEmpty(caller) {
     }
     return true
 }
+
+// Building Departments Select
 
 function buildDepartmentsSelect(depID) {
     $.ajax({
@@ -479,6 +600,8 @@ function buildDepartmentsSelect(depID) {
     })
 }
 
+// Building Locations Select
+
 function buildLocationsSelect() {
     $.ajax({
         url: './libs/php/ajax.php',
@@ -502,6 +625,8 @@ function buildLocationsSelect() {
         }
     })
 }
+
+// Managing modals
 
 function manageModal(modal, key, id) {
     if (key == "show"){
@@ -535,6 +660,9 @@ function manageModal(modal, key, id) {
                 break;
             case "operationFailEmail":
                 $("#tableManagerOpFailEmail").modal('show')
+                break;
+            case "operationFailEmailUpdate":
+                $("#tableManagerOpFailEmailUpdate").modal('show')
                 break;
             case "operationFailAddDep":
                 $('#tableManagerOpFailAddDep').modal('show')
@@ -598,6 +726,9 @@ function manageModal(modal, key, id) {
             case "operationFailEmail":
                 $("#tableManagerOpFailEmail").modal('hide')
                 break;
+            case "operationFailEmailUpdate":
+                $("#tableManagerOpFailEmailUpdate").modal('hide')
+                break;
             case "operationFailAddDep":
                 $('#tableManagerOpFailAddDep').modal('hide')
                 break;
@@ -616,15 +747,19 @@ function manageModal(modal, key, id) {
     }
 }
 
-
-
 function todos() {
     manageModal("operationFailEmail", "hide")
+    manageModal("createEmployee", "show")
+}
+
+function todosUpdate() {
+    manageModal("operationFailEmailUpdate", "hide")
     manageModal("updateEmployee", "show")
 }
 
+
 function todosAddDep() {
-    manageModal("operationFailAddDep", "show")
+    manageModal("operationFailAddDep", "hide")
     manageModal("createDepartment", "show")
 }
 
@@ -651,26 +786,6 @@ function todosFailFillCreate() {
 function todosFailFillDep() {
     manageModal("operationFailFillDep", "hide")
     manageModal("createDepartment", "show")
-}
-
-function readData(rowID) {
-    $.ajax({
-        url: './libs/php/ajax.php',
-        method: 'POST',
-        dataType: 'json',
-        data: {
-            key: 'getRowData',
-            rowID: rowID
-        },
-        success: function (response) {
-            $("#employeeNameRead").val(response.employeeName)
-            $("#employeeSurnameRead").val(response.employeeSurname)
-            $("#employeeJobTitleRead").val(response.employeeJobTitle)
-            $("#employeeEmailRead").val(response.employeeEmail)
-            $("#departmentSelectRead").val(response.departmentSelect)
-            manageModal("readEmployee", "show")
-        }
-    })
 }
 
 // Bootstrap Radio Button controls to toggle between different tables
@@ -770,6 +885,9 @@ function offHover(param)
 function querySearch(text) {
     textKeyword = text + "%"
     var query = `SELECT personnel.id, personnel.firstName, personnel.lastName, personnel.jobTitle, personnel.email, personnel.departmentID, department.dname FROM personnel LEFT JOIN department ON personnel.departmentID = department.id WHERE personnel.lastName LIKE '${textKeyword}' ORDER BY lastName ASC`
+
+    // Ajax call for every keystroke to check for coincidences in surname column of employees table
+
     $.ajax({
         url: './libs/php/ajax.php',
         method: 'POST',
@@ -788,7 +906,6 @@ function querySearch(text) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='one'>" + response[i][4] + "</td><td class='two'>" + response[i][6] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
-                    //rows += "<div><img src='./libs/img/trash.png' onclick='showModalDelete(" + response[i][0] + ")'></div></td></tr>"
                     rows += "<div><img src='./libs/img/trash.png' onclick='manageModal('delete', 'show', " + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyEmployees').append(rows)   

@@ -126,7 +126,8 @@
 
         if ($_POST['key'] == 'check') {
             $email = $_POST['emaile'];
-            $result = $conn->query("SELECT * FROM personnel WHERE email LIKE '$email'");
+            $rowID = $_POST['rowID'];
+            $result = $conn->query("SELECT * FROM personnel WHERE email LIKE '$email' AND id != '$rowID'");
             $rawData = array();
                 $i = 0;
                 while($data = $result->fetch_array()) {
