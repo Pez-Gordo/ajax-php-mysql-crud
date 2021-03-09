@@ -912,7 +912,7 @@ function querySearch(text) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='one'>" + response[i][4] + "</td><td class='two'>" + response[i][6] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
-                    rows += "<div><img src='./libs/img/trash.png' onclick='manageModal('delete', 'show', " + response[i][0] + ")'></div></td></tr>"
+                    rows += "<div><img src='./libs/img/trash.png' onclick='manageModal(\"delete\", \"show\", " + response[i][0] + ")'></div></td></tr>"
                 }
                 $('#tbodyEmployees').append(rows)
             }
