@@ -1,6 +1,10 @@
 // Global variable for radio buttons
 
 var activeButton = "employees"
+var scrollToTopBtn = document.getElementById("scrollToTop")
+var rootElement = document.documentElement
+
+
 
 // To manipulate the page safely we check the document is ready
 
@@ -26,6 +30,8 @@ $(document).ready(function() {
         console.log(inputText)
         setTimeout(querySearch(inputText), 200)
     })
+
+    scrollToTopBtn.addEventListener("click", scrollToTop)
 })
 
 // Functions
@@ -98,7 +104,7 @@ function getExistingData() {
             if(response != "reachedMax") {
                 $('#tbodyEmployees').empty()
                 var rows = ""
-                
+
                 // Rendering Employees table
 
                 for(var i = 0; i < response.length; i++) {
@@ -107,7 +113,7 @@ function getExistingData() {
                     rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/trash.png' onclick='manageModal(\"delete\", \"show\", " + response[i][0] + ")'></div></td></tr>"
                 }
-                $('#tbodyEmployees').append(rows)   
+                $('#tbodyEmployees').append(rows)
             }
         }
     })
@@ -131,16 +137,16 @@ function getExistingDataDep() {
             if(response != "reachedMax") {
                 $('#tbodyDepartments').empty()
                 var rows = ""
-                
+
                 // Rendering Departments table
 
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][3] + "</td>"
                     //rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='showModalDeleteDep(" + response[i][0] + ")'></div></td></tr>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='manageModal(\"deleteDep\", \"show\", " + response[i][0] + ")'></div></td></tr>"
-                    
+
                 }
-                $('#tbodyDepartments').append(rows)   
+                $('#tbodyDepartments').append(rows)
             }
         }
     })
@@ -160,19 +166,19 @@ function getExistingDataLoc() {
             key: 'getExistingDataLoc',
         },
         success: function(response) {
-            
+
             console.log("LocationsTable", response)
             if(response != "reachedMax") {
                 $('#tbodyLocations').empty()
                 var rows = ""
-                
+
                 // Rendering locations table
 
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/trash.png' onclick='manageModal(\"deleteLoc\", \"show\", " + response[i][0] + ")'></div></td></tr>"
                 }
-                $('#tbodyLocations').append(rows)   
+                $('#tbodyLocations').append(rows)
             }
         }
     })
@@ -236,7 +242,7 @@ function manageData(key) {
                 },
             })
         }
-    
+
     // Create New Department
 
     }  else if(key == "addNewDep") {
@@ -267,7 +273,7 @@ function manageData(key) {
                     }
                     else {
 
-                        // Ajax to insert department into departments table and reload table 
+                        // Ajax to insert department into departments table and reload table
 
                         $.ajax({
                             url: './libs/php/ajax.php',
@@ -308,7 +314,7 @@ function manageData(key) {
         editRowID = $("#editRowID")
         manageModal("createEmployee", "hide")
 
-        // Checking for any empty form fields 
+        // Checking for any empty form fields
 
         if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
 
@@ -363,7 +369,7 @@ function manageData(key) {
                     }
                 }
             })
-            
+
         } else {
             manageModal("operationFailFill", "show")
         }
@@ -386,7 +392,7 @@ function manageData(key) {
 
         if (isNotEmpty(name) && isNotEmpty(surname) && isNotEmpty(jobTitle) && isNotEmpty(email) && department.val() !== "DEFAULT") {
 
-            // Ajax call to check there's no other employee with the same email. We include rowID in ajax call to exclude the actual employee that is being updated from the query 
+            // Ajax call to check there's no other employee with the same email. We include rowID in ajax call to exclude the actual employee that is being updated from the query
 
             $.ajax({
                 url: './libs/php/ajax.php',
@@ -405,7 +411,7 @@ function manageData(key) {
                     else {
 
                         // Ajax call to update employee info in database and reload table
-                    
+
                         $.ajax({
                             url: './libs/php/ajax.php',
                             method: 'POST',
@@ -438,7 +444,7 @@ function manageData(key) {
                     }
                 }
             })
-             
+
         } else {
             manageModal("operationFailFillUpdate", "show")
         }
@@ -547,14 +553,14 @@ function manageData(key) {
                         },
                         success: function () {
                             manageModal("operationSuccessful", "show")
-                            getExistingDataLoc()  
+                            getExistingDataLoc()
                         }
                     })
                 }
             },
         })
     }
-}   
+}
 
 // Checking for empty fields
 
@@ -584,17 +590,17 @@ function buildDepartmentsSelect(depID) {
             if(response != "reachedMax") {
                 $('#departmentSelect').empty()
                 var rows = "<option>Select Department</option>"
-                
+
                 for(var i = 0; i < response.length; i++) {
                     if(response[i][0] == depID) {
                         rows += "<option value=" + response[i][0] + " selected>" + response[i][1] + "</option>"
                     }
                     else {
-                        rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"                    
+                        rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"
                     }
                 }
-                $('#departmentSelect').append(rows)   
-                $('#departmentSelectUpdate').append(rows)              
+                $('#departmentSelect').append(rows)
+                $('#departmentSelectUpdate').append(rows)
             }
         }
     })
@@ -614,11 +620,11 @@ function buildLocationsSelect() {
             console.log("locationSelect", response)
             if(response != "reachedMax") {
                 $('#locationSelect').empty()
-                
+
                 var rows = "<option selected value='DEFAULT'>Select Location</option>"
-                
+
                 for(var i = 0; i < response.length; i++) {
-                    rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"                    
+                    rows += "<option value=" + response[i][0] + ">" + response[i][1] + "</option>"
                 }
                 $('#locationSelect').append(rows)
             }
@@ -675,19 +681,19 @@ function manageModal(modal, key, id) {
                 break;
             case "delete":
                 $("#tableManagerDelete").modal('show')
-                $("#editRowIDDelete").val(id) 
+                $("#editRowIDDelete").val(id)
                 $("#editRowIDDeleteDep").val(id)
                 $("#editRowIDDeleteLoc").val(id)
                 break;
             case "deleteDep":
                 $("#tableManagerDeleteDep").modal('show')
-                $("#editRowIDDelete").val(id) 
+                $("#editRowIDDelete").val(id)
                 $("#editRowIDDeleteDep").val(id)
                 $("#editRowIDDeleteLoc").val(id)
                 break;
             case "deleteLoc":
                 $("#tableManagerDeleteLoc").modal('show')
-                $("#editRowIDDelete").val(id) 
+                $("#editRowIDDelete").val(id)
                 $("#editRowIDDeleteDep").val(id)
                 $("#editRowIDDeleteLoc").val(id)
                 break;
@@ -743,7 +749,7 @@ function manageModal(modal, key, id) {
                 $("#tableManagerDeleteDep").modal('hide')
                 $("#tableManagerDeleteLoc").modal('hide')
                 break;
-        }   
+        }
     }
 }
 
@@ -818,7 +824,7 @@ document.getElementById("btnradio2").addEventListener("click", function() {
     $('#addNewEmployee').hide()
     $("#employeesImg").attr("src", "./libs/img/employees.png")
     $("#departmentsImg").attr("src", "./libs/img/departmentsSel.png")
-    $("#locationsImg").attr("src", "./libs/img/locations.png")  
+    $("#locationsImg").attr("src", "./libs/img/locations.png")
     $("#search").hide()
     activeButton = "departments"
 });
@@ -840,7 +846,7 @@ document.getElementById("btnradio3").addEventListener("click", function() {
 // Functions to manage hover changing styles
 
 function onHover(param)
-{   
+{
     if(param === "employees") {
         $("#employeesImg").attr('src', './libs/img/employeesSel.png')
     }
@@ -857,7 +863,7 @@ function offHover(param)
     if(param === "employees") {
         if(activeButton === "employees") {
             $("#employeesImg").attr('src', './libs/img/employeesSel.png')
-        } 
+        }
         else {
             $("#employeesImg").attr('src', './libs/img/employees.png');
         }
@@ -894,21 +900,21 @@ function querySearch(text) {
         dataType: 'json',
         data: {
             key: 'querySearch',
-            query: query 
+            query: query
         },
         success: function (response) {
             console.log("searchTable",response)
             if(response != "reachedMax") {
                 $('#tbodyEmployees').empty()
                 var rows = ""
-                
+
                 for(var i = 0; i < response.length; i++) {
                     rows += "<tr><td>" + response[i][1] + "</td><td>" + response[i][2] + "</td><td class='one'>" + response[i][3] + "</td><td class='one'>" + response[i][4] + "</td><td class='two'>" + response[i][6] + "</td>"
                     rows += "<td class='containerTD'><div><img src='./libs/img/eye.png' onclick='readData(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/pencil.png' onclick='edit(" + response[i][0] + ")'></div>"
                     rows += "<div><img src='./libs/img/trash.png' onclick='manageModal('delete', 'show', " + response[i][0] + ")'></div></td></tr>"
                 }
-                $('#tbodyEmployees').append(rows)   
+                $('#tbodyEmployees').append(rows)
             }
             else {
                 $('#tbodyEmployees').empty()
@@ -916,4 +922,14 @@ function querySearch(text) {
             }
         }
     })
+}
+
+// Implementing Scroll-to-top button
+
+function scrollToTop() {
+  // Scroll to top logic
+  rootElement.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  })
 }
