@@ -5,7 +5,7 @@
   html{
     scroll-behavior: smooth;
   }
-  
+
 @media only screen and (max-width: 478px) {
     .one{
         display: none;
@@ -47,4 +47,31 @@
     display: flex;
     justify-content: space-between;
 
+}
+/*   // Trying to implement static header  */
+
+.myHeader {
+  position: sticky;
+  top: 0px;
+  background-color: white;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tr.red th {
+  background: grey;
+  color: white;
+}
+
+th {
+  background: white;
+  position: sticky;
+  top: 200px; /* Don't forget this, required for the stickiness */
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+#titleHeader {
+  padding-top: 0px;
 }
