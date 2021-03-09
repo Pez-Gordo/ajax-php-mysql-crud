@@ -233,7 +233,7 @@ function manageData(key) {
                             },
                             success: function () {
                                 $('#locationName').val('')
-                                closeModalCreateLoc()
+                                manageModal("createLocation", "hide")
                                 manageModal("operationSuccessful", "show")
                                 getExistingDataLoc()
                             }
